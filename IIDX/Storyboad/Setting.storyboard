@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XcR-s6-unB">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Setting View Controller-->
+        <scene sceneID="yyE-Ny-bu4">
+            <objects>
+                <viewController id="XcR-s6-unB" customClass="SettingViewController" customModule="IIDX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" tag="1" contentMode="scaleToFill" id="Ma6-k6-uNQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ERi-UZ-pQq">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="667"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="8zJ-cY-hlI">
+                                        <rect key="frame" x="16" y="58" width="108" height="246"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwM-tg-DND">
+                                                <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
+                                                <state key="normal" title="インポート設定">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="gq6-tT-f9u" kind="presentation" identifier="toTargetAccount" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="BAP-A8-lOU"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-bt-NV5">
+                                                <rect key="frame" x="0.0" y="54" width="108" height="30"/>
+                                                <state key="normal" title="アカウント設定">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="WqP-Ps-PHM" kind="presentation" identifier="toAccount" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="hYA-td-aI4"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cK1-Yj-p5w">
+                                                <rect key="frame" x="0.0" y="108" width="62" height="30"/>
+                                                <state key="normal" title="タグ編集">
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="9JK-Y7-67j" kind="presentation" identifier="toTag" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Th0-e5-DAx"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0c-bl-KhX">
+                                                <rect key="frame" x="0.0" y="162" width="108" height="30"/>
+                                                <state key="normal" title="バージョン設定">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="TZA-L5-eDd" kind="presentation" identifier="toVersion" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="PYT-Q6-M2o"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSF-aT-yFB">
+                                                <rect key="frame" x="0.0" y="216" width="77" height="30"/>
+                                                <state key="normal" title="アプリ情報">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="U0G-Ho-anp" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Lpl-XF-HHB"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4E2-dE-Cp7">
+                                        <rect key="frame" x="84" y="531" width="108" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="108" id="qHz-DD-KBx"/>
+                                            <constraint firstAttribute="height" constant="128" id="vrt-hE-DqE"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="8zJ-cY-hlI" firstAttribute="top" secondItem="ERi-UZ-pQq" secondAttribute="top" constant="58" id="HpH-8J-Uqr"/>
+                                    <constraint firstAttribute="width" constant="200" id="K6q-R4-Huo"/>
+                                    <constraint firstItem="8zJ-cY-hlI" firstAttribute="leading" secondItem="ERi-UZ-pQq" secondAttribute="leading" constant="16" id="Xbz-4l-bnk"/>
+                                    <constraint firstAttribute="trailing" secondItem="4E2-dE-Cp7" secondAttribute="trailing" constant="8" id="bVc-XB-sXr"/>
+                                    <constraint firstAttribute="bottom" secondItem="4E2-dE-Cp7" secondAttribute="bottom" constant="8" id="pJf-h2-0cL"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="gu3-Vz-0eX" appends="YES" id="H06-35-yjh"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ERi-UZ-pQq" firstAttribute="top" secondItem="Ma6-k6-uNQ" secondAttribute="top" id="5FB-J8-GOG"/>
+                            <constraint firstItem="ERi-UZ-pQq" firstAttribute="leading" secondItem="tbZ-hT-JJZ" secondAttribute="leading" id="AAq-kV-gy4"/>
+                            <constraint firstItem="ERi-UZ-pQq" firstAttribute="bottom" secondItem="tbZ-hT-JJZ" secondAttribute="bottom" id="dRa-s2-5fl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tbZ-hT-JJZ"/>
+                    </view>
+                    <connections>
+                        <outlet property="qproIV" destination="4E2-dE-Cp7" id="frO-RH-Xm5"/>
+                        <outlet property="settingView" destination="ERi-UZ-pQq" id="lcU-5R-beg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uz2-dL-hYt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="gu3-Vz-0eX">
+                    <connections>
+                        <action selector="swipeLeft:" destination="XcR-s6-unB" id="2V0-5C-uuE"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="53.600000000000001" y="26.53673163418291"/>
+        </scene>
+        <!--TargetAccount-->
+        <scene sceneID="d1y-9U-4Rg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="TargetAccount" id="gq6-tT-f9u" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CJ3-gp-czj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="663" y="-111"/>
+        </scene>
+        <!--Account-->
+        <scene sceneID="KiP-jt-ZPd">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Account" id="WqP-Ps-PHM" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JJ9-KB-qhX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="663" y="33"/>
+        </scene>
+        <!--Version-->
+        <scene sceneID="4Ww-lI-3KT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Version" id="TZA-L5-eDd" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qye-Ti-Kbs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="658" y="144"/>
+        </scene>
+        <!--Information-->
+        <scene sceneID="jA1-nH-yvb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Information" id="U0G-Ho-anp" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rGx-xq-exg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="676" y="246"/>
+        </scene>
+        <!--Tag-->
+        <scene sceneID="F7y-CB-2VL">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Tag" id="9JK-Y7-67j" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t73-5x-CSb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="638" y="328"/>
+        </scene>
+        <!--Mode-->
+        <scene sceneID="xLD-by-0bV">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="Mode" storyboardName="Mode" id="mB2-om-4L1" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EEq-Lu-Kh4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="618" y="-210"/>
+        </scene>
+    </scenes>
+</document>

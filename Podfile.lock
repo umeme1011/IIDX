@@ -1,0 +1,26 @@
+PODS:
+  - Kanna (5.0.0)
+  - Realm (3.17.3):
+    - Realm/Headers (= 3.17.3)
+  - Realm/Headers (3.17.3)
+  - RealmSwift (3.17.3):
+    - Realm (= 3.17.3)
+
+DEPENDENCIES:
+  - Kanna
+  - RealmSwift
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Kanna
+    - Realm
+    - RealmSwift
+
+SPEC CHECKSUMS:
+  Kanna: a32875df62975f8f4b871e933b4ea1a5c3b8be0f
+  Realm: 5a1d9d47bfc101dd597668b1a8af4288a2557f6d
+  RealmSwift: b7fdc2d18616621c31df5c7a398a45a2163f8eb0
+
+PODFILE CHECKSUM: 3a4f64a34b1aa47d012e3db05a7c8f3c1c392a01
+
+COCOAPODS: 1.6.0
