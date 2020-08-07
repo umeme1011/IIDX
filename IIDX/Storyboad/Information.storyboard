@@ -217,6 +217,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="seedDbLbl" destination="gpc-Eo-egg" id="ND9-F6-XsI"/>
                         <outlet property="verLbl" destination="mMn-Xb-EJE" id="crT-IK-xX4"/>
                     </connections>
                 </viewController>

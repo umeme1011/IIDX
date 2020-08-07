@@ -19,7 +19,7 @@
 		C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3AF62EE234E7EBE0022664D /* EditDetail.storyboard */; };
 		C3AF62F1234E7F130022664D /* EditDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AF62F0234E7F130022664D /* EditDetailViewController.swift */; };
 		C3AF62F3234E87B40022664D /* EditListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AF62F2234E87B40022664D /* EditListTableViewCell.swift */; };
-		C3B59BF52395526C00496751 /* iidx_seed.realm in Resources */ = {isa = PBXBuildFile; fileRef = C3B59BF42395526C00496751 /* iidx_seed.realm */; };
+		C3B59BF52395526C00496751 /* iidx_seed_1.0.1.realm in Resources */ = {isa = PBXBuildFile; fileRef = C3B59BF42395526C00496751 /* iidx_seed_1.0.1.realm */; };
 		C3C21ED82314FD1F00B51CB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */; };
 		C3C21EDD2314FD1F00B51CB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EDB2314FD1F00B51CB1 /* Main.storyboard */; };
 		C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EE02314FD2000B51CB1 /* LaunchScreen.storyboard */; };
@@ -95,7 +95,7 @@
 		C3AF62EE234E7EBE0022664D /* EditDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditDetail.storyboard; sourceTree = "<group>"; };
 		C3AF62F0234E7F130022664D /* EditDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailViewController.swift; sourceTree = "<group>"; };
 		C3AF62F2234E87B40022664D /* EditListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTableViewCell.swift; sourceTree = "<group>"; };
-		C3B59BF42395526C00496751 /* iidx_seed.realm */ = {isa = PBXFileReference; lastKnownFileType = file; name = iidx_seed.realm; path = "../../../../../../Library/Developer/CoreSimulator/Devices/8CEAD00E-3C70-47B7-B05A-E2907E8D223D/data/Containers/Data/Application/E5352C28-0CB3-4A4C-B2DF-4EAFF8A78D69/Documents/iidx_seed.realm"; sourceTree = "<group>"; };
+		C3B59BF42395526C00496751 /* iidx_seed_1.0.1.realm */ = {isa = PBXFileReference; lastKnownFileType = file; name = iidx_seed_1.0.1.realm; path = "../../../../../../Library/Developer/CoreSimulator/Devices/8CEAD00E-3C70-47B7-B05A-E2907E8D223D/data/Containers/Data/Application/E5352C28-0CB3-4A4C-B2DF-4EAFF8A78D69/Documents/iidx_seed_1.0.1.realm"; sourceTree = "<group>"; };
 		C3C21ED42314FD1F00B51CB1 /* IIDX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IIDX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3C21EDC2314FD1F00B51CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -295,7 +295,7 @@
 		C3D7F4D823160E5700B5C895 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				C3B59BF42395526C00496751 /* iidx_seed.realm */,
+				C3B59BF42395526C00496751 /* iidx_seed_1.0.1.realm */,
 				C3D7F4DB2316132500B5C895 /* Code.swift */,
 				C3FD10F023182C5000C7A86F /* LastImportDate.swift */,
 				C3FD10E8231780CE00C7A86F /* MyRealm.swift */,
@@ -431,7 +431,7 @@
 				C3D7F4F42316332800B5C895 /* List.storyboard in Resources */,
 				C34E9C07232CBE6F00D62373 /* CorrectTitle.csv in Resources */,
 				C3D0EF70231CB458001F1511 /* Filter.storyboard in Resources */,
-				C3B59BF52395526C00496751 /* iidx_seed.realm in Resources */,
+				C3B59BF52395526C00496751 /* iidx_seed_1.0.1.realm in Resources */,
 				C3EFE1972359070C00CEE129 /* Tag.storyboard in Resources */,
 				C3D7F5102316678500B5C895 /* Account.storyboard in Resources */,
 				C3D0EF62231BA7FB001F1511 /* Sort.storyboard in Resources */,

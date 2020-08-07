@@ -16,6 +16,7 @@ class InformationViewController: UIViewController {
     var scoreRealm: MyRealm!
 
     @IBOutlet weak var verLbl: UILabel!
+    @IBOutlet weak var seedDbLbl: UILabel!
     
     
     override func viewDidLoad() {
@@ -26,6 +27,9 @@ class InformationViewController: UIViewController {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")
             as! String
         verLbl.text = "Ver. \(version)"
+        
+        // seedDBバージョン設定
+        seedDbLbl.text = "Ver. \(Const.Realm.SEED_DB_VER)"
         
         scoreRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
         
