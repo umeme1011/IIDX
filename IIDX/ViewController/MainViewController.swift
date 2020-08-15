@@ -25,6 +25,7 @@ class MainViewController: UIViewController {
     let myUD: MyUserDefaults = MyUserDefaults()
     var firstLoadFlg: Bool!
     var cancelFlg: Bool = false
+    var alertMsg: String = ""
     
     
     override func viewDidLoad() {
@@ -34,12 +35,20 @@ class MainViewController: UIViewController {
         progressView.alpha = 0.0
         
         // 起動時初期処理
-        Init.doInit()
+        alertMsg = Init.doInit()
         
         // UI処理
         mainUI()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if alertMsg != "" {
+            // 取り込み完了アラート表示
+            let vc: UIViewController = CommonMethod.getTopViewController() ?? UIViewController()
+            CommonMethod.dispAlert(message: alertMsg, vc: vc)
+        }
     }
     
     

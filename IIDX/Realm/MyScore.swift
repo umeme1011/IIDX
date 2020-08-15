@@ -58,5 +58,6 @@ class MyScore: RealmSwift.Object {
         case oldScoreId
         case tag
         case createDate
+        case updateDate
     }
 }

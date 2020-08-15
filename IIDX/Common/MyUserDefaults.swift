@@ -148,6 +148,18 @@ class MyUserDefaults {
         return ud.object(forKey: "updateInfoFlg\(String(getVersion()))") as? Bool ?? true
     }
     
+//
+//    // SeedDB更新ありフラグ
+//    
+//    func setSeedUpdFlg(flg : Bool) {
+//        ud.set(flg, forKey: "seedUpdFlg")
+//    }
+//    
+//    func getSeedUpdFlg() -> Bool {
+//        // 初期値：更新あり
+//        return ud.object(forKey: "seedUpdFlg") as? Bool ?? true
+//    }
+    
     
     // ソート
     

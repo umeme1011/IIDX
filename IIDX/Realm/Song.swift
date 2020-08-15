@@ -34,6 +34,7 @@ class Song : RealmSwift.Object {
     @objc dynamic var totalNotesDph: Int = 0
     @objc dynamic var totalNotesDpa: Int = 0
     @objc dynamic var totalNotesDpl: Int = 0
+    @objc dynamic var updFlg: Int = 0
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String = "SYSTEM"
     @objc dynamic var updateDate = Date()
@@ -69,7 +70,9 @@ class Song : RealmSwift.Object {
         case totalNotesDph
         case totalNotesDpa
         case totalNotesDpl
+        case updFlg
         case createDate
+        case updateDate
     }
 }
 

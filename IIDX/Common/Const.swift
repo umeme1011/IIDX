@@ -25,7 +25,8 @@ class Const {
     
     // Realm
     class Realm {
-        static let SEED_DB_VER = "1.0.1"
+        static let SCHEMA_VER = 1
+        static let SEED_DB_VER = "27.1"
         static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"
@@ -279,6 +280,8 @@ class Const {
         static let RESET_COMFIRM = "アプリを初期状態に戻します。よろしいですか？"
         static let LOGOUT_COMPLETE = "ログアウトしました。"
         static let RESET_COMPLETE = "リセットしました。"
+        static let SEED_DB_IMPORT_COMPLETE = "初期データ取り込み完了！"
+        static let SEED_DB_UPDATE_COMPLETE = "楽曲データを更新しました！"
     }
     
     // ログ
