@@ -11,130 +11,143 @@ import RealmSwift
 
 class Init {
     
+    /*
+     初期処理
+     */
     static func doInit() -> String {
-        
-        copyRealmFile()
-        return initMyScore()
-    }
-    
-    /// シードデータRealmファイルをコピー
-    static private func copyRealmFile() {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        let fileManager: FileManager = FileManager()
-        let mainBundle = Bundle.main
-        let seedRealmPath: String = CommonMethod.getSeedRealmPath()
-        
-        // DBパス表示
-        Log.info(cls: String(describing: self), method: #function, msg: seedRealmPath)
-        
-        // 最新VerのSeedファイル存在確認しない
-        if !fileManager.fileExists(atPath: seedRealmPath) {
+//        let updateFlg: Bool = copyRealmFile()
+//        return initMyScore(updateFlg: updateFlg)
+
+        do {
             
-            // Document内のファイル名一覧を取得
-            let documentDir: NSString
-            = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-            do {
+            let fileManager: FileManager = FileManager()
+            let seedRealmPath: String = CommonMethod.getSeedRealmPath()
+            
+            // Domumentパスログ出力
+            Log.info(cls: String(describing: self), method: #function, msg: seedRealmPath)
+
+            // Document内に最新Ver以外のSeedDBが存在しない場合は登録または更新処理を行う
+            if !fileManager.fileExists(atPath: seedRealmPath) {
+                
+                let documentDir: NSString
+                    = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+
                 let fileNames = try fileManager.contentsOfDirectory(atPath: documentDir as String)
-                // 最新Ver以外のSeedファイルを削除
+                var existFlg: Bool = false
+                
+                // 旧VerのSeedDBが存在する場合は差分登録
                 for name in fileNames {
-                    if name.contains("iidx_seed") {
+                    if name.contains("iidx_seed") && name.contains(".realm") && !name.contains("lock")
+                        && !name.contains("management"){
+                        
+                        // 差分登録
+                        updateMyScore(newSeedPath: seedRealmPath, oldSeedPath: documentDir.appendingPathComponent(name))
+                        // 旧VerのSeedDBを削除
                         try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent(name))
+                        existFlg = true
                     }
                 }
-            } catch {
-                Log.error(cls: String(describing: self), method: #function, msg: Const.Log.INIT_001)
+                
+                // 存在しない場合は全件登録
+                if !existFlg {
+                    // 全件登録
+                    insertMyScore(newSeedPath: seedRealmPath)
+                }
+                
+                // 最新VerSeedDBをコピー
+                let mainBundle = Bundle.main
+                let atPath = mainBundle.path(forResource: Const.Realm.SEED_FILE_NAME, ofType: "realm")
+                try! FileManager().copyItem(atPath: atPath!, toPath: seedRealmPath)
+                _ = Realm.Configuration(fileURL: URL(fileURLWithPath: seedRealmPath), readOnly: true)
             }
-            
-            // コピー
-            let atPath = mainBundle.path(forResource: Const.Realm.SEED_FILE_NAME, ofType: "realm")
-            try! FileManager().copyItem(atPath: atPath!, toPath: seedRealmPath)
-            _ = Realm.Configuration(fileURL: URL(fileURLWithPath: seedRealmPath), readOnly: true)
+        } catch {
+            Log.error(cls: String(describing: self), method: #function, msg: "初期処理エラー")
         }
-        
+
         Log.debugEnd(cls: String(describing: self), method: #function)
+        return ""
     }
     
-    
-    /// MyScoreテーブルにSongテーブルのデータを登録
-    /// 新曲追加時（iidx_seed.realm更新時）は差分更新を行う
-    static private func initMyScore() -> String {
-
-        let seedRealm: MyRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
+    /*
+     MyScore全件登録
+     */
+    static private func insertMyScore(newSeedPath: String) {
+        
+        let newSeedRealm: MyRealm = MyRealm.init(path: newSeedPath)
         let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
-
-        var scores: Results<MyScore> = scoreRealm.readAll(MyScore.self)
-            .sorted(byKeyPath: MyScore.Types.updateDate.rawValue, ascending: false)
-        var songs: Results<Song> = seedRealm.readAll(Song.self)
-            .sorted(byKeyPath: Song.Types.updateDate.rawValue, ascending: false)
-
-        var id: Int = 1
-        var ret = ""
-
-        // scores TBL が空でない場合は差分更新
-        if !scores.isEmpty {
-            
-            // 更新フラグが1のsongを取得
-            songs = seedRealm.readEqual(Song.self, ofTypes: Song.Types.updFlg.rawValue, forQuery: [1] as AnyObject)
-
-            print("更新あり")
-            print(songs)
-            
-            // 差分あり
-            if (!songs.isEmpty){
-                
-                // MyScoreのmaxid+1を取得
-                scores = scoreRealm.readAll(MyScore.self).sorted(byKeyPath: MyScore.Types.id.rawValue, ascending: false)
-                id = scores.first!.id + 1
         
-                // 更新用配列作成
-                let scoreArray: [MyScore] = makeUpdateScoreArray(songs: songs, nextId: id, scoreRealm: scoreRealm)
-                
-                // MyScore更新（idが同じ場合は更新）
-                for score in scoreArray {
-                    scoreRealm.update(data: [score])
-                }
-                
-                // アラートメッセージ
-                var msg: String = Const.Message.SEED_DB_UPDATE_COMPLETE
-                msg += "\n\nVer\(Const.Realm.SEED_DB_VER) 更新曲："
-                for song in songs {
-                    msg += ("\n" + song.title!)
-                }
-                ret = msg
-                
-            // 差分がない場合は何もしない
-            } else {
-                return ret
-            }
-            
-        // 初回時全部取り込み
-        } else {
-        
-            // 登録用配列作成
-            let scoreArray: [MyScore] = makeInsertScoreArray(songs: songs, nextId: id)
+        let newSongs: Results<Song> = newSeedRealm.readAll(Song.self)
 
-            // save db
-            for score in scoreArray {
-                scoreRealm.create(data: [score])
-            }
-            
-            // アラートメッセージ
-            ret = Const.Message.SEED_DB_IMPORT_COMPLETE
+        // 登録用MyScore配列作成
+        let scoreArray: [MyScore] = makeInsertScoreArray(songs: newSongs, scoreRealm: scoreRealm)
+
+        // MyScore登録
+        for score in scoreArray {
+            scoreRealm.create(data: [score])
         }
-        
-        // Songの更新フラグを0にする
-        for song in songs {
-            seedRealm.updateUpdFlg(song: song, updFlg: 0)
-        }
-        
-        return ret
     }
     
-    /// 登録用配列作成
-    static private func makeInsertScoreArray(songs: Results<Song>, nextId: Int) -> [MyScore] {
+    /*
+     MyScore差分登録
+     */
+    static private func updateMyScore(newSeedPath: String, oldSeedPath: String) {
+        
+        let newSeedRealm: MyRealm = MyRealm.init(path: newSeedPath)
+        let oldSeedRealm: MyRealm = MyRealm.init(path: oldSeedPath)
+        let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        
+        let newSongs: Results<Song> = newSeedRealm.readAll(Song.self)
+        var songArray: [Song] = [Song]()
+        
+        // 最新VerのSeedDBの内、新曲と更新ありの既存曲を抽出
+        for new in newSongs {
+            // タイトルから旧SeedDBを検索
+            let songs: Results<Song> = oldSeedRealm.readEqual(Song.self, ofTypes: Song.Types.title.rawValue
+                , forQuery: [new.title] as AnyObject)
+            
+            if songs.isEmpty {
+                // 新曲
+                songArray.append(new)
+            } else {
+                // 更新チェック
+                let old = songs.first!
+                if new.spb != old.spb || new.spn != old.spn || new.sph != old.sph || new.spa != old.spa
+                    || new.spl != old.spl || new.dpn != old.dpn || new.dph != old.dph || new.dpa != old.dpa
+                    || new.dpl != old.dpl || new.genre != old.genre || new.artist != old.artist
+                    || new.totalNotesSpb != old.totalNotesSpb || new.totalNotesSpn != old.totalNotesSpn
+                    || new.totalNotesSph != old.totalNotesSph || new.totalNotesSpa != old.totalNotesSpa
+                    || new.totalNotesSpl != old.totalNotesSpl || new.totalNotesDpn != old.totalNotesDpn
+                    || new.totalNotesDph != old.totalNotesDph || new.totalNotesDpa != old.totalNotesDpa
+                    || new.totalNotesDpl != old.totalNotesDpl {
+
+                    // 更新あり
+                    songArray.append(new)
+                }
+            }
+        }
+        
+        // 更新用MyScore配列作成
+        let scoreArray: [MyScore] = makeUpdateScoreArray(songs: songArray, scoreRealm: scoreRealm)
+        
+        // MyScore更新（idが同じ場合は更新）
+        for score in scoreArray {
+            scoreRealm.update(data: [score])
+        }
+    }
+
+    /*
+     登録用MyScore配列作成
+     */
+    static private func makeInsertScoreArray(songs: Results<Song>, scoreRealm: MyRealm) -> [MyScore] {
+        
+        // MyScoreの次のidを取得
+        let scores: Results<MyScore> = scoreRealm.readAll(MyScore.self)
+            .sorted(byKeyPath: MyScore.Types.id.rawValue, ascending: true)
+        var id: Int = scores.last!.id + 1
+
         var ret: [MyScore] = [MyScore]()
-        var id: Int = nextId
         
         for song in songs {
             var scoreSpb: MyScore = MyScore()
@@ -242,16 +255,18 @@ class Init {
     }
 
     /*
-     更新用配列作成
+     更新用MyScore配列作成
      MyScoreを検索し、存在する場合はMyScoreのidを設定、存在しない場合はmax idを設定します
-     scoreArray:更新用配列
      */
-    static private func makeUpdateScoreArray(songs: Results<Song>, nextId: Int, scoreRealm: MyRealm)
-        -> [MyScore] {
-            
-        var ret: [MyScore] = [MyScore]()
-        var id: Int = nextId
+    static private func makeUpdateScoreArray(songs: [Song], scoreRealm: MyRealm) -> [MyScore] {
         
+        // MyScoreの次のidを取得
+        let scores: Results<MyScore> = scoreRealm.readAll(MyScore.self)
+            .sorted(byKeyPath: MyScore.Types.id.rawValue, ascending: true)
+        var id: Int = scores.last!.id + 1
+
+        var ret: [MyScore] = [MyScore]()
+            
         for song in songs {
             var scoreSpb: MyScore = MyScore()
             var scoreSpn: MyScore = MyScore()
@@ -429,20 +444,23 @@ class Init {
         return ret
     }
 
-    
-    ///
+    /*
+     各レベル共通カラム
+     */
     static private func setScoreCommon(score: MyScore, song: Song) -> MyScore {
         score.title = song.title
         score.genre = song.genre
         score.artist = song.artist
         score.versionId = song.versionId
         score.indexId = song.indexId
-        score.createDate = song.createDate
-        score.updateDate = song.updateDate
+//        score.createDate = song.createDate
+//        score.updateDate = song.updateDate
         return score
     }
     
-    ///
+    /*
+     各レベル共通カラム（更新用）
+     */
     static private func setScoreCommonForUpdate(scoreTo: MyScore, scoreFrom: MyScore) -> MyScore {
         scoreTo.id = scoreFrom.id
         scoreTo.clearLump = scoreFrom.clearLump
@@ -455,4 +473,124 @@ class Init {
         scoreTo.tag = scoreFrom.tag
         return scoreTo
     }
+    
+    
+    
+    //    /// シードデータRealmファイルをコピー
+    //    static private func copyRealmFile() -> Bool {
+    //        Log.debugStart(cls: String(describing: self), method: #function)
+    //
+    //        let fileManager: FileManager = FileManager()
+    //        let mainBundle = Bundle.main
+    //        let seedRealmPath: String = CommonMethod.getSeedRealmPath()
+    //        var ret: Bool = false   // SeedDB更新あり：true
+    //
+    //        // DBパス表示
+    //        Log.info(cls: String(describing: self), method: #function, msg: seedRealmPath)
+    //
+    //        // 最新VerのSeedファイル存在確認しない
+    //        if !fileManager.fileExists(atPath: seedRealmPath) {
+    //
+    //            // Document内のファイル名一覧を取得
+    //            let documentDir: NSString
+    //            = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+    //            do {
+    //                let fileNames = try fileManager.contentsOfDirectory(atPath: documentDir as String)
+    //                // 最新Ver以外のSeedファイルを削除
+    //                for name in fileNames {
+    //                    if name.contains("iidx_seed") {
+    //                        try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent(name))
+    //                    }
+    //                }
+    //                ret = true
+    //            } catch {
+    //                Log.error(cls: String(describing: self), method: #function, msg: Const.Log.INIT_001)
+    //            }
+    //
+    //            // コピー
+    //            let atPath = mainBundle.path(forResource: Const.Realm.SEED_FILE_NAME, ofType: "realm")
+    //            try! FileManager().copyItem(atPath: atPath!, toPath: seedRealmPath)
+    //            _ = Realm.Configuration(fileURL: URL(fileURLWithPath: seedRealmPath), readOnly: true)
+    //        }
+    //
+    //        Log.debugEnd(cls: String(describing: self), method: #function)
+    //        return ret
+    //    }
+    //
+    //
+    //    /// MyScoreテーブルにSongテーブルのデータを登録
+    //    /// 新曲追加時（iidx_seed.realm更新時）は差分更新を行う
+    //    static private func initMyScore(updateFlg: Bool) -> String {
+    //
+    //        let seedRealm: MyRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
+    //        let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+    //
+    //        var scores: Results<MyScore> = scoreRealm.readAll(MyScore.self)
+    //            .sorted(byKeyPath: MyScore.Types.updateDate.rawValue, ascending: false)
+    //        var songs: Results<Song> = seedRealm.readAll(Song.self)
+    //            .sorted(byKeyPath: Song.Types.updateDate.rawValue, ascending: false)
+    //
+    //        var id: Int = 1
+    //        var ret = ""
+    //
+    //        // scores TBL が空でない場合は差分更新
+    //        if !scores.isEmpty {
+    //
+    ////            // 更新フラグが1のsongを取得
+    ////            songs = seedRealm.readEqual(Song.self, ofTypes: Song.Types.updFlg.rawValue, forQuery: [1] as AnyObject)
+    ////
+    ////            print("更新あり")
+    ////            print(songs)
+    ////
+    ////            // 差分あり
+    ////            if (!songs.isEmpty){
+    ////
+    ////                // MyScoreのmaxid+1を取得
+    ////                scores = scoreRealm.readAll(MyScore.self).sorted(byKeyPath: MyScore.Types.id.rawValue, ascending: false)
+    ////                id = scores.first!.id + 1
+    ////
+    ////                // 更新用配列作成
+    ////                let scoreArray: [MyScore] = makeUpdateScoreArray(songs: songs, nextId: id, scoreRealm: scoreRealm)
+    ////
+    ////                // MyScore更新（idが同じ場合は更新）
+    ////                for score in scoreArray {
+    ////                    scoreRealm.update(data: [score])
+    ////                }
+    ////
+    ////                // アラートメッセージ
+    ////                var msg: String = Const.Message.SEED_DB_UPDATE_COMPLETE
+    ////                msg += "\n\nVer\(Const.Realm.SEED_DB_VER) 更新曲："
+    ////                for song in songs {
+    ////                    msg += ("\n" + song.title!)
+    ////                }
+    ////                ret = msg
+    ////
+    ////            // 差分がない場合は何もしない
+    ////            } else {
+    ////                return ret
+    ////            }
+    //
+    //        // 初回時全部取り込み
+    //        } else {
+    //
+    //            // 登録用配列作成
+    //            let scoreArray: [MyScore] = makeInsertScoreArray(songs: songs, nextId: id)
+    //
+    //            // save db
+    //            for score in scoreArray {
+    //                scoreRealm.create(data: [score])
+    //            }
+    //
+    //            // アラートメッセージ
+    //            ret = Const.Message.SEED_DB_IMPORT_COMPLETE
+    //        }
+    //
+    //        // Songの更新フラグを0にする
+    //        for song in songs {
+    //            seedRealm.updateUpdFlg(song: song, updFlg: 0)
+    //        }
+    //
+    //        return ret
+    //    }
+    
 }

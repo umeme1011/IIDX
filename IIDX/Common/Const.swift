@@ -14,7 +14,7 @@ class Const {
     // DEVELOP true:5thStyleまで同期 false:全バージョン同期
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = false
+        static let DEBUG_LOG = true
     }
     
     // Version
@@ -80,6 +80,11 @@ class Const {
 
         func getSeriesRivalUrl() -> String {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/series_rival.html"
+            return url
+        }
+
+        func getDifficultyUrl() -> String {
+            let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/difficulty.html"
             return url
         }
     }

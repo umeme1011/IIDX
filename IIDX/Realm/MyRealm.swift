@@ -16,7 +16,7 @@ class MyRealm {
     
     init(path: String) {
         // Realm　マイグレーション
-        let config = Realm.Configuration(schemaVersion: UInt64(Const.Realm.SCHEMA_VER))
+        let config = Realm.Configuration(encryptionKey: nil, schemaVersion: UInt64(Const.Realm.SCHEMA_VER))
         Realm.Configuration.defaultConfiguration = config
 
         realm = try! Realm(fileURL: URL(fileURLWithPath: path))
@@ -119,7 +119,7 @@ class MyRealm {
 
     func update<T: Object>(data: [T]) {
         try! realm.write {
-            realm.add(data, update: .modified)
+            realm.add(data, update: .all)
         }
     }
     
@@ -176,7 +176,7 @@ class MyRealm {
             score.missCount = missCount
             score.tag = tag
             score.updateDate = Date()
-            realm.add(score, update: true)
+            realm.add(score, update: .all)
         }
     }
 
@@ -197,7 +197,7 @@ class MyRealm {
     func updateForTag(score: MyScore, tag: String) {
         try! realm.write {
             score.tag = tag
-            realm.add(score, update: true)
+            realm.add(score, update: .all)
         }
     }
     
@@ -206,7 +206,7 @@ class MyRealm {
     func updateUpdFlg(song: Song, updFlg: Int) {
         try! realm.write {
             song.updFlg = updFlg
-            realm.add(song, update: .modified)
+            realm.add(song, update: .all)
         }
     }
 }

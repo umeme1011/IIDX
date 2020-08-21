@@ -216,63 +216,35 @@ class Operation {
         
         switch code {
         case Const.Value.Sort.CLEAR_LUMP_ASK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.clearLump.rawValue)
-                , ascending: true))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.clearLump.rawValue, ascending: true))
         case Const.Value.Sort.CLEAR_LUMP_DESK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.clearLump.rawValue)
-                , ascending: false))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.clearLump.rawValue, ascending: false))
         case Const.Value.Sort.DJ_LEVEL_ASK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.djLevel.rawValue)
-                , ascending: true))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.djLevel.rawValue, ascending: true))
         case Const.Value.Sort.DJ_LEVEL_DESK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.djLevel.rawValue)
-                , ascending: false))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.djLevel.rawValue, ascending: false))
         case Const.Value.Sort.LEVEL_ASK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.level.rawValue)
-                , ascending: true))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.level.rawValue, ascending: true))
         case Const.Value.Sort.LEVEL_DESK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.level.rawValue)
-                , ascending: false))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.level.rawValue, ascending: false))
         case Const.Value.Sort.INDEX_ASK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.title.rawValue)
-                , ascending: true))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: true))
         case Const.Value.Sort.INDEX_DESK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.title.rawValue)
-                , ascending: false))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: false))
         case Const.Value.Sort.SCORE_RATE_ASK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.scoreRate.rawValue)
-                , ascending: true))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.scoreRate.rawValue, ascending: true))
         case Const.Value.Sort.SCORE_RATE_DESK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.scoreRate.rawValue)
-                , ascending: false))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.scoreRate.rawValue, ascending: false))
         case Const.Value.Sort.VERSION_ASK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.versionId.rawValue)
-                , ascending: true))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.versionId.rawValue, ascending: true))
         case Const.Value.Sort.VERSION_DESK:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.versionId.rawValue)
-                , ascending: false))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.versionId.rawValue, ascending: false))
         default:
-            sorts.append(SortDescriptor(
-                sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.title.rawValue)
-                , ascending: true))
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: true))
         }
         
         // 第二ソート
-        sorts.append(SortDescriptor(
-            sortProperty: SyncPermissionSortProperty(rawValue: MyScore.Types.title.rawValue)
-            , ascending: true))
+        sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: true))
 
         // ソート
         ret = result.sorted(by: sorts)

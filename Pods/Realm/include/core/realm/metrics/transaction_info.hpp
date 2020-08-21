@@ -32,19 +32,16 @@ class Metrics;
 
 class TransactionInfo {
 public:
-    enum TransactionType {
-        read_transaction,
-        write_transaction
-    };
+    enum TransactionType { read_transaction, write_transaction };
     TransactionInfo(TransactionType type);
     TransactionInfo(const TransactionInfo&) = default;
     ~TransactionInfo() noexcept;
 
     TransactionType get_transaction_type() const;
     // the transaction time is a total amount which includes fsync_time + write_time + user_time
-    double get_transaction_time() const;
-    double get_fsync_time() const;
-    double get_write_time() const;
+    nanosecond_storage_t get_transaction_time_nanoseconds() const;
+    nanosecond_storage_t get_fsync_time_nanoseconds() const;
+    nanosecond_storage_t get_write_time_nanoseconds() const;
     size_t get_disk_size() const;
     size_t get_free_space() const;
     size_t get_total_objects() const;
