@@ -81,7 +81,7 @@ class Init {
         let newSongs: Results<Song> = newSeedRealm.readAll(Song.self)
 
         // 登録用MyScore配列作成
-        let scoreArray: [MyScore] = makeInsertScoreArray(songs: newSongs, scoreRealm: scoreRealm)
+        let scoreArray: [MyScore] = makeInsertScoreArray(songs: newSongs)
 
         // MyScore登録
         for score in scoreArray {
@@ -140,13 +140,8 @@ class Init {
     /*
      登録用MyScore配列作成
      */
-    static private func makeInsertScoreArray(songs: Results<Song>, scoreRealm: MyRealm) -> [MyScore] {
-        
-        // MyScoreの次のidを取得
-        let scores: Results<MyScore> = scoreRealm.readAll(MyScore.self)
-            .sorted(byKeyPath: MyScore.Types.id.rawValue, ascending: true)
-        var id: Int = scores.last!.id + 1
-
+    static private func makeInsertScoreArray(songs: Results<Song>) -> [MyScore] {
+        var id: Int = 1
         var ret: [MyScore] = [MyScore]()
         
         for song in songs {

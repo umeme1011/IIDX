@@ -13,12 +13,11 @@ class MyRealm {
     var realm: Realm
     var playStyle: Int
 
-    
     init(path: String) {
-        // Realm　マイグレーション
-        let config = Realm.Configuration(encryptionKey: nil, schemaVersion: UInt64(Const.Realm.SCHEMA_VER))
+        // realm設定
+        let config = Realm.Configuration(schemaVersion: UInt64(Const.Realm.SCHEMA_VER))
         Realm.Configuration.defaultConfiguration = config
-
+        
         realm = try! Realm(fileURL: URL(fileURLWithPath: path))
         
         let myUD: MyUserDefaults = MyUserDefaults()
