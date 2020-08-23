@@ -26,7 +26,7 @@ class Const {
     // Realm
     class Realm {
         static let SCHEMA_VER = 1
-        static let SEED_DB_VER = "27.1"
+        static let SEED_DB_VER = "27.2"
         static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"

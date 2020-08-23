@@ -57,97 +57,40 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-//        let mode: Int = myUD.getMode()
-//
-//        // 編集モード
-//        if mode == Const.Value.Mode.EDIT_MODE {
-//            let cell = tableView.dequeueReusableCell(withIdentifier:  "editCell", for:indexPath as IndexPath)
-//                as! EditListTableViewCell
-//
-//            // checkBtn tap action
-//            cell.checkBtn.tag = indexPath.row
-//            cell.checkBtn.addTarget(self, action: Selector(("tapCheckBtn:")), for: .touchUpInside)
-//
-//            // check
-//            if editScoreArray.contains(scores[indexPath.row]) {
-//                cell.checkBtn.setBackgroundImage(UIImage(named: Const.Image.CHECK_ON), for: .normal)
-//            } else {
-//                cell.checkBtn.setBackgroundImage(UIImage(named: Const.Image.CHECK_OFF), for: .normal)
-////                cell.checkBtn.setBackgroundImage(nil, for: .normal)
-//            }
-//
-//            // Clear Lump
-//            let ret = setClearLump(arg: scores[indexPath.row].clearLump)
-//            cell.clearLumpIV.image = ret.image
-//            cell.clearLumpIV.backgroundColor = ret.color
-//
-//            // DjLevel
-//            let image = setDjLevel(arg: scores[indexPath.row].djLevel)
-//            cell.djLevelIV.image = image
-//
-//            // レベル
-//            cell.levelLbl.text = String(scores[indexPath.row].level)
-//            let color = setLevel(arg: scores[indexPath.row].difficultyId)
-//            cell.levelLbl.textColor = color
-//
-//            // タイトル
-//            cell.titleLbl.text = scores[indexPath.row].title
-//
-//            // スコア
-//            let score: String = setScore(arg: String(describing: scores[indexPath.row].score))
-//            cell.scoreLbl.text = "score: \(score)"
-//
-//            // ミスカウント
-//            let missCount: String = String(describing: scores[indexPath.row].missCount)
-//            cell.missLbl.text = "miss: \(missCount)"
-//
-//            // スコアレート
-//            let scoreRate: String = setScoreRate(arg: scores[indexPath.row].scoreRate)
-//            cell.scoreRateLbl.text = "scoreRate: \(scoreRate)"
-//
-//            Log.debugEnd(cls: String(describing: self), method: #function)
-//            return cell
-//
-//        // 取り込みモード
-//        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
-                as! ListTableViewCell
-            
-//            // 選択状態を解除
-//            cell.isSelected = false
-            
-            // Clear Lump
-            let ret = setClearLump(arg: scores[indexPath.row].clearLump)
-            cell.clearLumpIV.image = ret.image
-            cell.clearLumpIV.backgroundColor = ret.color
-            
-            // DjLevel
-            let image = setDjLevel(arg: scores[indexPath.row].djLevel)
-            cell.djLevelIV.image = image
-            
-            // レベル
-            cell.levelLbl.text = String(scores[indexPath.row].level)
-            let color = setLevel(arg: scores[indexPath.row].difficultyId)
-            cell.levelLbl.textColor = color
-            
-            // タイトル
-            cell.titleLbl.text = scores[indexPath.row].title
-            
-            // スコア
-            let score: String = setScore(arg: String(describing: scores[indexPath.row].score))
-            cell.scoreLbl.text = "score: \(score)"
-            
-            // ミスカウント
-            let missCount: String = String(describing: scores[indexPath.row].missCount)
-            cell.missLbl.text = "miss: \(missCount)"
-            
-            // スコアレート
-            let scoreRate: String = setScoreRate(arg: scores[indexPath.row].scoreRate)
-            cell.scoreRateLbl.text = "scoreRate: \(scoreRate)"
-            
-            Log.debugEnd(cls: String(describing: self), method: #function)
-            return cell
-//        }
+        let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
+            as! ListTableViewCell
+        
+        // Clear Lump
+        let ret = setClearLump(arg: scores[indexPath.row].clearLump)
+        cell.clearLumpIV.image = ret.image
+        cell.clearLumpIV.backgroundColor = ret.color
+        
+        // DjLevel
+        let image = setDjLevel(arg: scores[indexPath.row].djLevel)
+        cell.djLevelIV.image = image
+        
+        // レベル
+        cell.levelLbl.text = String(scores[indexPath.row].level)
+        let color = setLevel(arg: scores[indexPath.row].difficultyId)
+        cell.levelLbl.textColor = color
+        
+        // タイトル
+        cell.titleLbl.text = scores[indexPath.row].title
+        
+        // スコア
+        let score: String = setScore(arg: String(describing: scores[indexPath.row].score))
+        cell.scoreLbl.text = "score: \(score)"
+        
+        // ミスカウント
+        let missCount: String = String(describing: scores[indexPath.row].missCount)
+        cell.missLbl.text = "miss: \(missCount)"
+        
+        // スコアレート
+        let scoreRate: String = setScoreRate(arg: scores[indexPath.row].scoreRate)
+        cell.scoreRateLbl.text = "scoreRate: \(scoreRate)"
+        
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return cell
     }
         
     private func setClearLump(arg: Int) -> (image: UIImage?, color: UIColor?) {
