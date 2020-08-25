@@ -68,7 +68,7 @@ class Init {
                 if !existFlg {
                     // 全件登録
                     insertMyScore(newSeedPath: seedRealmPath)
-                    ret = "初回データ登録完了！"
+                    ret = "初期データ登録完了！"
                 }
             }
             
