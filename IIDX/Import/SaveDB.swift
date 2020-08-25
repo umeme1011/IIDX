@@ -135,6 +135,7 @@ extension Import {
                 // 更新
                 scoreRealm.update(data: [score])
             } else {
+                print("表記ゆれ")
                 print(score.title)
             }
         }
@@ -169,53 +170,57 @@ extension Import {
             cnt += 1
             
             // 曲基本情報取得
-            let song: Song = seedRealm.readEqual(Song.self
-                , ofTypes: Song.Types.title.rawValue, forQuery: [score.title] as AnyObject).first ?? Song()
+            if let song: Song = seedRealm.readEqual(Song.self
+                , ofTypes: Song.Types.title.rawValue, forQuery: [score.title] as AnyObject).first {
             
-            // 曲基本情報をScore TBLにセット
-            score.playStyle = playStyle
-            score.versionId = song.versionId
-            score.indexId = song.indexId
-            
-            // レベル、スコアレート
-            if playStyle == Const.Value.PlayStyle.DOUBLE {
-                if score.difficultyId == Const.Value.Difficulty.NORMAL {
-                    score.level = song.dpn
-                    score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpn)
-                } else if score.difficultyId == Const.Value.Difficulty.HYPER {
-                    score.level = song.dph
-                    score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDph)
-                } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
-                    score.level = song.dpa
-                    score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpa)
+                // 曲基本情報をScore TBLにセット
+                score.playStyle = playStyle
+                score.versionId = song.versionId
+                score.indexId = song.indexId
+                
+                // レベル、スコアレート
+                if playStyle == Const.Value.PlayStyle.DOUBLE {
+                    if score.difficultyId == Const.Value.Difficulty.NORMAL {
+                        score.level = song.dpn
+                        score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpn)
+                    } else if score.difficultyId == Const.Value.Difficulty.HYPER {
+                        score.level = song.dph
+                        score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDph)
+                    } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
+                        score.level = song.dpa
+                        score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpa)
+                    }
+                } else {
+                    if score.difficultyId == Const.Value.Difficulty.NORMAL {
+                        score.level = song.spn
+                        score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpn)
+                    } else if score.difficultyId == Const.Value.Difficulty.HYPER {
+                        score.level = song.sph
+                        score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSph)
+                    } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
+                        score.level = song.spa
+                        score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpa)
+                    }
                 }
+                // 存在しない難易度は登録しない
+                if score.level == 0 {
+                    continue
+                }
+                
+                // 新規登録
+                let s: RivalScore = scoreRealm.readAll(RivalScore.self)
+                    .sorted(byKeyPath: RivalScore.Types.id.rawValue, ascending: false).first ?? RivalScore()
+                
+                score.id = s.id + 1
+                score.createDate = now
+                score.createUser = Const.Realm.SYSTEM
+                score.updateDate = now
+                score.updateUser = Const.Realm.SYSTEM
+                scoreRealm.create(data: [score])
             } else {
-                if score.difficultyId == Const.Value.Difficulty.NORMAL {
-                    score.level = song.spn
-                    score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpn)
-                } else if score.difficultyId == Const.Value.Difficulty.HYPER {
-                    score.level = song.sph
-                    score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSph)
-                } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
-                    score.level = song.spa
-                    score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpa)
-                }
+                print("表記ゆれ")
+                print(score.title)
             }
-            // 存在しない難易度は登録しない
-            if score.level == 0 {
-                continue
-            }
-            
-            // 新規登録
-            let s: RivalScore = scoreRealm.readAll(RivalScore.self)
-                .sorted(byKeyPath: RivalScore.Types.id.rawValue, ascending: false).first ?? RivalScore()
-            
-            score.id = s.id + 1
-            score.createDate = now
-            score.createUser = Const.Realm.SYSTEM
-            score.updateDate = now
-            score.updateUser = Const.Realm.SYSTEM
-            scoreRealm.create(data: [score])
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
     }

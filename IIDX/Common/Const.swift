@@ -14,7 +14,7 @@ class Const {
     // DEVELOP true:5thStyleまで同期 false:全バージョン同期
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = true
+        static let DEBUG_LOG = false
     }
     
     // Version
@@ -25,7 +25,9 @@ class Const {
     
     // Realm
     class Realm {
-        static let SEED_FILE_NAME = "iidx_seed"
+        static let SCHEMA_VER = 1
+        static let SEED_DB_VER = "27.2"
+        static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"
     }
@@ -78,6 +80,11 @@ class Const {
 
         func getSeriesRivalUrl() -> String {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/series_rival.html"
+            return url
+        }
+
+        func getDifficultyUrl() -> String {
+            let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/difficulty.html"
             return url
         }
     }
@@ -278,6 +285,8 @@ class Const {
         static let RESET_COMFIRM = "アプリを初期状態に戻します。よろしいですか？"
         static let LOGOUT_COMPLETE = "ログアウトしました。"
         static let RESET_COMPLETE = "リセットしました。"
+        static let SEED_DB_IMPORT_COMPLETE = "初期データ取り込み完了！"
+        static let SEED_DB_UPDATE_COMPLETE = "楽曲データを更新しました！"
     }
     
     // ログ

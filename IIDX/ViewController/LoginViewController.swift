@@ -53,25 +53,25 @@ class LoginViewController: UIViewController, WKNavigationDelegate, WKUIDelegate 
         webView.evaluateJavaScript("document.getElementsByName('nm_paswords')[0].value=\"\(String(describing: password))\";"
             , completionHandler: nil)
         
-        // 会員登録リンクを非表示にする
-        webView.evaluateJavaScript("document.getElementsByClassName('cl_lgfm_link cl_lgfm_linklist')[0].style.display ='none';"
-            , completionHandler: nil)
-        
-        // ご注意　を非表示にする
-        webView.evaluateJavaScript("document.getElementById('id_loginform_attentionbox_putin').style.display ='none';"
-            , completionHandler: nil)
-
-        // ヘッダー非表示
-        webView.evaluateJavaScript("document.getElementsByTagName('header')[0].style.display ='none';"
-            , completionHandler: nil)
-
-        // フッター非表示
-        webView.evaluateJavaScript("document.getElementsByTagName('footer')[0].style.display ='none';"
-            , completionHandler: nil)
-
-        // 利用規約非表示
-        webView.evaluateJavaScript("document.getElementsByClassName('cl_lgfm_eavd')[19].style.display ='none';"
-            , completionHandler: nil)
+//        // 会員登録リンクを非表示にする
+//        webView.evaluateJavaScript("document.getElementsByClassName('cl_lgfm_link cl_lgfm_linklist')[0].style.display ='none';"
+//            , completionHandler: nil)
+//
+//        // ご注意　を非表示にする
+//        webView.evaluateJavaScript("document.getElementById('id_loginform_attentionbox_putin').style.display ='none';"
+//            , completionHandler: nil)
+//
+//        // ヘッダー非表示
+//        webView.evaluateJavaScript("document.getElementsByTagName('header')[0].style.display ='none';"
+//            , completionHandler: nil)
+//
+//        // フッター非表示
+//        webView.evaluateJavaScript("document.getElementsByTagName('footer')[0].style.display ='none';"
+//            , completionHandler: nil)
+//
+//        // 利用規約非表示
+//        webView.evaluateJavaScript("document.getElementsByClassName('cl_lgfm_eavd')[19].style.display ='none';"
+//            , completionHandler: nil)
         
         
         Log.debugEnd(cls: String(describing: self), method: #function)

@@ -13,8 +13,11 @@ class MyRealm {
     var realm: Realm
     var playStyle: Int
 
-    
     init(path: String) {
+        // realm設定
+        let config = Realm.Configuration(schemaVersion: UInt64(Const.Realm.SCHEMA_VER))
+        Realm.Configuration.defaultConfiguration = config
+        
         realm = try! Realm(fileURL: URL(fileURLWithPath: path))
         
         let myUD: MyUserDefaults = MyUserDefaults()
@@ -33,7 +36,12 @@ class MyRealm {
         let result = realm.objects(T.self).filter("createDate > %@", param)
         return result
     }
-    
+
+    func readAllByUpdateDate<T: Object>(_ type: T.Type, param: Date) -> Results<T> {
+        let result = realm.objects(T.self).filter("updateDate > %@", param)
+        return result
+    }
+
     func readAllByPlayStyle<T: Object>(_ type: T.Type) -> Results<T> {
         let result = realm.objects(T.self).filter("playStyle = %@", playStyle)
         return result
@@ -110,7 +118,7 @@ class MyRealm {
 
     func update<T: Object>(data: [T]) {
         try! realm.write {
-            realm.add(data, update: true)
+            realm.add(data, update: .all)
         }
     }
     
@@ -167,7 +175,7 @@ class MyRealm {
             score.missCount = missCount
             score.tag = tag
             score.updateDate = Date()
-            realm.add(score, update: true)
+            realm.add(score, update: .all)
         }
     }
 
@@ -188,7 +196,16 @@ class MyRealm {
     func updateForTag(score: MyScore, tag: String) {
         try! realm.write {
             score.tag = tag
-            realm.add(score, update: true)
+            realm.add(score, update: .all)
+        }
+    }
+    
+    
+    /// Songテーブルの更新フラグ更新用
+    func updateUpdFlg(song: Song, updFlg: Int) {
+        try! realm.write {
+            song.updFlg = updFlg
+            realm.add(song, update: .all)
         }
     }
 }

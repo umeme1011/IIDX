@@ -25,6 +25,7 @@ class MainViewController: UIViewController {
     let myUD: MyUserDefaults = MyUserDefaults()
     var firstLoadFlg: Bool!
     var cancelFlg: Bool = false
+    var alertMsg: String = ""
     
     
     override func viewDidLoad() {
@@ -34,12 +35,20 @@ class MainViewController: UIViewController {
         progressView.alpha = 0.0
         
         // 起動時初期処理
-        Init.doInit()
+        alertMsg = Init.doInit()
         
         // UI処理
         mainUI()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if alertMsg != "" {
+            // 取り込み完了アラート表示
+            let vc: UIViewController = CommonMethod.getTopViewController() ?? UIViewController()
+            CommonMethod.dispAlert(message: alertMsg, vc: vc)
+        }
     }
     
     
@@ -158,38 +167,6 @@ class MainViewController: UIViewController {
             playStyleBtn.setTitle(Const.Label.DP, for: .normal)
         }
         
-//        // 取り込みボタン、編集ボタン切り替え
-//        if myUD.getMode() == Const.Value.Mode.EDIT_MODE {
-//            importBtn.setImage(UIImage(named: Const.Image.Operation.EDIT), for: .normal)
-//        } else {
-//            importBtn.setImage(UIImage(named: Const.Image.Operation.IMPORT), for: .normal)
-//        }
-        
-        
-//        firstLoadFlg = myUD.getFirstLoadFlg()
-//        if firstLoadFlg {
-//            // 未取込の場合はボタンを無効化する
-//            filterBtn.isEnabled = false
-//            filterBtn.setImage(UIImage(named: Const.Image.Operation.FILTER_NG), for: .normal)
-//            sortBtn.isEnabled = false
-//            sortBtn.setImage(UIImage(named: Const.Image.Operation.SORT_NG), for: .normal)
-//            statisticsBtn.isEnabled = false
-//            statisticsBtn.setImage(UIImage(named: Const.Image.Operation.STATISTICS_NG), for: .normal)
-//            // 説明バルーンを表示
-//            balloonLbl.isHidden = false
-//            balloonIV.isHidden = false
-//            balloonLbl.text = Const.Message.IMPORT_BALLOON
-//            balloonLbl.textColor = UIColor.darkGray
-//        } else {
-//            filterBtn.isEnabled = true
-//            filterBtn.setImage(UIImage(named: Const.Image.Operation.FILTER_OK), for: .normal)
-//            sortBtn.isEnabled = true
-//            sortBtn.setImage(UIImage(named: Const.Image.Operation.SORT_OK), for: .normal)
-//            statisticsBtn.isEnabled = true
-//            statisticsBtn.setImage(UIImage(named: Const.Image.Operation.STATISTICS_OK), for: .normal)
-//            balloonLbl.isHidden = true
-//            balloonIV.isHidden = true
-//        }
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 }

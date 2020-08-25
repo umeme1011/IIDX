@@ -541,4 +541,28 @@ extension Import {
         Log.debugEnd(cls: String(describing: self), method: #function)
         return ret
     }
+    
+    
+    /// 難易度取得
+    private func getDifficulty(src: String) -> Int {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        var ret: Int = 0
+        
+        if src.range(of: "BEGINNER") != nil {
+            ret = Const.Value.Difficulty.BEGINNER
+        } else if src.range(of: "NORMAL") != nil {
+            ret = Const.Value.Difficulty.NORMAL
+        } else if src.range(of: "HYPER") != nil {
+            ret = Const.Value.Difficulty.HYPER
+        } else if src.range(of: "ANOTHER") != nil {
+            ret = Const.Value.Difficulty.ANOTHER
+        } else if src.range(of: "LEGGENDARIA") != nil {
+            ret = Const.Value.Difficulty.LEGGENDARIA
+        } else {
+            Log.error(cls: String(describing: self), method: #function, msg: Const.Log.SCRAPING_002)
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return ret
+    }
+
 }

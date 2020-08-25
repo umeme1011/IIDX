@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		B96F567ADFFFA3CFE8518F7B /* Pods_IIDX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */; };
+		C32E283D24F267F600775FEC /* iidx_seed_27.2.realm in Resources */ = {isa = PBXBuildFile; fileRef = C32E283C24F267F600775FEC /* iidx_seed_27.2.realm */; };
 		C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C338FF0A235236A300FBD47F /* EditSelect.storyboard */; };
 		C338FF0D2352370400FBD47F /* EditSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0C2352370400FBD47F /* EditSelectViewController.swift */; };
 		C338FF0F2353879400FBD47F /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */; };
@@ -19,7 +20,6 @@
 		C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3AF62EE234E7EBE0022664D /* EditDetail.storyboard */; };
 		C3AF62F1234E7F130022664D /* EditDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AF62F0234E7F130022664D /* EditDetailViewController.swift */; };
 		C3AF62F3234E87B40022664D /* EditListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AF62F2234E87B40022664D /* EditListTableViewCell.swift */; };
-		C3B59BF52395526C00496751 /* iidx_seed.realm in Resources */ = {isa = PBXBuildFile; fileRef = C3B59BF42395526C00496751 /* iidx_seed.realm */; };
 		C3C21ED82314FD1F00B51CB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */; };
 		C3C21EDD2314FD1F00B51CB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EDB2314FD1F00B51CB1 /* Main.storyboard */; };
 		C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EE02314FD2000B51CB1 /* LaunchScreen.storyboard */; };
@@ -84,6 +84,7 @@
 /* Begin PBXFileReference section */
 		08AAAF1DD6A69654DD611564 /* Pods-IIDX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIDX.debug.xcconfig"; path = "Target Support Files/Pods-IIDX/Pods-IIDX.debug.xcconfig"; sourceTree = "<group>"; };
 		6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IIDX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C32E283C24F267F600775FEC /* iidx_seed_27.2.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.2.realm; sourceTree = "<group>"; };
 		C338FF0A235236A300FBD47F /* EditSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditSelect.storyboard; sourceTree = "<group>"; };
 		C338FF0C2352370400FBD47F /* EditSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectViewController.swift; sourceTree = "<group>"; };
 		C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -95,7 +96,6 @@
 		C3AF62EE234E7EBE0022664D /* EditDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditDetail.storyboard; sourceTree = "<group>"; };
 		C3AF62F0234E7F130022664D /* EditDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailViewController.swift; sourceTree = "<group>"; };
 		C3AF62F2234E87B40022664D /* EditListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTableViewCell.swift; sourceTree = "<group>"; };
-		C3B59BF42395526C00496751 /* iidx_seed.realm */ = {isa = PBXFileReference; lastKnownFileType = file; name = iidx_seed.realm; path = "../../../../../../Library/Developer/CoreSimulator/Devices/8CEAD00E-3C70-47B7-B05A-E2907E8D223D/data/Containers/Data/Application/E5352C28-0CB3-4A4C-B2DF-4EAFF8A78D69/Documents/iidx_seed.realm"; sourceTree = "<group>"; };
 		C3C21ED42314FD1F00B51CB1 /* IIDX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IIDX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3C21EDC2314FD1F00B51CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -295,7 +295,7 @@
 		C3D7F4D823160E5700B5C895 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				C3B59BF42395526C00496751 /* iidx_seed.realm */,
+				C32E283C24F267F600775FEC /* iidx_seed_27.2.realm */,
 				C3D7F4DB2316132500B5C895 /* Code.swift */,
 				C3FD10F023182C5000C7A86F /* LastImportDate.swift */,
 				C3FD10E8231780CE00C7A86F /* MyRealm.swift */,
@@ -424,6 +424,7 @@
 				C3D7F50E2316676E00B5C895 /* TargetAccount.storyboard in Resources */,
 				C3F057D32334856C00F3831F /* Information.storyboard in Resources */,
 				C3D0EF9123221AF2001F1511 /* Detail.storyboard in Resources */,
+				C32E283D24F267F600775FEC /* iidx_seed_27.2.realm in Resources */,
 				C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */,
 				C3D0EF7A231F457E001F1511 /* Statistics.storyboard in Resources */,
 				C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */,
@@ -431,7 +432,6 @@
 				C3D7F4F42316332800B5C895 /* List.storyboard in Resources */,
 				C34E9C07232CBE6F00D62373 /* CorrectTitle.csv in Resources */,
 				C3D0EF70231CB458001F1511 /* Filter.storyboard in Resources */,
-				C3B59BF52395526C00496751 /* iidx_seed.realm in Resources */,
 				C3EFE1972359070C00CEE129 /* Tag.storyboard in Resources */,
 				C3D7F5102316678500B5C895 /* Account.storyboard in Resources */,
 				C3D0EF62231BA7FB001F1511 /* Sort.storyboard in Resources */,
@@ -451,20 +451,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IIDX/Pods-IIDX-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
-				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
-				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-IIDX/Pods-IIDX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-IIDX/Pods-IIDX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -698,7 +689,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -706,6 +697,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -721,7 +713,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.0;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -729,6 +721,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

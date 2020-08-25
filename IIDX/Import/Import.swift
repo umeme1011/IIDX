@@ -51,13 +51,6 @@ class Import {
         // 設定ボタンを無効化
         self.mainVC.settingBtn.isEnabled = false
         self.mainVC.settingBtn.setImage(UIImage(named: Const.Image.Button.SETTING_NG), for: .normal)
-//        if firstLoadFlg {
-//            // 初回のみ説明バルーンを表示
-//            self.mainVC.balloonIV.isHidden = false
-//            self.mainVC.balloonLbl.isHidden = false
-//            self.mainVC.balloonLbl.text = Const.Message.IMPORT_CANCEL_BALLOON
-//            self.mainVC.balloonLbl.textColor = UIColor.red
-//        }
         
         // 進捗View表示
         UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
@@ -177,15 +170,6 @@ class Import {
             // 設定ボタンを有効化
             self.mainVC.settingBtn.isEnabled = true
             self.mainVC.settingBtn.setImage(UIImage(named: Const.Image.Button.SETTING_OK), for: .normal)
-//            if !self.firstLoadFlg {
-//                // ２回め以降説明バルーンを非表示
-//                self.mainVC.balloonIV.isHidden = true
-//                self.mainVC.balloonLbl.isHidden = true
-//            } else {
-//                // キャンセル等で初回取り込みが正常終了しなかった場合バルーン文言変更
-//                self.mainVC.balloonLbl.text = Const.Message.IMPORT_BALLOON
-//                self.mainVC.balloonLbl.textColor = UIColor.darkGray
-//            }
             
             // 配列を空にする
             self.myScoreArray.removeAll()
@@ -246,7 +230,7 @@ class Import {
         if firstLoadFlg {
             // 登録用配列作成
             self.makeMyScoreArray(iidxId: "", djName: "", seedRealm: seedRealm, scoreRealm: scoreRealm)
-            
+
         // ２回め以降
         } else {
             let myStatuses: Results<MyStatus>
@@ -258,7 +242,7 @@ class Import {
                 // 登録用配列作成
                 self.makeMyScoreArray(iidxId: target, djName:myStatuses.first?.djName ?? ""
                     ,seedRealm: seedRealm, scoreRealm: scoreRealm)
-            
+                
             // ライバル
             } else {
                 // 登録用配列作成
