@@ -35,7 +35,8 @@ class MainViewController: UIViewController {
         progressView.alpha = 0.0
         
         // 起動時初期処理
-        alertMsg = Init.doInit()
+        let ini: Init = Init.init()
+        alertMsg = ini.doInit()
         
         // UI処理
         mainUI()

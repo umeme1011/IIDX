@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B96F567ADFFFA3CFE8518F7B /* Pods_IIDX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */; };
+		C316CA1B24F7EA85009B2681 /* iidx_seed_27.0.realm in Resources */ = {isa = PBXBuildFile; fileRef = C316CA1A24F7EA85009B2681 /* iidx_seed_27.0.realm */; };
+		C316CA1D24F7EA8F009B2681 /* iidx_seed_27.1.realm in Resources */ = {isa = PBXBuildFile; fileRef = C316CA1C24F7EA8F009B2681 /* iidx_seed_27.1.realm */; };
 		C32E283D24F267F600775FEC /* iidx_seed_27.2.realm in Resources */ = {isa = PBXBuildFile; fileRef = C32E283C24F267F600775FEC /* iidx_seed_27.2.realm */; };
 		C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C338FF0A235236A300FBD47F /* EditSelect.storyboard */; };
 		C338FF0D2352370400FBD47F /* EditSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0C2352370400FBD47F /* EditSelectViewController.swift */; };
@@ -84,6 +86,8 @@
 /* Begin PBXFileReference section */
 		08AAAF1DD6A69654DD611564 /* Pods-IIDX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIDX.debug.xcconfig"; path = "Target Support Files/Pods-IIDX/Pods-IIDX.debug.xcconfig"; sourceTree = "<group>"; };
 		6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IIDX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C316CA1A24F7EA85009B2681 /* iidx_seed_27.0.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.0.realm; sourceTree = "<group>"; };
+		C316CA1C24F7EA8F009B2681 /* iidx_seed_27.1.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.1.realm; sourceTree = "<group>"; };
 		C32E283C24F267F600775FEC /* iidx_seed_27.2.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.2.realm; sourceTree = "<group>"; };
 		C338FF0A235236A300FBD47F /* EditSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditSelect.storyboard; sourceTree = "<group>"; };
 		C338FF0C2352370400FBD47F /* EditSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectViewController.swift; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 		C3D7F4D823160E5700B5C895 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
+				C316CA1C24F7EA8F009B2681 /* iidx_seed_27.1.realm */,
+				C316CA1A24F7EA85009B2681 /* iidx_seed_27.0.realm */,
 				C32E283C24F267F600775FEC /* iidx_seed_27.2.realm */,
 				C3D7F4DB2316132500B5C895 /* Code.swift */,
 				C3FD10F023182C5000C7A86F /* LastImportDate.swift */,
@@ -419,10 +425,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C316CA1D24F7EA8F009B2681 /* iidx_seed_27.1.realm in Resources */,
 				C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */,
 				C3D7F50C231665F100B5C895 /* Setting.storyboard in Resources */,
 				C3D7F50E2316676E00B5C895 /* TargetAccount.storyboard in Resources */,
 				C3F057D32334856C00F3831F /* Information.storyboard in Resources */,
+				C316CA1B24F7EA85009B2681 /* iidx_seed_27.0.realm in Resources */,
 				C3D0EF9123221AF2001F1511 /* Detail.storyboard in Resources */,
 				C32E283D24F267F600775FEC /* iidx_seed_27.2.realm in Resources */,
 				C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */,

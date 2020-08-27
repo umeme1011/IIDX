@@ -14,7 +14,7 @@ class Const {
     // DEVELOP true:5thStyleまで同期 false:全バージョン同期
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = false
+        static let DEBUG_LOG = true
     }
     
     // Version
