@@ -76,8 +76,8 @@ class Import {
                 UIApplication.shared.endBackgroundTask(self.backgroundTaskId1)
             })
             
-            let seedRealm: MyRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
-            let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+            let seedRealm: Realm = CommonMethod.createSeedRealm()
+            let scoreRealm: Realm = CommonMethod.createScoreRealm()
 
             // マイステータスインポート
             self.importMyStatus()
@@ -127,8 +127,8 @@ class Import {
                 
                 if self.firstLoadFlg {
                     // 初回インポート後は自分を設定
-                    let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
-                    let myStatuses: Results<MyStatus> = scoreRealm.readAll(MyStatus.self)
+                    let scoreRealm: Realm = CommonMethod.createScoreRealm()
+                    let myStatuses: Results<MyStatus> = scoreRealm.objects(MyStatus.self)
                     self.myUD.setTarget(target: myStatuses.first?.iidxId ?? "")
                 }
                 
@@ -220,7 +220,7 @@ class Import {
     
 
     /// スコア取り込み
-    private func importScores(target: String, seedRealm: MyRealm, scoreRealm: MyRealm) {
+    private func importScores(target: String, seedRealm: Realm, scoreRealm: Realm) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.info(cls: String(describing: self), method: #function, msg: "取り込み対象アカウント " + target)
         
@@ -229,19 +229,17 @@ class Import {
         // 初回
         if firstLoadFlg {
             // 登録用配列作成
-            self.makeMyScoreArray(iidxId: "", djName: "", seedRealm: seedRealm, scoreRealm: scoreRealm)
+            self.makeMyScoreArray(iidxId: "", djName: "", seedRealm: seedRealm)
 
         // ２回め以降
         } else {
-            let myStatuses: Results<MyStatus>
-                = scoreRealm.readEqual(MyStatus.self, ofTypes: MyStatus.Types.iidxId.rawValue
-                    , forQuery: [target] as AnyObject)
+            let myStatuses: Results<MyStatus> = scoreRealm.objects(MyStatus.self)
+                .filter("\(MyStatus.Types.iidxId.rawValue) = %@", target)
             
             // 自分
             if !myStatuses.isEmpty {
                 // 登録用配列作成
-                self.makeMyScoreArray(iidxId: target, djName:myStatuses.first?.djName ?? ""
-                    ,seedRealm: seedRealm, scoreRealm: scoreRealm)
+                self.makeMyScoreArray(iidxId: target, djName:myStatuses.first?.djName ?? "" ,seedRealm: seedRealm)
                 
             // ライバル
             } else {
@@ -255,16 +253,15 @@ class Import {
 
     
     /// 登録用配列作成（自分）
-    private func makeMyScoreArray(iidxId: String, djName: String, seedRealm: MyRealm, scoreRealm: MyRealm) {
+    private func makeMyScoreArray(iidxId: String, djName: String, seedRealm: Realm) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         if isCancel(msg: "") { return }
 
         // バージョン全件取得
-        let versions: Results<Code>
-            = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-                , forQuery: [Const.Value.kindCode.VERSION] as AnyObject)
-        
+        let versions: Results<Code> = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.VERSION)
+
         var cnt: Int = versions.count
         if Const.Mode.DEVElOP { cnt = 5 }
         for i in 0..<cnt {
@@ -288,15 +285,14 @@ class Import {
     
 
     /// 登録用配列作成（ライバル）
-    private func makeRivalScoreArray(iidxId: String, seedRealm: MyRealm, scoreRealm: MyRealm) {
+    private func makeRivalScoreArray(iidxId: String, seedRealm: Realm, scoreRealm: Realm) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         if isCancel(msg: "") { return }
 
         // バージョン全件取得
-        let versions: Results<Code>
-            = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-                , forQuery: [Const.Value.kindCode.VERSION] as AnyObject)
+        let versions: Results<Code> = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.VERSION)
         
         var cnt: Int = versions.count
         if Const.Mode.DEVElOP { cnt = 5 }
@@ -307,9 +303,9 @@ class Import {
             if isCancel(msg: versionName) { return }
             
             // HIML取得
-            let rivalStatus: RivalStatus
-                = scoreRealm.readEqualAndByPlayStyle(RivalStatus.self, ofTypes: [RivalStatus.Types.iidxId.rawValue]
-                    , forQuery: [[iidxId] as AnyObject]).first ?? RivalStatus()
+            let rivalStatus: RivalStatus = scoreRealm.objects(RivalStatus.self)
+                .filter("\(RivalStatus.Types.iidxId.rawValue) = %@ and \(RivalStatus.Types.playStyle.rawValue) = %@", iidxId, playStyle).first ?? RivalStatus()
+
             let code: String = rivalStatus.code ?? ""
             let data: NSData = CommonMethod.postRequest(dataUrl: Const.Url().getSeriesRivalUrl()
                 , postStr: "list=\(i)&play_style=\(String(describing: self.playStyle))&s=1&rival=\(code)"

@@ -28,8 +28,8 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
     var clearLumpPV: UIPickerView = UIPickerView()
     var djLevelPV: UIPickerView = UIPickerView()
     var tagPV: UIPickerView = UIPickerView()
-    var seedRealm: MyRealm!
-    var scoreRealm: MyRealm!
+    var seedRealm: Realm!
+    var scoreRealm: Realm!
     var clearLumps: Results<Code>!
     var djLevels: Results<Code>!
     var tags: Results<Tag>!
@@ -52,21 +52,17 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         self.tagPV.dataSource = self
         self.tagPV.showsSelectionIndicator = true
 
-        seedRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
-        scoreRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        seedRealm = CommonMethod.createSeedRealm()
+        scoreRealm = CommonMethod.createScoreRealm()
         
         // バージョン
-        var ret: Code = seedRealm.readEqualAnd(Code.self
-            , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-            , forQuery: [[Const.Value.kindCode.VERSION] as AnyObject, [score.versionId] as AnyObject])
-            .first ?? Code()
+        var ret: Code = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, score.versionId).first ?? Code()
         versionLbl.text = ret.name
         
         // レベル、難易度
-        ret = seedRealm.readEqualAnd(Code.self
-        , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-        , forQuery: [[Const.Value.kindCode.DIFFICULTY] as AnyObject, [score.difficultyId] as AnyObject])
-        .first ?? Code()
+        ret = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.DIFFICULTY, score.difficultyId).first ?? Code()
         difficultyLbl.text = "☆\(score.level) \(ret.name!)"
 
         // タイトル
@@ -91,14 +87,12 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         clearLumpTF.inputAccessoryView = clToolbar
         
         // get clearLumps for PV
-        clearLumps = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-            , forQuery: [Const.Value.kindCode.CLEAR_LUMP] as AnyObject)
+        clearLumps = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.CLEAR_LUMP)
 
         // get clearLump for init value
-        ret = seedRealm.readEqualAnd(Code.self
-        , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-        , forQuery: [[Const.Value.kindCode.CLEAR_LUMP] as AnyObject, [score.clearLump] as AnyObject])
-        .first ?? Code()
+        ret = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.CLEAR_LUMP, score.clearLump).first ?? Code()
 
         clearLumpTF.text = ret.name
         clearLumpTF.tag = ret.code
@@ -115,14 +109,13 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         djLevelTF.inputAccessoryView = dlToolbar
         
         // get djLevels for PV
-        djLevels = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-            , forQuery: [Const.Value.kindCode.DJ_LEVEL] as AnyObject).sorted(byKeyPath: Code.Types.sort.rawValue)
-        
+        djLevels = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.DJ_LEVEL)
+            .sorted(byKeyPath: Code.Types.sort.rawValue)
+
         // get djLevels for init value
-        ret = seedRealm.readEqualAnd(Code.self
-        , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-        , forQuery: [[Const.Value.kindCode.DJ_LEVEL] as AnyObject, [score.djLevel] as AnyObject])
-        .first ?? Code()
+        ret = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.DJ_LEVEL, score.djLevel).first ?? Code()
 
         djLevelTF.text = ret.name
         djLevelTF.tag = ret.code
@@ -169,7 +162,7 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         tagTF.inputAccessoryView = tagToolbar
 
         // get tags for PV
-        tags = scoreRealm.readAll(Tag.self)
+        tags = scoreRealm.objects(Tag.self)
         
         // tag str -> tagArray for init value
         tagArray = score.tag?.components(separatedBy: ",") ?? [String]()
@@ -191,23 +184,27 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    /// 上にスワイプ
+    /*
+     上にスワイプ
+     */
     @IBAction func swipeUp(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// tap Cancel Btn
+    /*
+     tap Cancel Btn
+     */
     @IBAction func tapCancelBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// tap Save Btn
+    /*
+     tap Save Btn
+     */
     @IBAction func tapSaveBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
@@ -237,19 +234,27 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         }
 
         // save DB
-        scoreRealm.updateForDetail(score: score, clearLump: clearLump
-            , djLevel: djLevel, s: s, scoreRate: scoreRate, missCount: missCount, tag: tagStr)
+        try! scoreRealm.write {
+            score.clearLump = clearLump
+            score.djLevel = djLevel
+            score.score = s
+            score.scoreRate = scoreRate
+            score.missCount = missCount
+            score.tag = tagStr
+            score.updateDate = Date()
+            scoreRealm.add(score, update: .all)
+        }
         
         // データ取得処理
         let vc: MainViewController = self.presentingViewController as! MainViewController
         let operation: Operation = Operation.init(mainVC: vc)
-        let score: Results<MyScore> = operation.doOperation()
+        let scores: Results<MyScore> = operation.doOperation()
         // メイン画面のUI処理
         vc.mainUI()
         // リスト画面リロード
         let listVC: ListViewController
             = self.presentingViewController?.children[0] as! ListViewController
-        listVC.scores = score
+        listVC.scores = scores
         listVC.listTV.reloadData()
 
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -257,8 +262,9 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
     }
 }
 
-
-/// タグ一覧
+/*
+ タグ一覧
+ */
 extension EditDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -320,8 +326,9 @@ extension EditDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         }
     }
     
-    
-    /// ☓ボタンタップ時
+    /*
+     ☓ボタンタップ時
+     */
     @objc private func tapTagBtn(_ sender:UIButton) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -332,7 +339,9 @@ extension EditDetailViewController: UICollectionViewDelegate, UICollectionViewDa
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    /// 追加ボタンタップ時
+    /*
+     追加ボタンタップ時
+     */
     @objc private func tapAddBtn(_ sender:UIButton) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
@@ -342,7 +351,9 @@ extension EditDetailViewController: UICollectionViewDelegate, UICollectionViewDa
     }
 }
 
-/// セルを左詰にするFlowLayout
+/*
+ セルを左詰にするFlowLayout
+ */
 class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         Log.debugStart(cls: String(describing: self), method: #function)
@@ -366,7 +377,9 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
 }
 
 
-/// picker view
+/*
+ picker view
+ */
 extension EditDetailViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

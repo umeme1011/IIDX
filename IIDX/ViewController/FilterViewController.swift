@@ -15,8 +15,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
     @IBOutlet weak var filterTV: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    var seedRealm: MyRealm!
-    var scoreRealm: MyRealm!
+    var seedRealm: Realm!
+    var scoreRealm: Realm!
     let myUD: MyUserDefaults = MyUserDefaults()
     var filters: Results<Code>!
     var filterArray: [Results<Code>] = [Results<Code>]()
@@ -40,8 +40,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         filterTV.dataSource = self
         searchBar.delegate = self
         
-        seedRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
-        scoreRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        seedRealm = CommonMethod.createSeedRealm()
+        scoreRealm = CommonMethod.createScoreRealm()
         
         // TODO
         // 検索バーの色変更
@@ -59,8 +59,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         tf.textColor = UIColor.darkGray
         
         // 項目作成
-        filters = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-            , forQuery: [Const.Value.kindCode.FILTER] as AnyObject)
+        filters = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.FILTER)
         makeFilterArray(kindCode: Const.Value.kindCode.NEW_RECORD)
         makeFilterArray(kindCode: Const.Value.kindCode.LEVEL)
         makeFilterArray(kindCode: Const.Value.kindCode.DIFFICULTY)
@@ -69,14 +69,14 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         makeFilterArray(kindCode: Const.Value.kindCode.DJ_LEVEL)
         makeFilterArray(kindCode: Const.Value.kindCode.INDEX)
         // 項目作成（ライバル）
-        rivalFilters = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-            , forQuery: [Const.Value.kindCode.RIVAL_FILTER] as AnyObject)
+        rivalFilters = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.RIVAL_FILTER)
         makeRivalFilterArray(kindCode: Const.Value.kindCode.RIVAL_SCORE_LOSE)
         makeRivalFilterArray(kindCode: Const.Value.kindCode.RIVAL_SCORE_WIN)
         makeRivalFilterArray(kindCode: Const.Value.kindCode.RIVAL_LUMP_LOSE)
         makeRivalFilterArray(kindCode: Const.Value.kindCode.RIVAL_LUMP_WIN)
         // 項目作成（タグ）
-        tagFilters = scoreRealm.readAll(Tag.self)
+        tagFilters = scoreRealm.objects(Tag.self)
         
         // 折りたたみフラグ
         foldingFlgArray = myUD.getFoldingFlgArray()
@@ -103,8 +103,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         var cnt: Int = 0
@@ -126,8 +127,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         return cnt
     }
     
-    
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
@@ -140,8 +142,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             let codes: Results<Code> = filterArray[indexPath.section]
             if codes[indexPath.row].kindCode == Const.Value.kindCode.NEW_RECORD {
                 // NEW RECORDの場合最終取込日を表示
-                if let lastImportDate: LastImportDate
-                    = scoreRealm.readAllByPlayStyle(LastImportDate.self).first {
+                if let lastImportDate: LastImportDate = scoreRealm.objects(LastImportDate.self)
+                    .filter("\(LastImportDate.Types.playStyle.rawValue) = %@", myUD.getPlayStyle()).first {
                     cell.itemLbl.text = lastImportDate.date
                     cell.codeLbl.text = String(lastImportDate.id)
                 } else {
@@ -222,8 +224,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         return cell
     }
     
-    
-    /// セクションの数を返す
+    /*
+     セクションの数を返す
+     */
     func numberOfSections(in tableView: UITableView) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         var cnt: Int = filters.count
@@ -239,8 +242,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         return cnt
     }
 
-    
-    /// セクションのUIViewを返す
+    /*
+     セクションのUIViewを返す
+     */
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         Log.debugStart(cls: String(describing: self), method: #function)
         let view: UIView = UIView()
@@ -282,16 +286,18 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         return view
     }
     
-    
-    /// セクションの高さを返す
+    /*
+     セクションの高さを返す
+     */
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return 35
     }
 
-    
-    /// セクションをタップ
+    /*
+     セクションをタップ
+     */
     @objc func tapHeader(gestureRecognizer: UITapGestureRecognizer) {
         Log.debugStart(cls: String(describing: self), method: #function)
         // タップされたセクションを取得
@@ -332,8 +338,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// セルをタップ
+    /*
+     セルをタップ
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
         // タップしたセルを取得
@@ -405,8 +412,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// 検索バーテキスト変更時
+    /*
+     検索バーテキスト変更時
+     */
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         Log.debugStart(cls: String(describing: self), method: #function)
         // フィルター処理
@@ -414,8 +422,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// キーボードの検索ボタン押下時
+    /*
+     キーボードの検索ボタン押下時
+     */
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         Log.debugStart(cls: String(describing: self), method: #function)
         // キーボードを閉じる
@@ -423,8 +432,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// AllClearボタン押下時
+    /*
+     AllClearボタン押下時
+     */
     @IBAction func tapAllClearBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
        // いろいろ初期化
@@ -451,8 +461,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-
-    /// タッチイベント
+    /*
+     タッチイベント
+     */
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         Log.debugStart(cls: String(describing: self), method: #function)
         super.touchesEnded(touches, with: event)
@@ -475,32 +486,35 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
    }
     
-    
-    /// 各フィルター項目配列作成
+    /*
+     各フィルター項目配列作成
+     */
     private func makeFilterArray(kindCode: Int) {
         Log.debugStart(cls: String(describing: self), method: #function)
-        var codes: Results<Code> = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-            , forQuery: [kindCode] as AnyObject)
+        var codes: Results<Code> = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", kindCode)
         codes = codes.sorted(byKeyPath: Code.Types.sort.rawValue)
         filterArray.append(codes)
         Log.debugEnd(cls: String(describing: self), method: #function)
-   }
+    }
     
-    
-    /// 各フィルター項目配列作成（ライバル）
+    /*
+     各フィルター項目配列作成（ライバル）
+     */
     private func makeRivalFilterArray(kindCode: Int) {
         Log.debugStart(cls: String(describing: self), method: #function)
         // ライバルリスト取得
-        let result: Results<RivalStatus> = scoreRealm.readAllByPlayStyle(RivalStatus.self)
+        let result: Results<RivalStatus> = scoreRealm.objects(RivalStatus.self)
+            .filter("\(RivalStatus.Types.playStyle.rawValue) = %@", myUD.getPlayStyle())
         if !result.isEmpty {
             rivalFilterArray.append(result)
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-
-
-    /// セクションNoをMyScoreテーブルのカラム名に変換する
+    /*
+     セクションNoをMyScoreテーブルのカラム名に変換する
+     */
     private func convertSectionToColumn(section: Int) -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
         var key: String = ""
@@ -526,8 +540,9 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         return key
     }
     
-    
-    /// フィルター処理
+    /*
+     フィルター処理
+     */
     private func filter() {
         Log.debugStart(cls: String(describing: self), method: #function)
         // UserDefaultsに検索ワード、絞り込み条件をセット

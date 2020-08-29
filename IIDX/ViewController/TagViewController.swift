@@ -13,7 +13,7 @@ class TagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
 
     @IBOutlet weak var tagTV: UITableView!
     
-    var scoreRealm: MyRealm!
+    var scoreRealm: Realm!
     var tagArray: [Tag] = [Tag]()
     var tagDeleteArray: [String] = [String]()
     
@@ -23,10 +23,10 @@ class TagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         tagTV.delegate = self
         tagTV.dataSource = self
         
-        scoreRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        scoreRealm = CommonMethod.createScoreRealm()
         
         // タグ一覧取得
-        let tags: Results<Tag> = scoreRealm.readAll(Tag.self)
+        let tags: Results<Tag> = scoreRealm.objects(Tag.self)
         print(tags)
         for tag in tags {
             tagArray.append(tag)
@@ -105,29 +105,46 @@ class TagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         // 紐付いているタグを削除
         if !tagDeleteArray.isEmpty {
-            let scores: Results<MyScore> = scoreRealm.readContainsForTag(array: tagDeleteArray)
+            
+            var predicates: [NSPredicate] = [NSPredicate]()
+            for i in 0..<tagDeleteArray.count {
+                let tag: String = "[" + tagDeleteArray[i] + "]"
+                let predicate = NSPredicate(format: "tag contains %@", tag)
+                predicates.append(predicate)
+            }
+            let scores: Results<MyScore> = scoreRealm.objects(MyScore.self).filter(NSCompoundPredicate(orPredicateWithSubpredicates: predicates))
+            
             print(scores)
-            for score in scores {
-                var tag: String = score.tag ?? ""
-                for t in tagDeleteArray {
-                    tag.replaceSubrange(tag.range(of: "[" + t + "]")!, with: "")
+            
+            try! scoreRealm.write {
+                for score in scores {
+                    var tag: String = score.tag ?? ""
+                    for t in tagDeleteArray {
+                        tag.replaceSubrange(tag.range(of: "[" + t + "]")!, with: "")
+                    }
+                    if tag.hasPrefix(",") {
+                        tag = String(tag.dropFirst())
+                    }
+                    if tag.hasSuffix(",") {
+                        tag = String(tag.dropLast())
+                    }
+                    if let range = tag.range(of: ",,") {
+                        tag.replaceSubrange(range, with: ",")
+                    }
+                    score.tag = tag
+                    scoreRealm.add(score, update: .all)
                 }
-                if tag.hasPrefix(",") {
-                    tag = String(tag.dropFirst())
-                }
-                if tag.hasSuffix(",") {
-                    tag = String(tag.dropLast())
-                }
-                if let range = tag.range(of: ",,") {
-                    tag.replaceSubrange(range, with: ",")
-                }
-                scoreRealm.updateForTag(score: score, tag: tag)
             }
         }
         
-        scoreRealm.deleteAll(Tag.self)
-        for tag in tagNewArray {
-            scoreRealm.create(data: [tag])
+        try! scoreRealm.write {
+            // 全件削除
+            let obj = scoreRealm.objects(Tag.self)
+            scoreRealm.delete(obj)
+            // 登録
+            for tag in tagNewArray {
+                scoreRealm.add(tag)
+            }
         }
         
         self.dismiss(animated: false, completion: nil)

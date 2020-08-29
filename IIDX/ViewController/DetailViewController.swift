@@ -20,6 +20,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
     @IBOutlet weak var scoreTV: UITableView!
     
     var score: MyScore!
+    let myUD: MyUserDefaults = MyUserDefaults()
     
     struct DetailScore {
         var djName: String
@@ -39,21 +40,17 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         scoreTV.delegate = self
         scoreTV.dataSource = self
         
-        let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
-        let seedRealm: MyRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
+        let scoreRealm: Realm = CommonMethod.createScoreRealm()
+        let seedRealm: Realm = CommonMethod.createSeedRealm()
         
         // バージョン
-        var ret: Code = seedRealm.readEqualAnd(Code.self
-            , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-            , forQuery: [[Const.Value.kindCode.VERSION] as AnyObject, [score.versionId] as AnyObject])
-            .first ?? Code()
+        var ret: Code = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, score.versionId).first ?? Code()
         versionLbl.text = ret.name
         
         // レベル、難易度
-        ret = seedRealm.readEqualAnd(Code.self
-        , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-        , forQuery: [[Const.Value.kindCode.DIFFICULTY] as AnyObject, [score.difficultyId] as AnyObject])
-        .first ?? Code()
+        ret = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.DIFFICULTY, score.difficultyId).first ?? Code()
         difficultyLbl.text = "☆\(score.level) \(ret.name ?? "")"
 
         // タイトル
@@ -69,7 +66,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         // スコア表示データ作成
         var detailScore: DetailScore!
         // 自分
-        let myStatus: MyStatus = scoreRealm.readAll(MyStatus.self).first ?? MyStatus()
+        let myStatus: MyStatus = scoreRealm.objects(MyStatus.self).first ?? MyStatus()
         var dn: String = myStatus.djName ?? ""
         var dl: Int = score.djLevel
         var s: String = convertHyphenStr(s: score.score )
@@ -80,9 +77,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         scoreArray.append(detailScore)
         
         // 自分（過去スコア）
-        if let oldScore: OldScore
-            = scoreRealm.readEqual(OldScore.self, ofTypes: OldScore.Types.id.rawValue
-                , forQuery: [score.oldScoreId] as AnyObject).first {
+        if let oldScore: OldScore = scoreRealm.objects(OldScore.self)
+            .filter("\(OldScore.Types.id.rawValue) = %@", score.oldScoreId).first {
+            
             dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.OLD_SCORE
             dl = oldScore.djLevel
             s = convertHyphenStr(s: oldScore.score ?? "")
@@ -97,13 +94,12 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         }
         
         // ライバル
-        let rivals: Results<RivalStatus> = scoreRealm.readAllByPlayStyle(RivalStatus.self)
+        let rivals: Results<RivalStatus> = scoreRealm.objects(RivalStatus.self)
+            .filter("\(RivalStatus.Types.playStyle.rawValue) = %@", myUD.getPlayStyle())
         for rival in rivals {
-            let rivalScores: Results<RivalScore> = scoreRealm.readEqualAndByPlayStyle(RivalScore.self
-                , ofTypes: [RivalScore.Types.iidxId.rawValue, RivalScore.Types.title.rawValue
-                    , RivalScore.Types.difficultyId.rawValue, RivalScore.Types.level.rawValue]
-                , forQuery: [[rival.iidxId] as AnyObject, [score.title] as AnyObject
-                    , [score.difficultyId] as AnyObject, [score.level] as AnyObject])
+            let rivalScores: Results<RivalScore> = scoreRealm.objects(RivalScore.self)
+                .filter("\(RivalScore.Types.iidxId.rawValue) = %@ and \(RivalScore.Types.title.rawValue) = %@ and \(RivalScore.Types.difficultyId.rawValue) = %@ and \(RivalScore.Types.level.rawValue) = %@ and \(RivalScore.Types.playStyle.rawValue) = %@"
+                    , rival.iidxId!, score.title!, score.difficultyId, score.level, myUD.getPlayStyle())
             if !rivalScores.isEmpty {
                 let rivalScore: RivalScore = rivalScores.first ?? RivalScore()
                 dn = rival.djName ?? ""
@@ -132,16 +128,18 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return scoreArray.count
     }
     
-    
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
@@ -235,8 +233,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         return cell
     }
     
-    
-    /// セルタップ時
+    /*
+     セルタップ時
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
        // タップしたセルを取得
@@ -250,8 +249,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         }
     }
 
-    
-    /// タッチイベント
+    /*
+     タッチイベント
+     */
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         Log.debugStart(cls: String(describing: self), method: #function)
         super.touchesEnded(touches, with: event)
@@ -263,24 +263,27 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// Closeボタン押下
+    /*
+     Closeボタン押下
+     */
     @IBAction func tapCloseBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// 上にスワイプ
+    /*
+     上にスワイプ
+     */
     @IBAction func swipeUp(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// スコアが"0(0/0)"の場合は"-"に変換する
+    /*
+     スコアが"0(0/0)"の場合は"-"に変換する
+     */
     private func convertHyphenStr(s: String) -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: String = ""
@@ -293,8 +296,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         return ret
     }
     
-    
-    /// スコアレート文字列作成
+    /*
+     スコアレート文字列作成
+     */
     private func makeScoreRateStr(scoreRate: Double) -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: String = ""

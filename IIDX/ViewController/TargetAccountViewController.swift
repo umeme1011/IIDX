@@ -29,11 +29,12 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         taTV.delegate = self
         taTV.dataSource = self
         
-        let realm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        let realm = CommonMethod.createScoreRealm()
         // マイステータスTBL取得
-        myStatus = realm.readAll(MyStatus.self)
+        myStatus = realm.objects(MyStatus.self)
         // ライバルステータスTBL取得
-        rivalStatuses = realm.readAllByPlayStyle(RivalStatus.self)
+        rivalStatuses = realm.objects(RivalStatus.self)
+            .filter("\(RivalStatus.Types.playStyle.rawValue) = %@", myUD.getPlayStyle())
         
         // 対象アカウント取得
         target = myUD.getTarget()
@@ -51,16 +52,18 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return myStatus.count + rivalStatuses.count
     }
     
-    
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
@@ -96,8 +99,9 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         return cell
     }
     
-    
-    /// セルをタップ
+    /*
+     セルをタップ
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -115,8 +119,9 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// ミスカウントなしボタン押下
+    /*
+     ミスカウントなしボタン押下
+     */
     @IBAction func tapNoMissCountBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
@@ -127,8 +132,9 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// ミスカウントありボタン押下
+    /*
+     ミスカウントありボタン押下
+     */
     @IBAction func tapYesMissCountBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -139,8 +145,9 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// Doneボタン押下
+    /*
+     Doneボタン押下
+     */
     @IBAction func tapDoneBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -152,16 +159,18 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
             .dismiss(animated: false, completion: nil)
     }
     
-    
-    /// Backボタン押下
+    /*
+     Backボタン押下
+     */
     @IBAction func tapBackBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-
-    /// 右にスワイプ
+    /*
+     右にスワイプ
+     */
     @IBAction func swipeRight(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)

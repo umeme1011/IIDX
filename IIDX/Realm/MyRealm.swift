@@ -8,6 +8,9 @@
 
 import RealmSwift
 
+/*
+ 使わない！
+ */
 class MyRealm {
 
     var realm: Realm
@@ -110,11 +113,11 @@ class MyRealm {
     
     /// 更新系
     
-    func create<T: Object>(data: [T]) {
-        try! realm.write {
-            realm.add(data)
-        }
-    }
+//    func create<T: Object>(data: [T]) {
+//        try! realm.write {
+//            realm.add(data)
+//        }
+//    }
 
     func update<T: Object>(data: [T]) {
         try! realm.write {

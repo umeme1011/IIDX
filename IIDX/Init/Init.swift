@@ -73,26 +73,6 @@ class Init {
                     ret = "初期データ登録完了！"
                 }
             }
-            
-            //test start
-//            let seedRealm: MyRealm = MyRealm.init(path: seedRealmPath)
-//            let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.FILE_NAME)
-//            for title in titles {
-//                var t = ""
-//                if title.isEmpty {
-//                   break
-//                }
-//                t = title.components(separatedBy: Const.Csv.SEPARATER)[1]
-//                // タイトルから旧SeedDBを検索
-//                let songs: Results<Song> = seedRealm.readEqual(Song.self, ofTypes: Song.Types.title.rawValue
-//                    , forQuery: [t] as AnyObject)
-//
-//                if !songs.isEmpty {
-//                    print(t)
-//                }
-//            }
-            // test end
-            
         } catch {
             Log.error(cls: String(describing: self), method: #function, msg: "初期処理エラー")
         }
