@@ -206,7 +206,7 @@ extension Import {
                             
                             // ミスカウント
                             for node in doc.css("div.music-detail") {
-                                let misscnt: String = node.css("td")[7].text!
+                                let misscnt: Int = Int(node.css("td")[7].text!) ?? 9999
                                 let dif: String = node.css("th")[0].text ?? ""
                                 // SP
                                 if playStyle == Const.Value.PlayStyle.SINGLE {
@@ -243,11 +243,11 @@ extension Import {
                         hScore.selectCount = 0
                         aScore.selectCount = 0
                         lScore.selectCount = 0
-                        bScore.missCount = Const.Label.Score.HYPHEN
-                        nScore.missCount = Const.Label.Score.HYPHEN
-                        hScore.missCount = Const.Label.Score.HYPHEN
-                        aScore.missCount = Const.Label.Score.HYPHEN
-                        lScore.missCount = Const.Label.Score.HYPHEN
+                        bScore.missCount = 9999
+                        nScore.missCount = 9999
+                        hScore.missCount = 9999
+                        aScore.missCount = 9999
+                        lScore.missCount = 9999
                     }
                 }
                 
@@ -376,7 +376,7 @@ extension Import {
                                 
                                 // ミスカウント
                                 for node in doc.css("div.music-detail-rival") {
-                                    let misscnt: String = node.css("td")[14].text!
+                                    let misscnt: Int = Int(node.css("td")[14].text!) ?? 9999
                                     let dif: String = node.css("th")[0].text ?? ""
                                     // SP
                                     if playStyle == Const.Value.PlayStyle.SINGLE {
@@ -408,11 +408,11 @@ extension Import {
                                 }
                             }
                         } else {
-                            bScore.missCount = Const.Label.Score.HYPHEN
-                            nScore.missCount = Const.Label.Score.HYPHEN
-                            hScore.missCount = Const.Label.Score.HYPHEN
-                            aScore.missCount = Const.Label.Score.HYPHEN
-                            lScore.missCount = Const.Label.Score.HYPHEN
+                            bScore.missCount = 9999
+                            nScore.missCount = 9999
+                            hScore.missCount = 9999
+                            aScore.missCount = 9999
+                            lScore.missCount = 9999
                         }
                     }
                     

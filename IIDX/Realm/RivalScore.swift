@@ -19,7 +19,7 @@ class RivalScore: RealmSwift.Object {
     @objc dynamic var djLevel: Int = 0
     @objc dynamic var score: String?
     @objc dynamic var scoreRate: Double = 0
-    @objc dynamic var missCount: String?
+    @objc dynamic var missCount: Int = 9999
     @objc dynamic var versionId: Int = 0
     @objc dynamic var indexId: Int = 0
     @objc dynamic var createDate = Date()

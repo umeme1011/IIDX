@@ -28,7 +28,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         var score: String
         var scoreRate: String
         var clearLump: Int
-        var missCount: String
+        var missCount: Int
     }
     var scoreArray: [DetailScore] = [DetailScore]()
 
@@ -72,7 +72,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         var s: String = convertHyphenStr(s: score.score )
         var sr: String = makeScoreRateStr(scoreRate: score.scoreRate)
         var cl: Int = score.clearLump
-        var mc: String = score.missCount
+        var mc: Int = score.missCount
         detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
         scoreArray.append(detailScore)
         
@@ -85,7 +85,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             s = convertHyphenStr(s: oldScore.score ?? "")
             sr = makeScoreRateStr(scoreRate: oldScore.scoreRate)
             cl = oldScore.clearLump
-            mc = oldScore.missCount ?? ""
+            mc = oldScore.missCount
             detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
             scoreArray.append(detailScore)
             
@@ -107,7 +107,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
                 s = convertHyphenStr(s: rivalScore.score ?? "")
                 sr = makeScoreRateStr(scoreRate: rivalScore.scoreRate)
                 cl = rivalScore.clearLump
-                mc = rivalScore.missCount ?? ""
+                mc = rivalScore.missCount
                 detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
                 scoreArray.append(detailScore)
             }
@@ -147,7 +147,15 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
 
         let detailScore: DetailScore = scoreArray[indexPath.row]
         cell.djNameLbl.text = detailScore.djName
-        cell.missCntLbl.text = detailScore.missCount
+        
+        // ミスカウント
+        var miss: String = ""
+        if detailScore.missCount == 9999 {
+            miss = Const.Label.Score.HYPHEN
+        } else {
+            miss = String(detailScore.missCount)
+        }
+        cell.missCntLbl.text = miss
         
         // スコア
         if detailScore.score == Const.Label.Score.HYPHEN {

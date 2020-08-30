@@ -144,8 +144,8 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         mcToolbar.setItems([mcCancelItem, mcSpacelItem, mcDoneItem], animated: true)
         
         missCountTF.inputAccessoryView = mcToolbar
-        var missCnt: String = score.missCount
-        if missCnt == Const.Label.Score.HYPHEN {
+        var missCnt: String = String(score.missCount)
+        if score.missCount == 9999 {
             missCnt = ""
         }
         missCountTF.text = missCnt
@@ -220,9 +220,9 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         // scoreRate
         let scoreRate: Double = CommonMethod.calcurateScoreRate(score: s, totalNotes: score.totalNotes)
         // misscount
-        var missCount: String = missCountTF.text ?? ""
-        if missCount == "" || missCount == "0" {
-            missCount = Const.Label.Score.HYPHEN
+        var missCount: Int = Int(missCountTF.text ?? "") ?? 9999
+        if missCountTF.text == "" || missCount == 0 {
+            missCount = 9999
         }
         // tag
         var tagStr: String = ""

@@ -170,16 +170,16 @@ class MyRealm {
     /// 詳細編集用
     func updateForDetail(score: MyScore, clearLump: Int, djLevel: Int
         , s: String, scoreRate: Double, missCount: String, tag: String) {
-        try! realm.write {
-            score.clearLump = clearLump
-            score.djLevel = djLevel
-            score.score = s
-            score.scoreRate = scoreRate
-            score.missCount = missCount
-            score.tag = tag
-            score.updateDate = Date()
-            realm.add(score, update: .all)
-        }
+//        try! realm.write {
+//            score.clearLump = clearLump
+//            score.djLevel = djLevel
+//            score.score = s
+//            score.scoreRate = scoreRate
+//            score.missCount = missCount
+//            score.tag = tag
+//            score.updateDate = Date()
+//            realm.add(score, update: .all)
+//        }
     }
 
 

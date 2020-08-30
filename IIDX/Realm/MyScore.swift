@@ -21,7 +21,7 @@ class MyScore: RealmSwift.Object {
     @objc dynamic var djLevel: Int = 1      // 1 : No Play
     @objc dynamic var score: String = Const.Label.Score.ZERO
     @objc dynamic var scoreRate: Double = 0
-    @objc dynamic var missCount: String = Const.Label.Score.HYPHEN
+    @objc dynamic var missCount: Int = 9999
     @objc dynamic var versionId: Int = 0
     @objc dynamic var indexId: Int = 0
     @objc dynamic var selectCount: Int = 0

@@ -234,6 +234,10 @@ class Operation {
             sorts.append(SortDescriptor(keyPath:MyScore.Types.versionId.rawValue, ascending: true))
         case Const.Value.Sort.VERSION_DESK:
             sorts.append(SortDescriptor(keyPath:MyScore.Types.versionId.rawValue, ascending: false))
+        case Const.Value.Sort.MISS_COUNT_ASK:
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.missCount.rawValue, ascending: true))
+        case Const.Value.Sort.MISS_COUNT_DESC:
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.missCount.rawValue, ascending: false))
         default:
             sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: true))
         }

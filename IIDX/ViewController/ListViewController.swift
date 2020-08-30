@@ -82,7 +82,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.scoreLbl.text = "score: \(score)"
         
         // ミスカウント
-        let missCount: String = String(describing: scores[indexPath.row].missCount)
+        var missCount: String = String(describing: scores[indexPath.row].missCount)
+        if scores[indexPath.row].missCount == 9999 {
+            missCount = Const.Label.Score.HYPHEN
+        }
         cell.missLbl.text = "miss: \(missCount)"
         
         // スコアレート
