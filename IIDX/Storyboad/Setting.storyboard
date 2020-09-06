@@ -19,19 +19,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="8zJ-cY-hlI">
-                                        <rect key="frame" x="16" y="58" width="108" height="246"/>
+                                        <rect key="frame" x="16" y="58" width="138" height="300"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwM-tg-DND">
-                                                <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
-                                                <state key="normal" title="インポート設定">
+                                                <rect key="frame" x="0.0" y="0.0" width="138" height="30"/>
+                                                <state key="normal" title="取込対象アカウント">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
                                                     <segue destination="gq6-tT-f9u" kind="presentation" identifier="toTargetAccount" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="BAP-A8-lOU"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-bt-NV5">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oka-M9-Vdq">
                                                 <rect key="frame" x="0.0" y="54" width="108" height="30"/>
+                                                <state key="normal" title="取込対象ページ">
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="jmV-DL-6qD" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="TzI-92-b9v"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-bt-NV5">
+                                                <rect key="frame" x="0.0" y="108" width="108" height="30"/>
                                                 <state key="normal" title="アカウント設定">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -40,7 +49,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cK1-Yj-p5w">
-                                                <rect key="frame" x="0.0" y="108" width="62" height="30"/>
+                                                <rect key="frame" x="0.0" y="162" width="62" height="30"/>
                                                 <state key="normal" title="タグ編集">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -49,7 +58,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0c-bl-KhX">
-                                                <rect key="frame" x="0.0" y="162" width="108" height="30"/>
+                                                <rect key="frame" x="0.0" y="216" width="108" height="30"/>
                                                 <state key="normal" title="バージョン設定">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -58,7 +67,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSF-aT-yFB">
-                                                <rect key="frame" x="0.0" y="216" width="77" height="30"/>
+                                                <rect key="frame" x="0.0" y="270" width="77" height="30"/>
                                                 <state key="normal" title="アプリ情報">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -118,7 +127,15 @@
                 <viewControllerPlaceholder storyboardName="TargetAccount" id="gq6-tT-f9u" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CJ3-gp-czj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="663" y="-111"/>
+            <point key="canvasLocation" x="676" y="-229"/>
+        </scene>
+        <!--TargetPage-->
+        <scene sceneID="hpl-Qk-djn">
+            <objects>
+                <viewControllerPlaceholder storyboardName="TargetPage" id="jmV-DL-6qD" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zsg-mF-9bi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="675" y="-103"/>
         </scene>
         <!--Account-->
         <scene sceneID="KiP-jt-ZPd">
@@ -158,7 +175,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="Mode" storyboardName="Mode" id="mB2-om-4L1" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EEq-Lu-Kh4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="618" y="-210"/>
+            <point key="canvasLocation" x="618" y="-342"/>
         </scene>
     </scenes>
 </document>

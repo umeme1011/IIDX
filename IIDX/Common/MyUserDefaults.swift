@@ -16,14 +16,18 @@ class MyUserDefaults {
         version = String(getVersion())
     }
     
-    // すべて初期化
+    /*
+     すべて初期化
+     */
     func initAll() {
         if let domain = Bundle.main.bundleIdentifier {
             ud.removePersistentDomain(forName: domain)
         }
     }
-    
-    // バージョンごとに初期化
+
+    /*
+     バージョンごとに初期化
+     */
     func initVersion() {
         for (key, value) in ud.dictionaryRepresentation().sorted(by: { $0.0 < $1.0 }) {
             if key.contains(String(getVersion())) {
@@ -33,7 +37,27 @@ class MyUserDefaults {
         }
     }
     
-    // Setting
+    // プレイスタイル
+    func setPlayStyle(playStyle : Int) {
+        ud.set(playStyle, forKey: "playStyle\(String(getVersion()))")
+    }
+    
+    func getPlayStyle() -> Int {
+        return ud.object(forKey: "playStyle\(String(getVersion()))") as? Int ?? Const.Value.PlayStyle.SINGLE
+    }
+    
+    // 更新お知らせ表示フラグ
+    func setUpdateInfoFlg(flg : Bool) {
+        ud.set(flg, forKey: "updateInfoFlg\(String(getVersion()))")
+    }
+    
+    func getUpdateInfoFlg() -> Bool {
+        return ud.object(forKey: "updateInfoFlg\(String(getVersion()))") as? Bool ?? true
+    }
+    
+    /*
+     設定（SPDP共通）
+     */
     func setVersion(no: Int) {
         ud.set(no, forKey: "version")
     }
@@ -58,264 +82,166 @@ class MyUserDefaults {
         return ud.object(forKey: "password\(String(getVersion()))") as? String ?? ""
     }
     
+    /*
+     設定（SPDP毎）
+     */
     func setTarget(target : String) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(target, forKey: "targetDP\(String(getVersion()))")
-        } else {
-            ud.set(target, forKey: "targetSP\(String(getVersion()))")
-        }
+        ud.set(target, forKey: "target\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getTarget() -> String {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "targetDP\(String(getVersion()))") as? String ?? ""
-        } else {
-            return ud.object(forKey: "targetSP\(String(getVersion()))") as? String ?? ""
-        }
+        return ud.object(forKey: "target\(getPlayStyle())\(String(getVersion()))") as? String ?? ""
     }
     
     func setMissCountFlg(flg: Bool) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(flg, forKey: "missCountFlgDP\(String(getVersion()))")
-        } else {
-            ud.set(flg, forKey: "missCountFlgSP\(String(getVersion()))")
-        }
+        ud.set(flg, forKey: "missCountFlg\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getMissCountFlg() -> Bool{
         // 初期値ミスカウント取り込みあり
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "missCountFlgDP\(String(getVersion()))") as? Bool ?? true
-        } else {
-            return ud.object(forKey: "missCountFlgSP\(String(getVersion()))") as? Bool ?? true
-        }
+        return ud.object(forKey: "missCountFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
     }
     
     func setMode(mode : Int) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(mode, forKey: "modeDP\(String(getVersion()))")
-        } else {
-            ud.set(mode, forKey: "modeSP\(String(getVersion()))")
-        }
+        ud.set(mode, forKey: "mode\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getMode() -> Int {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "modeDP\(String(getVersion()))") as? Int ?? Const.Value.Mode.EDIT_MODE
-        } else {
-            return ud.object(forKey: "modeSP\(String(getVersion()))") as? Int ?? Const.Value.Mode.EDIT_MODE
-        }
+        return ud.object(forKey: "mode\(getPlayStyle())\(String(getVersion()))") as? Int ?? Const.Value.Mode.EDIT_MODE
     }
-
-    
-    // プレイスタイル
-    
-    func setPlayStyle(playStyle : Int) {
-        ud.set(playStyle, forKey: "playStyle\(String(getVersion()))")
-    }
-    
-    func getPlayStyle() -> Int {
-        return ud.object(forKey: "playStyle\(String(getVersion()))") as? Int ?? Const.Value.PlayStyle.SINGLE
-    }
-    
     
     // 初回取り込みかどうか
-    
     func setFirstLoadFlg(firstLoadFlg: Bool) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(firstLoadFlg, forKey: "firstLoadFlgDP\(String(getVersion()))")
-        } else {
-            ud.set(firstLoadFlg, forKey: "firstLoadFlgSP\(String(getVersion()))")
-        }
+        ud.set(firstLoadFlg, forKey: "firstLoadFlg\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getFirstLoadFlg() -> Bool {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "firstLoadFlgDP\(String(getVersion()))") as? Bool ?? true
-        } else {
-            return ud.object(forKey: "firstLoadFlgSP\(String(getVersion()))") as? Bool ?? true
-        }
+        return ud.object(forKey: "firstLoadFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
     }
-    
-    
-    // 更新お知らせ表示フラグ
-    
-    func setUpdateInfoFlg(flg : Bool) {
-        ud.set(flg, forKey: "updateInfoFlg\(String(getVersion()))")
-    }
-    
-    func getUpdateInfoFlg() -> Bool {
-        return ud.object(forKey: "updateInfoFlg\(String(getVersion()))") as? Bool ?? true
-    }
-    
-//
-//    // SeedDB更新ありフラグ
-//    
-//    func setSeedUpdFlg(flg : Bool) {
-//        ud.set(flg, forKey: "seedUpdFlg")
-//    }
-//    
-//    func getSeedUpdFlg() -> Bool {
-//        // 初期値：更新あり
-//        return ud.object(forKey: "seedUpdFlg") as? Bool ?? true
-//    }
-    
     
     // ソート
-    
     func setSort(sort: Int) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(sort, forKey: "sortDP\(String(getVersion()))")
-        } else {
-            ud.set(sort, forKey: "sortSP\(String(getVersion()))")
-        }
+        ud.set(sort, forKey: "sort\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getSort() -> Int {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "sortDP\(String(getVersion()))") as? Int ?? Const.Value.Sort.INDEX_ASK
-        } else {
-            return ud.object(forKey: "sortSP\(String(getVersion()))") as? Int ?? Const.Value.Sort.INDEX_ASK
-        }
+        return ud.object(forKey: "sort\(getPlayStyle())\(String(getVersion()))") as? Int ?? Const.Value.Sort.INDEX_ASK
     }
     
-    
     // フィルター
-    
     func setFoldingFlgArray(array: [Bool]) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(array, forKey: "foldingFlgArrayDP\(String(getVersion()))")
-        } else {
-            ud.set(array, forKey: "foldingFlgArraySP\(String(getVersion()))")
-        }
+        ud.set(array, forKey: "foldingFlgArray\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getFoldingFlgArray() -> [Bool] {
         // 初期値：全セクション折りたたみ状態
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "foldingFlgArrayDP\(String(getVersion()))")
-                as? [Bool] ?? [false, false, false, false, false, false, false]
-        } else {
-            return ud.object(forKey: "foldingFlgArraySP\(String(getVersion()))")
-                as? [Bool] ?? [false, false, false, false, false, false, false]
-        }
+        return ud.object(forKey: "foldingFlgArray\(getPlayStyle())\(String(getVersion()))")
+            as? [Bool] ?? [false, false, false, false, false, false, false]
     }
 
     func setRivalFoldingFlgArray(array: [Bool]) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(array, forKey: "rivalFoldingFlgArrayDP\(String(getVersion()))")
-        } else {
-            ud.set(array, forKey: "rivalFoldingFlgArraySP\(String(getVersion()))")
-        }
+        ud.set(array, forKey: "rivalFoldingFlgArray\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getRivalFoldingFlgArray() -> [Bool] {
         // 初期値：全セクション折りたたみ状態
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "rivalFoldingFlgArrayDP\(String(getVersion()))")
-                as? [Bool] ?? [false, false, false, false]
-        } else {
-            return ud.object(forKey: "rivalFoldingFlgArraySP\(String(getVersion()))")
-                as? [Bool] ?? [false, false, false, false]
-        }
+        return ud.object(forKey: "rivalFoldingFlgArray\(getPlayStyle())\(String(getVersion()))")
+            as? [Bool] ?? [false, false, false, false]
     }
 
     func setTagFoldingFlg(flg: Bool) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(flg, forKey: "tagFoldingFlgDP\(String(getVersion()))")
-        } else {
-            ud.set(flg, forKey: "tagFoldingFlgSP\(String(getVersion()))")
-        }
+        ud.set(flg, forKey: "tagFoldingFlg\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getTagFoldingFlg() -> Bool {
         // 初期値：全セクション折りたたみ状態
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "tagFoldingFlgDP\(String(getVersion()))")
-                as? Bool ?? false
-        } else {
-            return ud.object(forKey: "tagFoldingFlgSP\(String(getVersion()))")
-                as? Bool ?? false
-        }
+        return ud.object(forKey: "tagFoldingFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
     }
 
     func setCheckDic(dic: Data) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(dic, forKey: "checkDicDP\(String(getVersion()))")
-        } else {
-            ud.set(dic, forKey: "checkDicSP\(String(getVersion()))")
-        }
+        ud.set(dic, forKey: "checkDic\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getCheckDic() -> Data {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "checkDicDP\(String(getVersion()))") as? Data ?? Data()
-        } else {
-            return ud.object(forKey: "checkDicSP\(String(getVersion()))") as? Data ?? Data()
-        }
+        return ud.object(forKey: "checkDic\(getPlayStyle())\(String(getVersion()))") as? Data ?? Data()
     }
 
     func setRivalCheckDic(dic: Data) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(dic, forKey: "rivalCheckDicDP\(String(getVersion()))")
-        } else {
-            ud.set(dic, forKey: "rivalCheckDicSP\(String(getVersion()))")
-        }
+        ud.set(dic, forKey: "rivalCheckDic\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getRivalCheckDic() -> Data {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "rivalCheckDicDP\(String(getVersion()))") as? Data ?? Data()
-        } else {
-            return ud.object(forKey: "rivalCheckDicSP\(String(getVersion()))") as? Data ?? Data()
-        }
+        return ud.object(forKey: "rivalCheckDic\(getPlayStyle())\(String(getVersion()))") as? Data ?? Data()
     }
 
     func setTagCheckArray(array: [String]) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(array, forKey: "tagCheckDicDP\(String(getVersion()))")
-        } else {
-            ud.set(array, forKey: "tagCheckDicSP\(String(getVersion()))")
-        }
+        ud.set(array, forKey: "tagCheckDic\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getTagCheckArray() -> [String] {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "tagCheckDicDP\(String(getVersion()))") as? [String] ?? [String]()
-        } else {
-            return ud.object(forKey: "tagCheckDicSP\(String(getVersion()))") as? [String] ?? [String]()
-        }
+        return ud.object(forKey: "tagCheckDic\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
     }
 
     func setSearchWord(word: String) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(word, forKey: "searchWordDP\(String(getVersion()))")
-        } else {
-            ud.set(word, forKey: "searchWordSP\(String(getVersion()))")
-        }
+        ud.set(word, forKey: "searchWord\(getPlayStyle())\(String(getVersion()))")
     }
     
     func getSearchWord() -> String {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "searchWordDP\(String(getVersion()))") as? String ?? ""
-        } else {
-            return ud.object(forKey: "searchWordSP\(String(getVersion()))") as? String ?? ""
-        }
+        return ud.object(forKey: "searchWord\(getPlayStyle())\(String(getVersion()))") as? String ?? ""
     }
     
     func setTitleArray(title: [String]) {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            ud.set(title, forKey: "titleArrayDP\(String(getVersion()))")
-        } else {
-            ud.set(title, forKey: "titleArraySP\(String(getVersion()))")
-        }
+        ud.set(title, forKey: "titleArray\(getPlayStyle())\(String(getVersion()))")
     }
 
     func getTitleArray() -> [String] {
-        if getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
-            return ud.object(forKey: "titleArrayDP\(String(getVersion()))") as? [String] ?? [String]()
-        } else {
-            return ud.object(forKey: "titleArraySP\(String(getVersion()))") as? [String] ?? [String]()
-        }
+        return ud.object(forKey: "titleArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
     }
+    
+    // 取込対象ページ
+    func setTargetPage(target: Int) {
+        ud.set(target, forKey: "targetPage\(getPlayStyle())\(String(getVersion()))")
+    }
+
+    func getTargetPage() -> Int {
+        return ud.object(forKey: "targetPage\(getPlayStyle())\(String(getVersion()))")
+            as? Int ?? Const.Value.TargetPage.LEVEL
+    }
+    
+    // 取込対象ページのレベルチェック
+    func setTargetPageLevelCheckArray(array: [String]) {
+        ud.set(array, forKey: "levelCheckArray\(getPlayStyle())\(String(getVersion()))")
+    }
+    
+    func getTargetPageLevelCheckArray() -> [String] {
+        return ud.object(forKey: "levelCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
+    }
+
+    // 取込対象ページのバージョンチェック
+    func setTargetPageVersionCheckArray(array: [String]) {
+        ud.set(array, forKey: "versionCheckArray\(getPlayStyle())\(String(getVersion()))")
+    }
+    
+    func getTargetPageVersionCheckArray() -> [String] {
+        return ud.object(forKey: "versionCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
+    }
+
+    // 取込対象ページのレベル全選択チェック
+    func setTargetPageLevelAllFlg(flg: Bool) {
+        ud.set(flg, forKey: "targetPageLevelAllFlg\(getPlayStyle())\(String(getVersion()))")
+    }
+    
+    func getTargetPageLevelAllFlg() -> Bool {
+        return ud.object(forKey: "targetPageLevelAllFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
+    }
+
+    // 取込対象ページのバージョン全選択チェック
+    func setTargetPageVersionAllFlg(flg: Bool) {
+        ud.set(flg, forKey: "targetPageVersionAllFlg\(getPlayStyle())\(String(getVersion()))")
+    }
+    
+    func getTargetPageVersionAllFlg() -> Bool {
+        return ud.object(forKey: "targetPageVersionAllFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
+    }
+
 }

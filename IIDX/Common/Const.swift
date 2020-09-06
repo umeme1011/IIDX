@@ -14,7 +14,7 @@ class Const {
     // DEVELOP true:5thStyleまで同期 false:全バージョン同期
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = false
+        static let DEBUG_LOG = true
     }
     
     // Version
@@ -175,6 +175,10 @@ class Const {
         class Mode {
             static let IMPORT_MODE = 1
             static let EDIT_MODE = 2
+        }
+        class TargetPage {
+            static let LEVEL = 1
+            static let VERSION = 2
         }
     }
 
