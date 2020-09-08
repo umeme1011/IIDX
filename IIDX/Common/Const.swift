@@ -87,6 +87,11 @@ class Const {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/difficulty.html"
             return url
         }
+        
+        func getDifficultyRivalUrl() -> String {
+            let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/difficulty_rival.html"
+            return url
+        }
     }
     
     // Value
@@ -282,7 +287,7 @@ class Const {
     // メッセージ
     class Message {
         static let IMPORT_COMPLETE = "スコアデータ取込完了！"
-        static let IMPORT_FAILED = "スコアデータの取込に失敗しました。"
+        static let IMPORT_FAILED = "スコアデータの取込に失敗しました。\n公式サイトにデータが存在しない、またはメンテナンス中の可能性があります。"
         static let IMPORT_CANCEL = "スコアデータの取込をキャンセルしました。"
         static let NO_TARGET_ACCOUNT = "取込対象のアカウントを選択してください。"
         static let VERSION_CHANGE_COMFIRM = "バージョンを切り替えます。よろしいですか？"
@@ -293,6 +298,7 @@ class Const {
         static let RESET_COMPLETE = "リセットしました。"
         static let SEED_DB_IMPORT_COMPLETE = "初期データ取り込み完了！"
         static let SEED_DB_UPDATE_COMPLETE = "楽曲データを更新しました！"
+        static let NO_TARGET_LEVEL_VERSION = "設定の「取込対象ページ」より取込対象の難易度またはシリーズを選択してください。"
     }
     
     // ログ

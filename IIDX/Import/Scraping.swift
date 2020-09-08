@@ -10,7 +10,9 @@ import Kanna
 
 extension Import {
     
-    /// マイステータスページHTMLパース
+    /*
+     マイステータスページHTMLパース
+     */
     func parseMyStatus(html: String) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -62,8 +64,9 @@ extension Import {
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// ライバルリストページHTMLパース
+    /*
+     ライバルリストページHTMLパース
+     */
     func parseRivalList(html: String) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
@@ -126,10 +129,149 @@ extension Import {
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    
-    /// マイスコアパース
-    func parseMyScore(html: String, iidxId: String, djName: String, versionName: String) {
+    /*
+     マイスコア難易度別ページパース
+     */
+    func parseMyScoreTargetLevel(html: String, iidxId: String, djName: String, levelName: String, offset: Int) -> Bool {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
+        if let doc = try? HTML(html: html, encoding: .utf8) {
+            if doc.css("div.series-difficulty").count == 0 {
+                if offset == 0 {
+                    // 取込失敗とみなす
+                    Log.error(cls: String(describing: self), method: #function, msg: Const.Log.SCRAPING_001)
+                    stopFlg = true
+                }
+                // 最後のページまで終了
+                return false
+            }
+
+            // １行ごとに取得
+            for node1 in doc.css("div.series-difficulty")[0].css("tr") {
+                
+                if isCancel(msg: "parseMyScore " + levelName) { return false }
+                
+                // ヘッダ行は飛ばす
+                if node1.css("a").count == 0 {
+                    continue
+                }
+                
+                let myScore: MyScore = MyScore()
+                
+                // title
+                let title: String = node1.css("a")[0].text!
+                // difficulty
+                let difficulty: Int = getDifficulty(src: node1.css("td")[1].text!)
+                // djLevel
+                let djLevel: Int = getDjLevel(src: node1.css("td")[2].innerHTML!)
+                // score
+                var score: String = node1.css("td")[3].innerHTML!
+                score.replaceSubrange(score.range(of: "<br>")!, with: "")
+                // clearLump
+                let clearLump: Int = getClearLump(src: node1.css("td")[4].innerHTML!)
+                
+                print(title)
+                print(difficulty)
+                print(djLevel)
+                print(score)
+                print(clearLump)
+                
+                myScore.title = title
+                myScore.difficultyId = difficulty
+                myScore.djLevel = djLevel
+                myScore.score = score
+                myScore.clearLump = clearLump
+                
+                myScore.playStyle = playStyle
+                
+                myScoreArray.append(myScore)
+                
+                // 進捗
+                DispatchQueue.main.async {
+                    self.mainVC.progressLbl.text
+                        = djName + " " + levelName + " " + title
+                }
+            }
+        }
+        print(myScoreArray)
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return true
+    }
+
+    /*
+     ライバルスコア難易度別ページパース
+     */
+    func parseRivalScoreTargetLevel(html: String, iidxId: String, djName: String, levelName: String, offset: Int) -> Bool {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
+        if let doc = try? HTML(html: html, encoding: .utf8) {
+            if doc.css("div.series-difficulty").count == 0 {
+                if offset == 0 {
+                    // 取込失敗とみなす
+                    Log.error(cls: String(describing: self), method: #function, msg: Const.Log.SCRAPING_001)
+                    stopFlg = true
+                }
+                // 最後のページまで終了
+                return false
+            }
+
+            // １行ごとに取得
+            for node1 in doc.css("div.series-difficulty")[0].css("tr") {
+                
+                if isCancel(msg: "parseRivalScore " + levelName) { return false }
+                
+                // ヘッダ行は飛ばす
+                if node1.css("a").count == 0 {
+                    continue
+                }
+                
+                let rivalScore: RivalScore = RivalScore()
+                
+                // title
+                let title: String = node1.css("a")[0].text!
+                // difficulty
+                let difficulty: Int = getDifficulty(src: node1.css("td")[1].text!)
+                // djLevel
+                let djLevel: Int = getDjLevel(src: node1.css("td")[2].innerHTML!)
+                // score
+                var score: String = node1.css("td")[3].innerHTML!
+                score.replaceSubrange(score.range(of: "<br>")!, with: "")
+                // clearLump
+                let clearLump: Int = getClearLump(src: node1.css("td")[4].innerHTML!)
+                
+                print(title)
+                print(difficulty)
+                print(djLevel)
+                print(score)
+                print(clearLump)
+                
+                rivalScore.title = title
+                rivalScore.difficultyId = difficulty
+                rivalScore.djLevel = djLevel
+                rivalScore.score = score
+                rivalScore.clearLump = clearLump
+                
+                rivalScore.playStyle = playStyle
+                rivalScore.iidxId = iidxId
+                
+                rivalScoreArray.append(rivalScore)
+                
+                // 進捗
+                DispatchQueue.main.async {
+                    self.mainVC.progressLbl.text
+                        = djName + " " + levelName + " " + title
+                }
+            }
+        }
+        print(rivalScoreArray)
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return true
+    }
+
+    /*
+     マイスコアシリーズページパース
+     */
+    func parseMyScoreTargetVersion(html: String, iidxId: String, djName: String, versionName: String) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
         if let doc = try? HTML(html: html, encoding: .utf8) {
@@ -315,9 +457,10 @@ extension Import {
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// ライバルスコアパース
-    func parseRivalScore(html: String, iidxId: String, djName: String, versionName: String) {
+    /*
+     ライバルスコアシリーズページパース
+     */
+    func parseRivalScoreTargetVersion(html: String, iidxId: String, djName: String, versionName: String) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
             if let doc = try? HTML(html: html, encoding: .utf8) {
@@ -480,8 +623,9 @@ extension Import {
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// クリアランプ取得
+    /*
+     クリアランプ取得
+     */
     private func getClearLump(src: String) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: Int = 0
@@ -510,8 +654,9 @@ extension Import {
         return ret
     }
 
-    
-    /// DJレベル取得
+    /*
+     DJレベル取得
+     */
     private func getDjLevel(src: String) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: Int = 0
@@ -542,8 +687,9 @@ extension Import {
         return ret
     }
     
-    
-    /// 難易度取得
+    /*
+     難易度取得
+     */
     private func getDifficulty(src: String) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: Int = 0

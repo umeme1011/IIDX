@@ -210,9 +210,15 @@ extension Import {
                         } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
                             score.level = song.dpa
                             score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpa)
+                        } else if score.difficultyId == Const.Value.Difficulty.LEGGENDARIA {
+                            score.level = song.dpl
+                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpl)
                         }
                     } else {
-                        if score.difficultyId == Const.Value.Difficulty.NORMAL {
+                        if score.difficultyId == Const.Value.Difficulty.BEGINNER {
+                            score.level = song.spb
+                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpb)
+                        } else if score.difficultyId == Const.Value.Difficulty.NORMAL {
                             score.level = song.spn
                             score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpn)
                         } else if score.difficultyId == Const.Value.Difficulty.HYPER {
@@ -221,6 +227,9 @@ extension Import {
                         } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
                             score.level = song.spa
                             score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpa)
+                        } else if score.difficultyId == Const.Value.Difficulty.LEGGENDARIA {
+                            score.level = song.spl
+                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpl)
                         }
                     }
                     // 存在しない難易度は登録しない
