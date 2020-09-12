@@ -300,7 +300,7 @@
                                     <constraint firstAttribute="height" constant="56" id="8am-F5-dae"/>
                                 </constraints>
                                 <string key="text">取込対象の公式ページを選択します。
-※シリーズで取り込めない曲がある場合は難易度別より取り込んでみてください。</string>
+※シリーズには一部載っていない曲があるため難易度別を推奨しますがシリーズの方が速度が早いです。</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>

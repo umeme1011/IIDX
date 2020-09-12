@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 class MyUserDefaults {
     let ud = UserDefaults.standard
@@ -205,7 +206,7 @@ class MyUserDefaults {
 
     func getTargetPage() -> Int {
         return ud.object(forKey: "targetPage\(getPlayStyle())\(String(getVersion()))")
-            as? Int ?? Const.Value.TargetPage.LEVEL
+            as? Int ?? Const.Value.TargetPage.VERSION
     }
     
     // 取込対象ページのレベルチェック
@@ -223,7 +224,15 @@ class MyUserDefaults {
     }
     
     func getTargetPageVersionCheckArray() -> [String] {
-        return ud.object(forKey: "versionCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
+        // 全バージョン取得
+        let seedRealm: Realm = CommonMethod.createSeedRealm();
+        let codes: Results<Code> = seedRealm.objects(Code.self).filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.VERSION).sorted(byKeyPath: Code.Types.code.rawValue)
+        var versionArray: [String] = [String]()
+        for code in codes {
+            versionArray.append(String(code.code))
+        }
+        // 初期値はバージョン全選択
+        return ud.object(forKey: "versionCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? versionArray
     }
 
     // 取込対象ページのレベル全選択チェック
@@ -241,7 +250,7 @@ class MyUserDefaults {
     }
     
     func getTargetPageVersionAllFlg() -> Bool {
-        return ud.object(forKey: "targetPageVersionAllFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
+        return ud.object(forKey: "targetPageVersionAllFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
     }
 
 }

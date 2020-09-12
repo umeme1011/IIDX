@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B96F567ADFFFA3CFE8518F7B /* Pods_IIDX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */; };
-		C329F78224FABDD00056C661 /* iidx_seed_27.3.realm in Resources */ = {isa = PBXBuildFile; fileRef = C329F78124FABDD00056C661 /* iidx_seed_27.3.realm */; };
+		C3025DDC2507D61600390549 /* iidx_seed_27.3.realm in Resources */ = {isa = PBXBuildFile; fileRef = C3025DDB2507D61600390549 /* iidx_seed_27.3.realm */; };
 		C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C338FF0A235236A300FBD47F /* EditSelect.storyboard */; };
 		C338FF0D2352370400FBD47F /* EditSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0C2352370400FBD47F /* EditSelectViewController.swift */; };
 		C338FF0F2353879400FBD47F /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */; };
@@ -88,7 +88,7 @@
 /* Begin PBXFileReference section */
 		08AAAF1DD6A69654DD611564 /* Pods-IIDX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIDX.debug.xcconfig"; path = "Target Support Files/Pods-IIDX/Pods-IIDX.debug.xcconfig"; sourceTree = "<group>"; };
 		6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IIDX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C329F78124FABDD00056C661 /* iidx_seed_27.3.realm */ = {isa = PBXFileReference; lastKnownFileType = file; name = iidx_seed_27.3.realm; path = "../../../../seedDBバックアップ/iidx_seed_27.3.realm"; sourceTree = "<group>"; };
+		C3025DDB2507D61600390549 /* iidx_seed_27.3.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.3.realm; sourceTree = "<group>"; };
 		C338FF0A235236A300FBD47F /* EditSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditSelect.storyboard; sourceTree = "<group>"; };
 		C338FF0C2352370400FBD47F /* EditSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectViewController.swift; sourceTree = "<group>"; };
 		C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -306,7 +306,7 @@
 		C3D7F4D823160E5700B5C895 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				C329F78124FABDD00056C661 /* iidx_seed_27.3.realm */,
+				C3025DDB2507D61600390549 /* iidx_seed_27.3.realm */,
 				C3D7F4DB2316132500B5C895 /* Code.swift */,
 				C3FD10F023182C5000C7A86F /* LastImportDate.swift */,
 				C3FD10E8231780CE00C7A86F /* MyRealm.swift */,
@@ -439,6 +439,7 @@
 				C3D0EF9123221AF2001F1511 /* Detail.storyboard in Resources */,
 				C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */,
 				C3D0EF7A231F457E001F1511 /* Statistics.storyboard in Resources */,
+				C3025DDC2507D61600390549 /* iidx_seed_27.3.realm in Resources */,
 				C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */,
 				C3D7F4F6231634CB00B5C895 /* Login.storyboard in Resources */,
 				C3D7F4F42316332800B5C895 /* List.storyboard in Resources */,
@@ -450,7 +451,6 @@
 				C3D0EF892320238F001F1511 /* Assets.xcassets in Resources */,
 				C3AF62E72349DBD70022664D /* Mode.storyboard in Resources */,
 				C3C21EDD2314FD1F00B51CB1 /* Main.storyboard in Resources */,
-				C329F78224FABDD00056C661 /* iidx_seed_27.3.realm in Resources */,
 				C34E9C00232928CC00D62373 /* Version.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -238,19 +238,23 @@ class Import {
             // 難易度別（レベル）ページより取得
             case Const.Value.TargetPage.LEVEL:
                 // 取込対象レベル取得
-                var targetLevelArray: [String] = myUD.getTargetPageLevelCheckArray()
+                let targetLevelArray: [String] = myUD.getTargetPageLevelCheckArray()
                 // チェックなしの場合
                 if targetLevelArray.isEmpty {
                     self.stopFlg = true
                     self.noTargetFlg = true
                 }
                 // レベルソート
-                targetLevelArray.sort()
+                var targetLevelArrayInt: [Int] = [Int]()
+                for target in targetLevelArray {
+                    targetLevelArrayInt.append(Int(target)!)
+                }
+                targetLevelArrayInt.sort()
             
                 // 初回
                 if firstLoadFlg {
                     // 登録用配列作成
-                    self.makeMyScoreArrayTargetLevel(iidxId: "", djName: "", seedRealm: seedRealm, targetLevelArray: targetLevelArray)
+                    self.makeMyScoreArrayTargetLevel(iidxId: "", djName: "", seedRealm: seedRealm, targetLevelArray: targetLevelArrayInt)
 
                 // ２回め以降
                 } else {
@@ -260,31 +264,36 @@ class Import {
                     // 自分
                     if !myStatuses.isEmpty {
                         // 登録用配列作成
-                        self.makeMyScoreArrayTargetLevel(iidxId: target, djName: myStatuses.first?.djName ?? "", seedRealm: seedRealm, targetLevelArray: targetLevelArray)
+                        self.makeMyScoreArrayTargetLevel(iidxId: target, djName: myStatuses.first?.djName ?? "", seedRealm: seedRealm, targetLevelArray: targetLevelArrayInt)
                         
                     // ライバル
                     } else {
                         // 登録用配列作成
-                        self.makeRivalScoreArrayTargetLevel(iidxId: target, seedRealm: seedRealm, scoreRealm: scoreRealm, targetLevelArray: targetLevelArray)
+                        self.makeRivalScoreArrayTargetLevel(iidxId: target, seedRealm: seedRealm, scoreRealm: scoreRealm, targetLevelArray: targetLevelArrayInt)
                     }
                 }
 
             // シリーズ（バージョン）ページより取得
             case Const.Value.TargetPage.VERSION:
                 // 取込対象バージョン取得
-                var targetVersionArray: [String] = myUD.getTargetPageVersionCheckArray()
+                let targetVersionArray: [String] = myUD.getTargetPageVersionCheckArray()
                 // チェックなしの場合
                 if targetVersionArray.isEmpty {
                     self.stopFlg = true
                     self.noTargetFlg = true
                 }
-                targetVersionArray.sort()
+                // ソート
+                var targetVersionArrayInt: [Int] = [Int]()
+                for target in targetVersionArray {
+                    targetVersionArrayInt.append(Int(target)!)
+                }
+                targetVersionArrayInt.sort()
                 
                 // 初回
                 if firstLoadFlg {
                     // 登録用配列作成
                     self.makeMyScoreArrayTargetVersion(iidxId: "", djName: "", seedRealm: seedRealm
-                        , targetVersionArray: targetVersionArray)
+                        , targetVersionArray: targetVersionArrayInt)
 
                 // ２回め以降
                 } else {
@@ -295,13 +304,13 @@ class Import {
                     if !myStatuses.isEmpty {
                         // 登録用配列作成
                         self.makeMyScoreArrayTargetVersion(iidxId: target, djName:myStatuses.first?.djName ?? ""
-                            ,seedRealm: seedRealm, targetVersionArray: targetVersionArray)
+                            ,seedRealm: seedRealm, targetVersionArray: targetVersionArrayInt)
                         
                     // ライバル
                     } else {
                         // 登録用配列作成
                         self.makeRivalScoreArrayTargetVersion(iidxId: target, seedRealm: seedRealm, scoreRealm: scoreRealm
-                            , targetVersionArray: targetVersionArray)
+                            , targetVersionArray: targetVersionArrayInt)
                     }
                 }
         default:
@@ -315,7 +324,7 @@ class Import {
      登録用配列作成（自分）（難易度別ページより取得）
      */
     private func makeMyScoreArrayTargetLevel(iidxId: String, djName: String, seedRealm: Realm
-        , targetLevelArray: [String]) {
+        , targetLevelArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         if isCancel(msg: "") { return }
@@ -323,10 +332,10 @@ class Import {
         for lvl in targetLevelArray {
             // レベル取得
             let level: Code = seedRealm.objects(Code.self)
-                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.LEVEL, Int(lvl)!).first ?? Code()
+                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.LEVEL, lvl).first ?? Code()
             
             // HTML取得
-            let l = Int(lvl)! - 1
+            let l = lvl - 1
             var offset: Int = 0
             var continueFlg = true
             while continueFlg {
@@ -352,7 +361,7 @@ class Import {
      登録用配列作成（ライバル）（難易度別ページより取得）
      */
     private func makeRivalScoreArrayTargetLevel(iidxId: String, seedRealm: Realm, scoreRealm: Realm
-        , targetLevelArray: [String]) {
+        , targetLevelArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         if isCancel(msg: "") { return }
@@ -360,7 +369,7 @@ class Import {
         for lvl in targetLevelArray {
             // レベル取得
             let level: Code = seedRealm.objects(Code.self)
-                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.LEVEL, Int(lvl)!).first ?? Code()
+                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.LEVEL, lvl).first ?? Code()
             
             // ライバルコード取得
             let rivalStatus: RivalStatus = scoreRealm.objects(RivalStatus.self)
@@ -369,7 +378,7 @@ class Import {
             let code: String = rivalStatus.code ?? ""
             
             // HTML取得
-            let l = Int(lvl)! - 1
+            let l = lvl - 1
             var offset: Int = 0
             var continueFlg = true
             while continueFlg {
@@ -395,7 +404,7 @@ class Import {
      登録用配列作成（自分）（シリーズページより取得）
      */
     private func makeMyScoreArrayTargetVersion(iidxId: String, djName: String, seedRealm: Realm
-        , targetVersionArray: [String]) {
+        , targetVersionArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         if isCancel(msg: "") { return }
@@ -403,10 +412,10 @@ class Import {
         for ver in targetVersionArray {
             // バージョン取得
             let version: Code = seedRealm.objects(Code.self)
-                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, Int(ver)!).first ?? Code()
+                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, ver).first ?? Code()
             
             // HTML取得
-            let v = Int(ver)! - 1
+            let v = ver - 1
             let data: NSData = CommonMethod.postRequest(dataUrl: Const.Url().getSeriesUrl()
                 , postStr: "list=\(v)&play_style=\(String(describing: self.playStyle))&s=1&rival="
                 , cookieStr: CommonData.Import.cookieStr)
@@ -424,7 +433,7 @@ class Import {
      登録用配列作成（ライバル）（シリーズページより取得）
      */
     private func makeRivalScoreArrayTargetVersion(iidxId: String, seedRealm: Realm, scoreRealm: Realm
-        , targetVersionArray: [String]) {
+        , targetVersionArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         if isCancel(msg: "") { return }
@@ -432,7 +441,7 @@ class Import {
         for ver in targetVersionArray {
             // バージョン取得
             let version: Code = seedRealm.objects(Code.self)
-                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, Int(ver)!).first ?? Code()
+                .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, ver).first ?? Code()
             
             // ライバルコード取得
             let rivalStatus: RivalStatus = scoreRealm.objects(RivalStatus.self)
@@ -441,7 +450,7 @@ class Import {
             let code: String = rivalStatus.code ?? ""
             
             // HTML取得
-            let v = Int(ver)! - 1
+            let v = ver - 1
             let data: NSData = CommonMethod.postRequest(dataUrl: Const.Url().getSeriesRivalUrl()
                 , postStr: "list=\(v)&play_style=\(String(describing: self.playStyle))&s=1&rival=\(code)"
                 , cookieStr: CommonData.Import.cookieStr)

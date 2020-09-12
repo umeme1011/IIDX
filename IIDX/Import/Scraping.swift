@@ -181,9 +181,58 @@ extension Import {
                 myScore.djLevel = djLevel
                 myScore.score = score
                 myScore.clearLump = clearLump
-                
                 myScore.playStyle = playStyle
                 
+                // ミスカウントありの場合のみ各曲ページより取得
+                if missCountFlg {
+                    let url: String = (node1.css("a")[0]["href"]?.description)!
+                    let data: NSData = CommonMethod.getRequest(dataUrl: "\(Const.Url.KONAMI)\(url)"
+                        , cookieStr: CommonData.Import.cookieStr)
+                    // 曲ページhtmlパース
+                    if let doc = try? HTML(html: String(data: data as Data, encoding: .windows31j) ?? "", encoding: .utf8) {
+                        
+                        // 選曲回数
+                        for node in doc.css("div.music-playtime")[0].css("li") {
+                            let selectCntText: String = node.text!
+                            var selectCntStr: String = String(selectCntText.suffix(2))
+                            selectCntStr.replaceSubrange(selectCntStr.range(of: "回")!, with: "")
+                            let selectCnt: Int = Int(selectCntStr) ?? 0
+                            // SP
+                            if playStyle == Const.Value.PlayStyle.SINGLE {
+                                if selectCntText.contains("SP") {
+                                    myScore.selectCount = selectCnt
+                                }
+                            // DP
+                            } else {
+                                if selectCntText.contains("DP") {
+                                    myScore.selectCount = selectCnt
+                                }
+                            }
+                        }
+                        
+                        // ミスカウント
+                        for node in doc.css("div.music-detail") {
+                            let misscnt: Int = Int(node.css("td")[7].text!) ?? 9999
+                            let dif: String = node.css("th")[0].text ?? ""
+                            // SP
+                            if playStyle == Const.Value.PlayStyle.SINGLE {
+                                if dif.contains("SP") && dif.contains(node1.css("td")[1].text!) {
+                                    myScore.missCount = misscnt
+                                }
+                            // DP
+                            } else {
+                                if dif.contains("DP") && dif.contains(node1.css("td")[1].text!) {
+                                    myScore.missCount = misscnt
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    myScore.selectCount = 0
+                    myScore.missCount = 9999
+                }
+                
+                // 配列に追加
                 myScoreArray.append(myScore)
                 
                 // 進捗
@@ -250,10 +299,38 @@ extension Import {
                 rivalScore.djLevel = djLevel
                 rivalScore.score = score
                 rivalScore.clearLump = clearLump
-                
                 rivalScore.playStyle = playStyle
                 rivalScore.iidxId = iidxId
                 
+                // ミスカウントありの場合のみ各曲ページより取得
+                if missCountFlg {
+                    let url: String = (node1.css("a")[0]["href"]?.description)!
+                    let data: NSData = CommonMethod.getRequest(dataUrl: "\(Const.Url.KONAMI)\(url)"
+                        , cookieStr: CommonData.Import.cookieStr)
+                    // 曲ページhtmlパース
+                    if let doc = try? HTML(html: String(data: data as Data, encoding: .windows31j) ?? "", encoding: .utf8) {
+                        // ミスカウント
+                        for node in doc.css("div.music-detail-rival") {
+                            let misscnt: Int = Int(node.css("td")[14].text!) ?? 9999
+                            let dif: String = node.css("th")[0].text ?? ""
+                            // SP
+                            if playStyle == Const.Value.PlayStyle.SINGLE {
+                                if dif.contains("SP") && dif.contains(node1.css("td")[1].text!) {
+                                    rivalScore.missCount = misscnt
+                                }
+                            // DP
+                            } else {
+                                if dif.contains("DP") && dif.contains(node1.css("td")[1].text!) {
+                                    rivalScore.missCount = misscnt
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    rivalScore.missCount = 9999
+                }
+
+                // 配列に追加
                 rivalScoreArray.append(rivalScore)
                 
                 // 進捗
