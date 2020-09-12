@@ -85,11 +85,6 @@ extension Import {
         var cnt: Int = 0
         try! scoreRealm.write {
             for score in myScoreArray {
-                
-                if score.title == "Χ-DEN" {
-                    print("TEST")
-                }
-                
                 // 進捗
                 DispatchQueue.main.async {
                     self.mainVC.progressLbl.text = "\(Const.Label.SAVING)  \(cnt)/\(self.myScoreArray.count)"
@@ -123,7 +118,8 @@ extension Import {
                     if ((score.clearLump != result.clearLump)
                         || (score.djLevel != result.djLevel)
                         || (score.score != result.score))
-                        //                    || (score.missCount != result.missCount)      // ミスカウント取り込み変更で拾ってしまうのでなしで・・
+                        //                    || (score.missCount != result.missCount)
+                        // ミスカウント取り込み変更で拾ってしまうのでなしで・・
                         && !firstLoadFlg
                     {
                         score.lastImportDateId = lastImportDateId

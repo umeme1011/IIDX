@@ -14,7 +14,7 @@ class Const {
     // DEVELOP true:5thStyleまで同期 false:全バージョン同期
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = true
+        static let DEBUG_LOG = false
     }
     
     // Version
@@ -26,7 +26,7 @@ class Const {
     // Realm
     class Realm {
         static let SCHEMA_VER = 2
-        static let SEED_DB_VER = "27.3"
+        static let SEED_DB_VER = "27.4"
         static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"
