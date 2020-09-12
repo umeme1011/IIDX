@@ -15,8 +15,8 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var versions: Results<Code>!
     var myUD: MyUserDefaults = MyUserDefaults()
-    var seedRealm: MyRealm!
-    var scoreRealm: MyRealm!
+    var seedRealm: Realm!
+    var scoreRealm: Realm!
     var versionNo: Int = 0
     
     
@@ -27,30 +27,31 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         versionTV.delegate = self
         versionTV.dataSource = self
         
-        seedRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
-        scoreRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        seedRealm = CommonMethod.createSeedRealm()
+        scoreRealm = CommonMethod.createScoreRealm()
         
         // バージョン一覧取得
-        versions = seedRealm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-            , forQuery: [Const.Value.kindCode.VERSION] as AnyObject)
-            .filter("\(Code.Types.code.rawValue) => %@", Const.Version.START_VERSION_NO)
-        
+        versions = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) => %@", Const.Value.kindCode.VERSION, Const.Version.START_VERSION_NO)
+
         // バージョンNo取得
         versionNo = myUD.getVersion()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return versions.count
     }
     
-    
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -71,8 +72,9 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
-    
-    /// セルをタップ
+    /*
+     セルをタップ
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -89,8 +91,9 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// Doneボタン押下
+    /*
+     Doneボタン押下
+     */
     @IBAction func tapDoneBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -132,16 +135,18 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// Backボタン押下
+    /*
+     Backボタン押下
+     */
     @IBAction func tapBackBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// 右にスワイプ
+    /*
+     右にスワイプ
+     */
     @IBAction func swipeRight(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)

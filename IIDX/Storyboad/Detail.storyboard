@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jOp-BH-wND">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jOp-BH-wND">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="84G-gQ-6vT">
-                                <rect key="frame" x="16" y="8.5" width="343" height="650"/>
+                                <rect key="frame" x="16" y="23.5" width="343" height="620"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RH1-WO-ZEO">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="155"/>
@@ -93,7 +93,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-me-tdr">
-                                        <rect key="frame" x="0.0" y="163" width="343" height="487"/>
+                                        <rect key="frame" x="0.0" y="163" width="343" height="457"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="40" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l4G-5f-Rs6">
                                                 <rect key="frame" x="0.0" y="41" width="343" height="297"/>
@@ -196,7 +196,7 @@
                                                     <constraint firstAttribute="width" constant="68" id="8K0-fR-y2O"/>
                                                 </constraints>
                                                 <string key="text" base64-UTF8="YES">
-Q0xFQVIR4oCoTFVNUA
+Q0xFQVIR4oCoTEFNUA
 </string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -245,7 +245,7 @@ Q0xFQVIR4oCoTFVNUA
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RZp-vq-lcZ">
-                                                <rect key="frame" x="152" y="449" width="39" height="30"/>
+                                                <rect key="frame" x="152" y="419" width="39" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="KYv-Wj-aKt"/>
                                                 </constraints>
@@ -285,7 +285,7 @@ Q0xFQVIR4oCoTFVNUA
                                     <constraint firstItem="RH1-WO-ZEO" firstAttribute="top" secondItem="84G-gQ-6vT" secondAttribute="top" id="171-QJ-wpT"/>
                                     <constraint firstItem="ACj-me-tdr" firstAttribute="leading" secondItem="84G-gQ-6vT" secondAttribute="leading" id="3i4-5I-BXv"/>
                                     <constraint firstItem="ACj-me-tdr" firstAttribute="top" secondItem="RH1-WO-ZEO" secondAttribute="bottom" constant="8" id="AXt-yq-uEz"/>
-                                    <constraint firstAttribute="height" constant="650" id="HUd-t5-5SJ"/>
+                                    <constraint firstAttribute="height" constant="620" id="HUd-t5-5SJ"/>
                                     <constraint firstAttribute="trailing" secondItem="RH1-WO-ZEO" secondAttribute="trailing" id="K49-yZ-Aiw"/>
                                     <constraint firstAttribute="bottom" secondItem="ACj-me-tdr" secondAttribute="bottom" id="ToC-3d-jaH"/>
                                     <constraint firstAttribute="width" constant="343" id="VOs-dU-r55"/>

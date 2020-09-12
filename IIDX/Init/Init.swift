@@ -11,11 +11,13 @@ import RealmSwift
 
 class Init {
     
+    init() {}
+    
     /*
      初期処理
      return アラートメッセージ
      */
-    static func doInit() -> String {
+    public func doInit() -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
 
         var ret: String = ""    // アラートメッセージ返却用
@@ -71,26 +73,6 @@ class Init {
                     ret = "初期データ登録完了！"
                 }
             }
-            
-            //test start
-//            let seedRealm: MyRealm = MyRealm.init(path: seedRealmPath)
-//            let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.FILE_NAME)
-//            for title in titles {
-//                var t = ""
-//                if title.isEmpty {
-//                   break
-//                }
-//                t = title.components(separatedBy: Const.Csv.SEPARATER)[1]
-//                // タイトルから旧SeedDBを検索
-//                let songs: Results<Song> = seedRealm.readEqual(Song.self, ofTypes: Song.Types.title.rawValue
-//                    , forQuery: [t] as AnyObject)
-//
-//                if !songs.isEmpty {
-//                    print(t)
-//                }
-//            }
-            // test end
-            
         } catch {
             Log.error(cls: String(describing: self), method: #function, msg: "初期処理エラー")
         }
@@ -102,45 +84,48 @@ class Init {
     /*
      MyScore全件登録
      */
-    static private func insertMyScore(newSeedPath: String) {
-        
-        let newSeedRealm: MyRealm = MyRealm.init(path: newSeedPath)
-        let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
-        
-        let newSongs: Results<Song> = newSeedRealm.readAll(Song.self)
+    private func insertMyScore(newSeedPath: String) {
+        let seedRealm: Realm = CommonMethod.createSeedRealm()
+        let scoreRealm: Realm = CommonMethod.createScoreRealm()
+
+        // Song全件取得
+        let songs: Results<Song> = seedRealm.objects(Song.self)
 
         // 登録用MyScore配列作成
-        let scoreArray: [MyScore] = makeInsertScoreArray(songs: newSongs)
+        let scoreArray: [MyScore] = makeInsertScoreArray(songs: songs)
 
         // MyScore登録
-        for score in scoreArray {
-            scoreRealm.create(data: [score])
+        try! scoreRealm.write {
+            for score in scoreArray {
+                scoreRealm.add(score)
+            }
         }
     }
     
     /*
      MyScore差分登録
      */
-    static private func updateMyScore(newSeedPath: String, oldSeedPath: String) -> String {
+    private func updateMyScore(newSeedPath: String, oldSeedPath: String) -> String {
         
-        let newSeedRealm: MyRealm = MyRealm.init(path: newSeedPath)
-        let oldSeedRealm: MyRealm = MyRealm.init(path: oldSeedPath)
-        let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        let newSeedRealm: Realm = CommonMethod.createSeedRealm()
+        let oldSeedRealm: Realm = CommonMethod.createRealm(path: oldSeedPath)
+        let scoreRealm: Realm = CommonMethod.createScoreRealm()
         
-        let newSongs: Results<Song> = newSeedRealm.readAll(Song.self)
+        // 最新VerSong全件取得
+        let newSongs: Results<Song> = newSeedRealm.objects(Song.self)
         var songArray: [Song] = [Song]()
         var newSongTitleArray: [String] = [String]()
         
         // 最新VerのSeedDBの内、新曲と更新ありの既存曲を抽出
         for new in newSongs {
             // タイトルから旧SeedDBを検索
-            let songs: Results<Song> = oldSeedRealm.readEqual(Song.self, ofTypes: Song.Types.title.rawValue
-                , forQuery: [new.title] as AnyObject)
+            let songs: Results<Song> = oldSeedRealm.objects(Song.self)
+                .filter("\(Song.Types.title.rawValue) = %@", new.title!)
             
             if songs.isEmpty {
                 // 新曲
                 songArray.append(new)
-                newSongTitleArray.append(new.title ?? "")
+                newSongTitleArray.append(new.title!)
                 
                 print("【新曲】")
                 print(new)
@@ -169,8 +154,10 @@ class Init {
         let scoreArray: [MyScore] = makeUpdateScoreArray(songs: songArray, scoreRealm: scoreRealm)
         
         // MyScore更新（idが同じ場合は更新）
-        for score in scoreArray {
-            scoreRealm.update(data: [score])
+        try! scoreRealm.write {
+            for score in scoreArray {
+                scoreRealm.add(score, update: .all)
+            }
         }
         
         // アラート用メッセージ作成
@@ -184,7 +171,7 @@ class Init {
     /*
      登録用MyScore配列作成
      */
-    static private func makeInsertScoreArray(songs: Results<Song>) -> [MyScore] {
+    private func makeInsertScoreArray(songs: Results<Song>) -> [MyScore] {
         var id: Int = 1
         var ret: [MyScore] = [MyScore]()
         
@@ -297,10 +284,10 @@ class Init {
      更新用MyScore配列作成
      MyScoreを検索し、存在する場合はMyScoreのidを設定、存在しない場合はmax idを設定します
      */
-    static private func makeUpdateScoreArray(songs: [Song], scoreRealm: MyRealm) -> [MyScore] {
+    private func makeUpdateScoreArray(songs: [Song], scoreRealm: Realm) -> [MyScore] {
         
         // MyScoreの次のidを取得
-        let scores: Results<MyScore> = scoreRealm.readAll(MyScore.self)
+        let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
             .sorted(byKeyPath: MyScore.Types.id.rawValue, ascending: true)
         var id: Int = scores.last!.id + 1
 
@@ -319,9 +306,9 @@ class Init {
 
             if song.spb != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.BEGINNER] as AnyObject, [Const.Value.PlayStyle.SINGLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.BEGINNER, Const.Value.PlayStyle.SINGLE)
                 if !scores.isEmpty {
                     scoreSpb = setScoreCommonForUpdate(scoreTo: scoreSpb, scoreFrom: scores.first!)
                 } else {
@@ -337,9 +324,9 @@ class Init {
             }
             if song.spn != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.NORMAL] as AnyObject, [Const.Value.PlayStyle.SINGLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.NORMAL, Const.Value.PlayStyle.SINGLE)
                 if !scores.isEmpty {
                     scoreSpn = setScoreCommonForUpdate(scoreTo: scoreSpn, scoreFrom: scores.first!)
                 } else {
@@ -355,9 +342,9 @@ class Init {
             }
             if song.sph != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.HYPER] as AnyObject, [Const.Value.PlayStyle.SINGLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.HYPER, Const.Value.PlayStyle.SINGLE)
                 if !scores.isEmpty {
                     scoreSph = setScoreCommonForUpdate(scoreTo: scoreSph, scoreFrom: scores.first!)
                 } else {
@@ -373,9 +360,9 @@ class Init {
             }
             if song.spa != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.ANOTHER] as AnyObject, [Const.Value.PlayStyle.SINGLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.ANOTHER, Const.Value.PlayStyle.SINGLE)
                 if !scores.isEmpty {
                     scoreSpa = setScoreCommonForUpdate(scoreTo: scoreSpa, scoreFrom: scores.first!)
                 } else {
@@ -391,9 +378,9 @@ class Init {
             }
             if song.spl != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.LEGGENDARIA] as AnyObject, [Const.Value.PlayStyle.SINGLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.LEGGENDARIA, Const.Value.PlayStyle.SINGLE)
                 if !scores.isEmpty {
                     scoreSpl = setScoreCommonForUpdate(scoreTo: scoreSpl, scoreFrom: scores.first!)
                 } else {
@@ -409,9 +396,9 @@ class Init {
             }
             if song.dpn != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.NORMAL] as AnyObject, [Const.Value.PlayStyle.DOUBLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.NORMAL, Const.Value.PlayStyle.DOUBLE)
                 if !scores.isEmpty {
                     scoreDpn = setScoreCommonForUpdate(scoreTo: scoreDpn, scoreFrom: scores.first!)
                 } else {
@@ -427,9 +414,9 @@ class Init {
             }
             if song.dph != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.HYPER] as AnyObject, [Const.Value.PlayStyle.DOUBLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.HYPER, Const.Value.PlayStyle.DOUBLE)
                 if !scores.isEmpty {
                     scoreDph = setScoreCommonForUpdate(scoreTo: scoreDph, scoreFrom: scores.first!)
                 } else {
@@ -445,9 +432,9 @@ class Init {
             }
             if song.dpa != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.ANOTHER] as AnyObject, [Const.Value.PlayStyle.DOUBLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.ANOTHER, Const.Value.PlayStyle.DOUBLE)
                 if !scores.isEmpty {
                     scoreDpa = setScoreCommonForUpdate(scoreTo: scoreDpa, scoreFrom: scores.first!)
                 } else {
@@ -463,9 +450,9 @@ class Init {
             }
             if song.dpl != 0 {
                 // タイトルと難易度とプレイスタイルでScoreを検索
-                let scores: Results<MyScore> = scoreRealm.readEqualAnd(MyScore.self
-                    , ofTypes: [MyScore.Types.title.rawValue, MyScore.Types.difficultyId.rawValue, MyScore.Types.playStyle.rawValue]
-                    , forQuery: [[song.title!] as AnyObject, [Const.Value.Difficulty.LEGGENDARIA] as AnyObject, [Const.Value.PlayStyle.DOUBLE] as AnyObject])
+                let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@"
+                    , song.title!, Const.Value.Difficulty.LEGGENDARIA, Const.Value.PlayStyle.DOUBLE)
                 if !scores.isEmpty {
                     scoreDpl = setScoreCommonForUpdate(scoreTo: scoreDpl, scoreFrom: scores.first!)
                 } else {
@@ -486,7 +473,7 @@ class Init {
     /*
      各レベル共通カラム
      */
-    static private func setScoreCommon(score: MyScore, song: Song) -> MyScore {
+    private func setScoreCommon(score: MyScore, song: Song) -> MyScore {
         score.title = song.title
         score.genre = song.genre
         score.artist = song.artist
@@ -500,7 +487,7 @@ class Init {
     /*
      各レベル共通カラム（更新用）
      */
-    static private func setScoreCommonForUpdate(scoreTo: MyScore, scoreFrom: MyScore) -> MyScore {
+    private func setScoreCommonForUpdate(scoreTo: MyScore, scoreFrom: MyScore) -> MyScore {
         scoreTo.id = scoreFrom.id
         scoreTo.clearLump = scoreFrom.clearLump
         scoreTo.djLevel = scoreFrom.djLevel

@@ -7,8 +7,31 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CommonMethod {
+    
+    /*
+     Realm作成
+     */
+    static func createRealm(path: String) -> Realm {
+        let realm: Realm = try! Realm(fileURL: URL(fileURLWithPath: path))
+        return realm
+    }
+    
+    /*
+     Seed Realm 作成
+     */
+    static func createSeedRealm() -> Realm {
+        return createRealm(path: getSeedRealmPath())
+    }
+
+    /*
+     Score Realm 作成
+     */
+    static func createScoreRealm() -> Realm {
+        return createRealm(path: getScoreRealmPath())
+    }
     
     /// シードRealmファイルのパスを取得
     static func getSeedRealmPath() -> String {

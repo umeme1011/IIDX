@@ -8,6 +8,9 @@
 
 import RealmSwift
 
+/*
+ 使わない！
+ */
 class MyRealm {
 
     var realm: Realm
@@ -110,11 +113,11 @@ class MyRealm {
     
     /// 更新系
     
-    func create<T: Object>(data: [T]) {
-        try! realm.write {
-            realm.add(data)
-        }
-    }
+//    func create<T: Object>(data: [T]) {
+//        try! realm.write {
+//            realm.add(data)
+//        }
+//    }
 
     func update<T: Object>(data: [T]) {
         try! realm.write {
@@ -167,16 +170,16 @@ class MyRealm {
     /// 詳細編集用
     func updateForDetail(score: MyScore, clearLump: Int, djLevel: Int
         , s: String, scoreRate: Double, missCount: String, tag: String) {
-        try! realm.write {
-            score.clearLump = clearLump
-            score.djLevel = djLevel
-            score.score = s
-            score.scoreRate = scoreRate
-            score.missCount = missCount
-            score.tag = tag
-            score.updateDate = Date()
-            realm.add(score, update: .all)
-        }
+//        try! realm.write {
+//            score.clearLump = clearLump
+//            score.djLevel = djLevel
+//            score.score = s
+//            score.scoreRate = scoreRate
+//            score.missCount = missCount
+//            score.tag = tag
+//            score.updateDate = Date()
+//            realm.add(score, update: .all)
+//        }
     }
 
 

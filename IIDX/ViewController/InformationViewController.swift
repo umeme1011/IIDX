@@ -13,7 +13,7 @@ import WebKit
 class InformationViewController: UIViewController {
     
     let myUD: MyUserDefaults = MyUserDefaults()
-    var scoreRealm: MyRealm!
+    var scoreRealm: Realm!
 
     @IBOutlet weak var verLbl: UILabel!
     @IBOutlet weak var seedDbLbl: UILabel!
@@ -31,7 +31,7 @@ class InformationViewController: UIViewController {
         // seedDBバージョン設定
         seedDbLbl.text = "Ver. \(Const.Realm.SEED_DB_VER)"
         
-        scoreRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        scoreRealm = CommonMethod.createScoreRealm()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -48,14 +48,16 @@ class InformationViewController: UIViewController {
             (action: UIAlertAction!) -> Void in
             
             // DB全TBL削除
-            self.scoreRealm.deleteAllTbl()
+            try! self.scoreRealm.write {
+                self.scoreRealm.deleteAll()
+            }
             
             // UserDefaults全初期化
             self.myUD.initAll()
             
             // Cookieを削除
             LoginViewController.removeCookie()
-            
+
             // データ取得処理
             let vc: MainViewController
                 = self.presentingViewController?.presentingViewController as! MainViewController

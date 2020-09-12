@@ -33,21 +33,13 @@ class Operation {
         // ソート処理
         result = doSort(result: result)
         
-        // 結果が0件の場合統計ボタン無効化
-        if result.isEmpty {
-            mainVC.statisticsBtn.isEnabled = false
-            mainVC.statisticsBtn.setImage(UIImage(named: Const.Image.Operation.STATISTICS_NG), for: .normal)
-        } else {
-            mainVC.statisticsBtn.isEnabled = true
-            mainVC.statisticsBtn.setImage(UIImage(named: Const.Image.Operation.STATISTICS_OK), for: .normal)
-        }
-        
         Log.debugEnd(cls: String(describing: self), method: #function)
         return result
     }
     
-    
-    /// タイトルをセット
+    /*
+     タイトルをセット
+     */
     private func setTitle() {
         Log.debugStart(cls: String(describing: self), method: #function)
         var titleArray: [String] = myUD.getTitleArray()
@@ -72,8 +64,9 @@ class Operation {
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// フィルター処理
+    /*
+     フィルター処理
+     */
     private func doFilter() -> Results<MyScore> {
         Log.debugStart(cls: String(describing: self), method: #function)
         // UserDefaultsより設定値取得
@@ -83,11 +76,17 @@ class Operation {
         let word: String = myUD.getSearchWord()
         
         // 絞り込み
-        let realm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        let realm: Realm = CommonMethod.createScoreRealm()
         let keys: [String] = [String](checkDic.keys)
         let values: [[Int]] = [[Int]](checkDic.values)
-        var result: Results<MyScore> = realm.readInAnd(MyScore.self, ofTypes: keys, forQuery: values as [[AnyObject]])
-        
+        var predicates: [NSPredicate] = [NSPredicate]()
+        for i in 0..<keys.count {
+            let predicate = NSPredicate(format: "\(keys[i]) in %@", argumentArray: [values[i]])
+            predicates.append(predicate)
+        }
+        var result = realm.objects(MyScore.self).filter("playStyle = %@", myUD.getPlayStyle())
+        result = result.filter(NSCompoundPredicate(andPredicateWithSubpredicates: predicates))
+
         // 曲名検索
         if !word.isEmpty {
             result = result.filter("\(MyScore.Types.title.rawValue) CONTAINS[c] %@", word)
@@ -97,8 +96,9 @@ class Operation {
         return result
     }
     
-    
-    /// フィルター処理（ライバル）
+    /*
+     フィルター処理（ライバル）
+     */
     private func doRivalFilter(result: Results<MyScore>) -> Results<MyScore> {
         Log.debugStart(cls: String(describing: self), method: #function)
         // UserDefaultsより設定値取得
@@ -107,7 +107,7 @@ class Operation {
             as? Dictionary<Int, [String]> ?? Dictionary<Int, [String]>()
         
         var ret: Results<MyScore>!
-        let realm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        let realm: Realm = CommonMethod.createScoreRealm()
         
         if rivalCheckDic.isEmpty {
             // チェックなしの場合は何もしない
@@ -121,11 +121,9 @@ class Operation {
             for iidxId in v {
                 var rivalScoreArray: [RivalScore] = [RivalScore]()
                 for score in ret {
-                    let rivalScore: RivalScore = realm.readEqualAndByPlayStyle(RivalScore.self
-                        , ofTypes: [RivalScore.Types.iidxId.rawValue, RivalScore.Types.title.rawValue
-                            , RivalScore.Types.difficultyId.rawValue, RivalScore.Types.level.rawValue]
-                        , forQuery: [[iidxId] as AnyObject, [score.title] as AnyObject
-                            , [score.difficultyId] as AnyObject, [score.level] as AnyObject])
+                    let rivalScore: RivalScore = realm.objects(RivalScore.self)
+                        .filter("\(RivalScore.Types.iidxId.rawValue) = %@ and \(RivalScore.Types.title.rawValue) = %@ and \(RivalScore.Types.difficultyId.rawValue) = %@ and \(RivalScore.Types.level.rawValue) = %@ and \(RivalScore.Types.playStyle.rawValue) = %@"
+                            , iidxId, score.title!, score.difficultyId, score.level, myUD.getPlayStyle())
                         .first ?? RivalScore()
                     let mScore: Int = Int(score.score.components(separatedBy: "(")[0] ) ?? 0
                     let rScore: Int = Int(rivalScore.score?.components(separatedBy: "(")[0] ?? "0") ?? 0
@@ -171,8 +169,9 @@ class Operation {
         return ret
     }
     
-    
-    /// フィルター処理（タグ）
+    /*
+     フィルター処理（タグ）
+     */
     private func doTagFilter(result: Results<MyScore>) -> Results<MyScore> {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: Results<MyScore>!
@@ -195,18 +194,14 @@ class Operation {
             print(predicates.description)
             ret = result.filter("playStyle = %@", myUD.getPlayStyle())
             ret = ret.filter(NSCompoundPredicate(andPredicateWithSubpredicates: predicates))
-
-            
-            let realm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
-            ret = realm.readLikeAnd(MyScore.self, ofTypes: MyScore.Types.tag.rawValue
-                , forQuery: tagArray as [AnyObject])
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
         return ret
     }
     
-    
-    /// ソート処理
+    /*
+     ソート処理
+     */
     private func doSort(result: Results<MyScore>) -> Results<MyScore> {
         Log.debugStart(cls: String(describing: self), method: #function)
         // UserDefaultsより設定値取得
@@ -239,6 +234,10 @@ class Operation {
             sorts.append(SortDescriptor(keyPath:MyScore.Types.versionId.rawValue, ascending: true))
         case Const.Value.Sort.VERSION_DESK:
             sorts.append(SortDescriptor(keyPath:MyScore.Types.versionId.rawValue, ascending: false))
+        case Const.Value.Sort.MISS_COUNT_ASK:
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.missCount.rawValue, ascending: true))
+        case Const.Value.Sort.MISS_COUNT_DESC:
+            sorts.append(SortDescriptor(keyPath:MyScore.Types.missCount.rawValue, ascending: false))
         default:
             sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: true))
         }
