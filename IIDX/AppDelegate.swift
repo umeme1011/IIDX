@@ -21,6 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Realmマイグレーション
         var config = Realm.Configuration()
         config.migrationBlock = { migration, oldSchemaVersion in
+            
+//            // wikiのタイトルが変更された曲対応
+//            migration.enumerateObjects(ofType: MyScore.className()) { (oldObject, newObject) in
+//                var title = oldObject!["title"] as! String
+//                if (title == "Blind Justice 〜Torn souls, Hurt Faiths〜") {
+//                    title = "Blind Justice ～Torn souls, Hurt Faiths～"
+//                }
+//            }
+            
             // MyScore,OldScore,RivalScoreのmissCountをStringからIntに変更
             if oldSchemaVersion < 2 {
                 migration.enumerateObjects(ofType: MyScore.className()) { (oldObject, newObject) in

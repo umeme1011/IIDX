@@ -27,7 +27,7 @@ class TagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         // タグ一覧取得
         let tags: Results<Tag> = scoreRealm.objects(Tag.self)
-        print(tags)
+//        print(tags)
         for tag in tags {
             tagArray.append(tag)
         }
@@ -114,7 +114,7 @@ class TagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             let scores: Results<MyScore> = scoreRealm.objects(MyScore.self).filter(NSCompoundPredicate(orPredicateWithSubpredicates: predicates))
             
-            print(scores)
+//            print(scores)
             
             try! scoreRealm.write {
                 for score in scores {

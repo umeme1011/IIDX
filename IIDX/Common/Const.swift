@@ -92,6 +92,10 @@ class Const {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/difficulty_rival.html"
             return url
         }
+        func getCsvUrl() -> String {
+            let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/score_download.html"
+            return url
+        }
     }
     
     // Value
@@ -184,6 +188,7 @@ class Const {
         class TargetPage {
             static let LEVEL = 1
             static let VERSION = 2
+            static let CSV = 3
         }
     }
 

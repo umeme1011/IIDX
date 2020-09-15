@@ -14,6 +14,7 @@ class InformationViewController: UIViewController {
     
     let myUD: MyUserDefaults = MyUserDefaults()
     var scoreRealm: Realm!
+    var seedRealm: Realm!
 
     @IBOutlet weak var verLbl: UILabel!
     @IBOutlet weak var seedDbLbl: UILabel!
@@ -32,6 +33,7 @@ class InformationViewController: UIViewController {
         seedDbLbl.text = "Ver. \(Const.Realm.SEED_DB_VER)"
         
         scoreRealm = CommonMethod.createScoreRealm()
+        seedRealm = CommonMethod.createSeedRealm()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -44,6 +46,7 @@ class InformationViewController: UIViewController {
         // 確認アラート表示
         let alert = UIAlertController(title: "", message: Const.Message.RESET_COMFIRM
             , preferredStyle: UIAlertController.Style.alert)
+
         let okBtn = UIAlertAction(title: Const.Label.OK, style: UIAlertAction.Style.default, handler: {
             (action: UIAlertAction!) -> Void in
             
@@ -51,12 +54,23 @@ class InformationViewController: UIViewController {
             try! self.scoreRealm.write {
                 self.scoreRealm.deleteAll()
             }
+//            try! self.seedRealm.write {
+//                self.seedRealm.deleteAll()
+//            }
+//
+//            // Documentフォルダ内のファイル全削除
+//            self.removeDocumentFiles()
             
             // UserDefaults全初期化
             self.myUD.initAll()
             
             // Cookieを削除
             LoginViewController.removeCookie()
+            
+            // 初期処理
+            self.myUD.setInitFlg(flg: true)
+            let ini: Init = Init.init()
+            _ = ini.doInit()
 
             // データ取得処理
             let vc: MainViewController
@@ -80,6 +94,23 @@ class InformationViewController: UIViewController {
         self.present(alert, animated: false, completion: nil)
         
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    private func removeDocumentFiles() {
+        do {
+            // Document内のファイル一覧を取得
+            let fileManager: FileManager = FileManager()
+            let documentDir: NSString
+                = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+            let fileNames = try fileManager.contentsOfDirectory(atPath: documentDir as String)
+
+            // 削除
+            for name in fileNames {
+                try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent(name))
+            }
+        } catch  {
+            Log.error(cls: String(describing: self), method: #function, msg: "ファイル削除エラー")
+        }
     }
     
     

@@ -37,8 +37,6 @@ class EditSelectViewController: UIViewController,UITableViewDelegate,UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(editScoreArray)
-        
         editSelectTV.delegate = self
         editSelectTV.dataSource = self
         

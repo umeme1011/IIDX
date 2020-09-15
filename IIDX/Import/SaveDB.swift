@@ -81,6 +81,9 @@ extension Import {
             oldScoreId = oldScore.id + 1
         }
         
+        // タイトル表記揺れ吸収用CSV読み込み
+        let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.FILE_NAME)
+        
         // 取込曲数分ループ
         var cnt: Int = 0
         try! scoreRealm.write {
@@ -92,7 +95,7 @@ extension Import {
                 cnt += 1
                 
                 // 曲名の表記ゆれを修正　wikiに合わせる
-                score.title = getFixTitle(title: score.title ?? "")
+                score.title = getFixTitle(titles: titles, title: score.title ?? "")
                 
                 if let result: MyScore
                     = scoreRealm.objects(MyScore.self).filter("\(MyScore.Types.title.rawValue) = %@ and \(MyScore.Types.difficultyId.rawValue) = %@ and \(MyScore.Types.playStyle.rawValue) = %@", score.title!, score.difficultyId, playStyle).first {
@@ -118,9 +121,9 @@ extension Import {
                     if ((score.clearLump != result.clearLump)
                         || (score.djLevel != result.djLevel)
                         || (score.score != result.score))
-                        //                    || (score.missCount != result.missCount)
-                        // ミスカウント取り込み変更で拾ってしまうのでなしで・・
-                        && !firstLoadFlg
+                        || (score.missCount != result.missCount)
+//                        && !firstLoadFlg
+                        && score.clearLump != Const.Value.ClearLump.NOPLAY
                     {
                         score.lastImportDateId = lastImportDateId
                         score.oldScoreId = oldScoreId
@@ -174,12 +177,15 @@ extension Import {
         let now: Date = Date()
         var cnt: Int = 0
 
+        // タイトル表記揺れ吸収用CSV読み込み
+        let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.FILE_NAME)
+
         try! scoreRealm.write {
             // 取込曲数分ループ
             for score in rivalScoreArray {
                 
                 // 曲名の表記ゆれを修正　wikiに合わせる
-                score.title = getFixTitle(title: score.title ?? "")
+                score.title = getFixTitle(titles: titles, title: score.title ?? "")
 
                 // 進捗
                 DispatchQueue.main.async {
@@ -324,11 +330,10 @@ extension Import {
     
     
     /// タイトルの表記ゆれを修正
-    private func getFixTitle(title: String) -> String {
+    private func getFixTitle(titles: [String], title: String) -> String {
         var ret: String = title
         
         // タイトルの表記ゆれを修正　wikiに合わせる
-        let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.FILE_NAME)
         var fixFlg: Bool = false
         for title in titles {
             let array: [String] = title.components(separatedBy: Const.Csv.SEPARATER)

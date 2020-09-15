@@ -313,8 +313,14 @@ class Import {
                             , targetVersionArray: targetVersionArrayInt)
                     }
                 }
-        default:
-            print("処理なし")
+        
+            // CSVより取得
+            case Const.Value.TargetPage.CSV:
+                // 登録用配列作成
+                self.makeMyScoreArrayTargetCsv()
+            
+            default:
+                print("処理なし")
         }
 
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -460,6 +466,29 @@ class Import {
             let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
             self.parseRivalScoreTargetVersion(html: htmlStr, iidxId: iidxId, djName: djName, versionName: version.name ?? "")
         }
+        
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /*
+     登録用配列作成（CSVより取得）
+     */
+    func makeMyScoreArrayTargetCsv() {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
+        if isCancel(msg: "") { return }
+        
+        var playStyleStr: String = "SP"
+        if self.playStyle == Const.Value.PlayStyle.DOUBLE {
+            playStyleStr = "DP"
+        }
+        // HTML取得
+        let data: NSData = CommonMethod.postRequest(dataUrl: Const.Url().getCsvUrl()
+            , postStr: "style=\(playStyleStr)"
+            , cookieStr: CommonData.Import.cookieStr)
+        let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+    
+        self.parseMyScoreTargetCsv(html: htmlStr)
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }

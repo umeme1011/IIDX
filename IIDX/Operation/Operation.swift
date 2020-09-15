@@ -191,7 +191,7 @@ class Operation {
                 let predicate = NSPredicate(format: "\(MyScore.Types.tag.rawValue) contains %@", argumentArray: [tagArray[i]])
                 predicates.append(predicate)
             }
-            print(predicates.description)
+//            print(predicates.description)
             ret = result.filter("playStyle = %@", myUD.getPlayStyle())
             ret = ret.filter(NSCompoundPredicate(andPredicateWithSubpredicates: predicates))
         }

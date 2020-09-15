@@ -20,6 +20,7 @@ class Init {
     public func doInit() -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
 
+        let myUD: MyUserDefaults = MyUserDefaults.init()
         var ret: String = ""    // アラートメッセージ返却用
         
         do {
@@ -73,10 +74,17 @@ class Init {
                     ret = "初期データ登録完了！"
                 }
             }
+            
+            // リセットボタン押下時
+            if myUD.getInitFlg() {
+                // 全件登録
+                insertMyScore(newSeedPath: seedRealmPath)
+            }
         } catch {
             Log.error(cls: String(describing: self), method: #function, msg: "初期処理エラー")
         }
 
+        myUD.setInitFlg(flg: false)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return ret
     }

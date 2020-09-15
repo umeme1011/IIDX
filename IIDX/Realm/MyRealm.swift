@@ -104,7 +104,7 @@ class MyRealm {
             let predicate = NSPredicate(format: "\(ofTypes) contains %@", argumentArray: [forQuery[i]])
             predicates.append(predicate)
         }
-        print(predicates.description)
+//        print(predicates.description)
         var result = realm.objects(T.self).filter("playStyle = %@", playStyle)
         result = result.filter(NSCompoundPredicate(andPredicateWithSubpredicates: predicates))
         return result
@@ -112,12 +112,6 @@ class MyRealm {
 
     
     /// 更新系
-    
-//    func create<T: Object>(data: [T]) {
-//        try! realm.write {
-//            realm.add(data)
-//        }
-//    }
 
     func update<T: Object>(data: [T]) {
         try! realm.write {

@@ -38,6 +38,15 @@ class MyUserDefaults {
         }
     }
     
+    // 初期化フラグ
+    func setInitFlg(flg: Bool) {
+        ud.set(flg, forKey: "initFlg\(String(getVersion()))")
+    }
+    
+    func getInitFlg() -> Bool {
+        return ud.object(forKey: "initFlg\(String(getVersion()))") as? Bool ?? false
+    }
+    
     // プレイスタイル
     func setPlayStyle(playStyle : Int) {
         ud.set(playStyle, forKey: "playStyle\(String(getVersion()))")

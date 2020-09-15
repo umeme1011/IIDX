@@ -14,6 +14,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var taTV: UITableView!
     @IBOutlet weak var noMissCountIV: UIImageView!
     @IBOutlet weak var yesMissCountIV: UIImageView!
+    @IBOutlet weak var coverView: UIView!
     
     let myUD: MyUserDefaults = MyUserDefaults()
     var rivalStatuses: Results<RivalStatus>!
@@ -47,6 +48,13 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         } else {
             yesMissCountIV.image = nil
             noMissCountIV.image = UIImage(named: Const.Image.CHECK)
+        }
+        
+        // カバーView
+        if myUD.getTargetPage() == Const.Value.TargetPage.CSV {
+            coverView.isHidden = false
+        } else {
+            coverView.isHidden = true
         }
         
         Log.debugEnd(cls: String(describing: self), method: #function)

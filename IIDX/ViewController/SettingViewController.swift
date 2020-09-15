@@ -12,6 +12,10 @@ class SettingViewController: UIViewController {
 
     @IBOutlet weak var settingView: UIView!
     @IBOutlet weak var qproIV: UIImageView!
+    @IBOutlet weak var targetPageBtn: UIButton!
+    @IBOutlet weak var targetAccountBtn: UIButton!
+    
+    let myUD: MyUserDefaults = MyUserDefaults.init()
     
     
     override func viewDidLoad() {
@@ -21,6 +25,15 @@ class SettingViewController: UIViewController {
         // クプロ表示
         let image: UIImage = CommonMethod.loadImage(fileName: Const.Image.Qpro.FILE_NAME) ?? UIImage()
         qproIV.image = image
+        
+        // 文言切り替え
+        if myUD.getPlayStyle() == Const.Value.PlayStyle.SINGLE {
+            targetPageBtn.setTitle("取込対象ページ（SP）", for: .normal)
+            targetAccountBtn.setTitle("取込対象アカウント（SP）", for: .normal)
+        } else {
+            targetPageBtn.setTitle("取込対象ページ（DP）", for: .normal)
+            targetAccountBtn.setTitle("取込対象アカウント（DP）", for: .normal)
+        }
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }

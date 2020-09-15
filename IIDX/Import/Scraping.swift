@@ -170,12 +170,6 @@ extension Import {
                 // clearLump
                 let clearLump: Int = getClearLump(src: node1.css("td")[4].innerHTML!)
                 
-                print(title)
-                print(difficulty)
-                print(djLevel)
-                print(score)
-                print(clearLump)
-                
                 myScore.title = title
                 myScore.difficultyId = difficulty
                 myScore.djLevel = djLevel
@@ -287,12 +281,6 @@ extension Import {
                 score.replaceSubrange(score.range(of: "<br>")!, with: "")
                 // clearLump
                 let clearLump: Int = getClearLump(src: node1.css("td")[4].innerHTML!)
-                
-                print(title)
-                print(difficulty)
-                print(djLevel)
-                print(score)
-                print(clearLump)
                 
                 rivalScore.title = title
                 rivalScore.difficultyId = difficulty
@@ -699,6 +687,170 @@ extension Import {
             }
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
+    
+    /*
+     CSVページパース
+     */
+    func parseMyScoreTargetCsv(html: String) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+
+        if let doc = try? HTML(html: html, encoding: .utf8) {
+            if doc.css("#score_data").count == 0 {
+                Log.error(cls: String(describing: self), method: #function, msg: Const.Log.SCRAPING_001)
+                stopFlg = true
+                return
+            }
+            
+            // 画面のCSV文字列取得
+            let csv: String = doc.css("#score_data")[0].text ?? ""
+            
+            // 各行取得
+            let records: [String] = csv.components(separatedBy: "\r")
+            for record in records {
+                // 最終行は空
+                if (record == "") { continue }
+                
+                // 各データ取得
+                let columns: [String] = record.components(separatedBy: ",")
+                // ヘッダ行無視
+                if (columns[0] == "バージョン") { continue }
+                
+                // BIGINNER
+                var score: MyScore = MyScore()
+                score.difficultyId = Const.Value.Difficulty.BEGINNER
+                score.title = columns[1]
+                score.selectCount = Int(columns[4]) ?? 0
+                score.score = "\(columns[6])(\(columns[7])/\(columns[8]))"
+                score.missCount = convertMissCountForCsv(missCount: columns[9])
+                score.clearLump = getClearLumpForCsv(column: columns[10])
+                score.djLevel = getDjLevelForCsv(column: columns[11])
+                myScoreArray.append(score)
+
+                // NORMAL
+                score = MyScore()
+                score.difficultyId = Const.Value.Difficulty.NORMAL
+                score.title = columns[1]
+                score.selectCount = Int(columns[4]) ?? 0
+                score.score = "\(columns[13])(\(columns[14])/\(columns[15]))"
+                score.missCount = convertMissCountForCsv(missCount: columns[16])
+                score.clearLump = getClearLumpForCsv(column: columns[17])
+                score.djLevel = getDjLevelForCsv(column: columns[18])
+                myScoreArray.append(score)
+
+                // HYPER
+                score = MyScore()
+                score.difficultyId = Const.Value.Difficulty.HYPER
+                score.title = columns[1]
+                score.selectCount = Int(columns[4]) ?? 0
+                score.score = "\(columns[20])(\(columns[21])/\(columns[22]))"
+                score.missCount = convertMissCountForCsv(missCount: columns[23])
+                score.clearLump = getClearLumpForCsv(column: columns[24])
+                score.djLevel = getDjLevelForCsv(column: columns[25])
+                myScoreArray.append(score)
+
+                // ANOTHER
+                score = MyScore()
+                score.difficultyId = Const.Value.Difficulty.ANOTHER
+                score.title = columns[1]
+                score.selectCount = Int(columns[4]) ?? 0
+                score.score = "\(columns[27])(\(columns[28])/\(columns[29]))"
+                score.missCount = convertMissCountForCsv(missCount: columns[30])
+                score.clearLump = getClearLumpForCsv(column: columns[31])
+                score.djLevel = getDjLevelForCsv(column: columns[32])
+                myScoreArray.append(score)
+
+                // LEGGENDARIA
+                score = MyScore()
+                score.difficultyId = Const.Value.Difficulty.LEGGENDARIA
+                score.title = columns[1]
+                score.selectCount = Int(columns[4]) ?? 0
+                score.score = "\(columns[34])(\(columns[35])/\(columns[36]))"
+                score.missCount = convertMissCountForCsv(missCount: columns[37])
+                score.clearLump = getClearLumpForCsv(column: columns[38])
+                score.djLevel = getDjLevelForCsv(column: columns[39])
+                myScoreArray.append(score)
+            }
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /*
+     ミスカウント変換（CSV用）
+     */
+    private func convertMissCountForCsv(missCount: String) -> Int {
+        if missCount == "---" {
+            return 9999
+        } else {
+            return Int(missCount) ?? 9999
+        }
+    }
+    
+    /*
+     クリアランプ取得（CSV用）
+     */
+    private func getClearLumpForCsv(column: String) -> Int {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        var ret: Int = 0
+        
+        // clearlump
+        switch column {
+            case "NO PLAY":
+                ret = Const.Value.ClearLump.NOPLAY
+            case "FAILED":
+                ret = Const.Value.ClearLump.FAILED
+            case "ASSIST CLEAR":
+            ret = Const.Value.ClearLump.ACLEAR
+            case "EASY CLEAR":
+                ret = Const.Value.ClearLump.ECLEAR
+            case "CLEAR":
+                ret = Const.Value.ClearLump.CLEAR
+            case "HARD CLEAR":
+                ret = Const.Value.ClearLump.HCLEAR
+            case "EX HARD CLEAR":
+                ret = Const.Value.ClearLump.EXHCLEAR
+            case "FULLCOMBO CLEAR":
+                ret = Const.Value.ClearLump.FCOMBO
+            default:
+                Log.error(cls: String(describing: self), method: #function, msg: Const.Log.SCRAPING_003)
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return ret
+    }
+
+    /*
+     DJレベル取得（CSV用）
+     */
+    private func getDjLevelForCsv(column: String) -> Int {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        var ret: Int = 0
+        
+        // djlevel
+        switch column {
+            case "---":
+                ret = Const.Value.DjLevel.NOPLAY
+            case "F":
+                ret = Const.Value.DjLevel.F
+            case "E":
+                ret = Const.Value.DjLevel.E
+            case "D":
+                ret = Const.Value.DjLevel.D
+            case "C":
+                ret = Const.Value.DjLevel.C
+            case "B":
+                ret = Const.Value.DjLevel.B
+            case "A":
+                ret = Const.Value.DjLevel.A
+            case "AA":
+                ret = Const.Value.DjLevel.AA
+            case "AAA":
+                ret = Const.Value.DjLevel.AAA
+            default:
+                Log.error(cls: String(describing: self), method: #function, msg: Const.Log.SCRAPING_004)
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return ret
+    }
+
     
     /*
      クリアランプ取得

@@ -13,10 +13,15 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
     
     @IBOutlet weak var levelIV: UIImageView!
     @IBOutlet weak var versionIV: UIImageView!
+    @IBOutlet weak var csvIV: UIImageView!
     @IBOutlet weak var levelAllIV: UIImageView!
     @IBOutlet weak var versionAllIV: UIImageView!
     @IBOutlet weak var levelCV: UICollectionView!
     @IBOutlet weak var versionTV: UITableView!
+    @IBOutlet weak var allBtn: UIButton!
+    @IBOutlet weak var allView: UIView!
+    @IBOutlet weak var noteLbl1: UILabel!
+    @IBOutlet weak var noteLbl2: UILabel!
     
     let myUD: MyUserDefaults = MyUserDefaults()
     var seedRealm: Realm!
@@ -96,6 +101,17 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
     @IBAction func tapSeriesBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         targetPage = Const.Value.TargetPage.VERSION
+        // 表示切り替え
+        switchDisp()
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /*
+     CSVボタンタップ
+     */
+    @IBAction func tapCsvBtn(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        targetPage = Const.Value.TargetPage.CSV
         // 表示切り替え
         switchDisp()
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -187,6 +203,10 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
                 levelCV.isHidden = false
                 levelIV.image = UIImage(named: Const.Image.CHECK)
                 levelAllIV.isHidden = false
+                allView.isHidden = false
+                csvIV.image = nil
+                noteLbl1.isHidden = false
+                noteLbl2.isHidden = true
             // シリーズ選択時
             case Const.Value.TargetPage.VERSION:
                 versionTV.isHidden = false
@@ -195,6 +215,20 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
                 levelCV.isHidden = true
                 levelIV.image = nil
                 levelAllIV.isHidden = true
+                allView.isHidden = false
+                csvIV.image = nil
+                noteLbl1.isHidden = false
+                noteLbl2.isHidden = true
+            // CSV選択時
+            case Const.Value.TargetPage.CSV:
+                versionTV.isHidden = true
+                versionIV.image = nil
+                levelCV.isHidden = true
+                levelIV.image = nil
+                allView.isHidden = true
+                csvIV.image = UIImage(named: Const.Image.CHECK)
+                noteLbl1.isHidden = true
+                noteLbl2.isHidden = false
             default:
                 print("処理なし")
         }
@@ -262,8 +296,8 @@ extension TargetPageViewController: UITableViewDelegate, UITableViewDataSource {
             versionTV.reloadData()
             
             // 全選択かどうか
-            print(versionCheckArray)
-            print(versions)
+//            print(versionCheckArray)
+//            print(versions)
             if versionCheckArray.count == versions.count {
                 versionAllFlg = true
                 versionAllIV.image = UIImage(named: Const.Image.CHECK)
@@ -320,7 +354,6 @@ extension TargetPageViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         Log.debugStart(cls: String(describing: self), method: #function)
         let cellSize : CGFloat = self.view.bounds.width / 2
-        print(cellSize)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return CGSize(width: cellSize, height: 35)
     }
