@@ -25,6 +25,16 @@ extension UpdateMasterDB {
 
             // MyScore差分登録
             msg = Init.init().updateMyScore(newSongs: songArray, oldSongs: oldSongs)
+            
+            // UserDefaults更新
+            myUD.setWikiOldSongLastModified(date: wikiOldSongLastModified)
+            myUD.setWikiOldNotesLastModified(date: wikiOldNotesLastModified)
+            myUD.setWikiNewSongLastModified(date: wikiNewSongLastModified)
+
+            if msg == "更新はありませんでした。" {
+                updFlg = false
+                return
+            }
 
             // 削除
             seedRealm.delete(oldSongs)
@@ -33,11 +43,6 @@ extension UpdateMasterDB {
             for song in songArray {
                 seedRealm.add(song)
             }
-
-            // UserDefaults更新
-            myUD.setWikiOldSongLastModified(date: wikiOldSongLastModified)
-            myUD.setWikiOldNotesLastModified(date: wikiOldNotesLastModified)
-            myUD.setWikiNewSongLastModified(date: wikiNewSongLastModified)
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
     }

@@ -25,12 +25,9 @@ class Const {
     
     // Wiki
     class Wiki {
-//        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-16 (水) 22:29:53"
-//        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:03:51"
-//        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:06:26"
-        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-16 (水) 22:29:50"
-        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:03:50"
-        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:06:20"
+        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-16 (水) 22:29:53"
+        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:03:51"
+        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:06:26"
     }
     
     // Realm
