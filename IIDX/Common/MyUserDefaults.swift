@@ -38,6 +38,42 @@ class MyUserDefaults {
         }
     }
     
+    // wiki 新曲ページ最終更新日時
+    func setWikiNewSongLastModified(date: String) {
+        ud.set(date, forKey: "wikiNewSongLastModified\(String(getVersion()))")
+    }
+    
+    func getWikiNewSongLastModified() -> String {
+        return ud.object(forKey: "wikiNewSongLastModified\(String(getVersion()))") as? String ?? Const.Wiki.NEW_SONG_LAST_MODIFIED
+    }
+    
+    // wiki 旧曲ページ最終更新日時
+    func setWikiOldSongLastModified(date: String) {
+        ud.set(date, forKey: "wikiOldSongLastModified\(String(getVersion()))")
+    }
+    
+    func getWikiOldSongLastModified() -> String {
+        return ud.object(forKey: "wikiOldSongLastModified\(String(getVersion()))") as? String ?? Const.Wiki.OLD_SONG_LAST_MODIFIED
+    }
+    
+    // wiki 旧曲ノーツページ最終更新日時
+    func setWikiOldNotesLastModified(date: String) {
+        ud.set(date, forKey: "wikiOldNotesLastModified\(String(getVersion()))")
+    }
+    
+    func getWikiOldNotesLastModified() -> String {
+        return ud.object(forKey: "wikiOldNotesLastModified\(String(getVersion()))") as? String ?? Const.Wiki.OLD_NOTES_LAST_MODIFIED
+    }
+    
+    // wiki 取り込み最終日時
+    func setLastUpdateMasterDB(date: String) {
+        ud.set(date, forKey: "lastUpdateMasterDB\(String(getVersion()))")
+    }
+    
+    func getLastUpdateMasterDB() -> String {
+        return ud.object(forKey: "lastUpdateMasterDB\(String(getVersion()))") as? String ?? ""
+    }
+    
     // 初期化フラグ
     func setInitFlg(flg: Bool) {
         ud.set(flg, forKey: "initFlg\(String(getVersion()))")

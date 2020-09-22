@@ -84,7 +84,20 @@ class CommonMethod {
         
         return data ?? NSData()
     }
-    
+
+    /// GETリクエエスト（cookieなし）
+    static func getRequest(dataUrl: String) -> NSData {
+        let req = NSMutableURLRequest(url: URL(string: dataUrl)!)
+        let myHttpSession = HttpClientImpl()
+        let (data, _, _) = myHttpSession.execute(request: req as URLRequest)
+        
+        if data == nil {
+            Log.error(cls: String(describing: self), method: #function, msg: Const.Log.COMMONMETHOD_002)
+        }
+        
+        return data ?? NSData()
+    }
+
     
     /// アラート表示（OKのみ）
     static func dispAlert(message: String, vc: UIViewController) {
@@ -155,7 +168,7 @@ class CommonMethod {
     }
     
     /// ディレクトリのパスにファイル名をつなげてファイルのフルパスを作る
-    private static func fileInDocumentsDirectory(filename: String) -> String {
+    static func fileInDocumentsDirectory(filename: String) -> String {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as NSURL
         let fileURL = documentsURL.appendingPathComponent(filename)
         return fileURL!.path

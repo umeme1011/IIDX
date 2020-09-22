@@ -390,7 +390,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ren-K5-wR1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="right" id="4Ia-jX-Jd7">
                     <connections>
-                        <action selector="swipeRight:" destination="LsF-0O-kTT" id="XpH-i5-fh0"/>
+                        <action selector="swipeRight:" destination="LsF-0O-kTT" id="eI4-hM-Jgb"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>

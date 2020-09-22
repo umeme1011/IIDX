@@ -82,7 +82,7 @@ extension Import {
         }
         
         // タイトル表記揺れ吸収用CSV読み込み
-        let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.FILE_NAME)
+        let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.CORRECT_TITLE)
         
         // 取込曲数分ループ
         var cnt: Int = 0
@@ -178,7 +178,7 @@ extension Import {
         var cnt: Int = 0
 
         // タイトル表記揺れ吸収用CSV読み込み
-        let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.FILE_NAME)
+        let titles: [String] = CommonMethod.loadCSV(filename: Const.Csv.CORRECT_TITLE)
 
         try! scoreRealm.write {
             // 取込曲数分ループ

@@ -18,7 +18,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iTK-w0-bLS">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cmn-63-mR6">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cmn-63-mR6">
                                         <rect key="frame" x="330" y="7" width="37" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="37" id="04h-FT-zVc"/>
@@ -124,11 +124,13 @@
                                     <constraint firstAttribute="height" constant="46" id="mJ4-Qk-aRb"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="アプリを初期状態に戻します。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0do-Cb-u6c">
-                                <rect key="frame" x="16" y="398" width="351" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0do-Cb-u6c">
+                                <rect key="frame" x="16" y="398" width="351" height="31.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="iEI-FS-X9a"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="32" id="iEI-FS-X9a"/>
                                 </constraints>
+                                <string key="text">アプリを初期状態に戻します。
+（マスタDBデータは残ります。）</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>

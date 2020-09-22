@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="8zJ-cY-hlI">
-                                        <rect key="frame" x="16" y="58" width="138" height="300"/>
+                                        <rect key="frame" x="16" y="58" width="138" height="354"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oka-M9-Vdq">
                                                 <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
@@ -57,8 +57,17 @@
                                                     <segue destination="9JK-Y7-67j" kind="presentation" identifier="toTag" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Th0-e5-DAx"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSF-aT-yFB">
+                                                <rect key="frame" x="0.0" y="216" width="97" height="30"/>
+                                                <state key="normal" title="マスタDB更新">
+                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="K6g-yG-zUh" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="O6M-Kh-7TE"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0c-bl-KhX">
-                                                <rect key="frame" x="0.0" y="216" width="108" height="30"/>
+                                                <rect key="frame" x="0.0" y="270" width="108" height="30"/>
                                                 <state key="normal" title="バージョン設定">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -66,13 +75,13 @@
                                                     <segue destination="TZA-L5-eDd" kind="presentation" identifier="toVersion" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="PYT-Q6-M2o"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSF-aT-yFB">
-                                                <rect key="frame" x="0.0" y="270" width="77" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U08-H8-Si2">
+                                                <rect key="frame" x="0.0" y="324" width="77" height="30"/>
                                                 <state key="normal" title="アプリ情報">
-                                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="U0G-Ho-anp" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Lpl-XF-HHB"/>
+                                                    <segue destination="U0G-Ho-anp" kind="presentation" identifier="toInformation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="CiY-Nx-KAV"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -146,6 +155,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JJ9-KB-qhX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="663" y="33"/>
+        </scene>
+        <!--UpdateMasterDB-->
+        <scene sceneID="K0v-dc-t2B">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UpdateMasterDB" id="K6g-yG-zUh" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gta-4f-l4y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="701" y="88"/>
         </scene>
         <!--Version-->
         <scene sceneID="4Ww-lI-3KT">

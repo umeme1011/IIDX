@@ -23,10 +23,20 @@ class Const {
         static let PRESENT_VERSION_NO = 27
     }
     
+    // Wiki
+    class Wiki {
+//        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-16 (水) 22:29:53"
+//        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:03:51"
+//        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:06:26"
+        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-16 (水) 22:29:50"
+        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:03:50"
+        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:06:20"
+    }
+    
     // Realm
     class Realm {
         static let SCHEMA_VER = 2
-        static let SEED_DB_VER = "27.4"
+        static let SEED_DB_VER = "27.5"
         static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"
@@ -34,8 +44,9 @@ class Const {
     
     // CSV
     class Csv {
-        static let FILE_NAME = "CorrectTitle"
+        static let CORRECT_TITLE = "CorrectTitle"
         static let SEPARATER = "@@@"
+        static let NO_NOTES_TITLE = "NoNotesTitle"
     }
     
     
@@ -95,6 +106,29 @@ class Const {
         func getCsvUrl() -> String {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/score_download.html"
             return url
+        }
+        
+        // Wiki Url バージョン毎に分岐
+        func getWikiOldSongUrl() -> String {
+            var ret: String = ""
+            if Const.Version.PRESENT_VERSION_NO == 27 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            return ret
+        }
+        func getWikiOldNotesListUrl() -> String {
+            var ret: String = ""
+            if Const.Version.PRESENT_VERSION_NO == 27 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C8%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
+            return ret
+        }
+        func getWikiNewSongListUrl() -> String {
+            var ret: String = ""
+            if Const.Version.PRESENT_VERSION_NO == 27 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            return ret
         }
     }
     

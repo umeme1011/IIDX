@@ -23,6 +23,7 @@
 		C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3AF62EE234E7EBE0022664D /* EditDetail.storyboard */; };
 		C3AF62F1234E7F130022664D /* EditDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AF62F0234E7F130022664D /* EditDetailViewController.swift */; };
 		C3AF62F3234E87B40022664D /* EditListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3AF62F2234E87B40022664D /* EditListTableViewCell.swift */; };
+		C3BBB1DD2519305A00D27CE9 /* iidx_seed_27.5.realm in Resources */ = {isa = PBXBuildFile; fileRef = C3BBB1DC2519305A00D27CE9 /* iidx_seed_27.5.realm */; };
 		C3C21ED82314FD1F00B51CB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */; };
 		C3C21EDD2314FD1F00B51CB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EDB2314FD1F00B51CB1 /* Main.storyboard */; };
 		C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EE02314FD2000B51CB1 /* LaunchScreen.storyboard */; };
@@ -68,6 +69,14 @@
 		C3D7F514231667C200B5C895 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D7F513231667C200B5C895 /* AccountViewController.swift */; };
 		C3D7F516231764FE00B5C895 /* TargetAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D7F515231764FE00B5C895 /* TargetAccountTableViewCell.swift */; };
 		C3E0023A250D07840022D8A9 /* iidx_seed_27.4.realm in Resources */ = {isa = PBXBuildFile; fileRef = C3E00239250D07840022D8A9 /* iidx_seed_27.4.realm */; };
+		C3E0023C251107840022D8A9 /* UpdateMasterDB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3E0023B251107830022D8A9 /* UpdateMasterDB.storyboard */; };
+		C3E00242251108A40022D8A9 /* UpdateMasterDBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E00241251108A40022D8A9 /* UpdateMasterDBViewController.swift */; };
+		C3E0024525110F9B0022D8A9 /* UpdateMasterDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0024425110F9B0022D8A9 /* UpdateMasterDB.swift */; };
+		C3E00247251115460022D8A9 /* ScrapingOldSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E00246251115460022D8A9 /* ScrapingOldSong.swift */; };
+		C3E00249251117E90022D8A9 /* ScrapingNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E00248251117E90022D8A9 /* ScrapingNotes.swift */; };
+		C3E0024B2511187D0022D8A9 /* NoNotesTitle.csv in Resources */ = {isa = PBXBuildFile; fileRef = C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */; };
+		C3E0024D251119830022D8A9 /* ScrapingNewSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0024C251119830022D8A9 /* ScrapingNewSong.swift */; };
+		C3E0024F25111A300022D8A9 /* SaveMasterDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0024E25111A300022D8A9 /* SaveMasterDB.swift */; };
 		C3EFE1932357C08800CEE129 /* TagAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EFE1922357C08700CEE129 /* TagAddCollectionViewCell.swift */; };
 		C3EFE1952359060100CEE129 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EFE1942359060100CEE129 /* Tag.swift */; };
 		C3EFE1972359070C00CEE129 /* Tag.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EFE1962359070C00CEE129 /* Tag.storyboard */; };
@@ -103,6 +112,7 @@
 		C3AF62EE234E7EBE0022664D /* EditDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditDetail.storyboard; sourceTree = "<group>"; };
 		C3AF62F0234E7F130022664D /* EditDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDetailViewController.swift; sourceTree = "<group>"; };
 		C3AF62F2234E87B40022664D /* EditListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTableViewCell.swift; sourceTree = "<group>"; };
+		C3BBB1DC2519305A00D27CE9 /* iidx_seed_27.5.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.5.realm; sourceTree = "<group>"; };
 		C3C21ED42314FD1F00B51CB1 /* IIDX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IIDX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3C21EDC2314FD1F00B51CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -150,6 +160,14 @@
 		C3D7F513231667C200B5C895 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		C3D7F515231764FE00B5C895 /* TargetAccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetAccountTableViewCell.swift; sourceTree = "<group>"; };
 		C3E00239250D07840022D8A9 /* iidx_seed_27.4.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.4.realm; sourceTree = "<group>"; };
+		C3E0023B251107830022D8A9 /* UpdateMasterDB.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = UpdateMasterDB.storyboard; sourceTree = "<group>"; };
+		C3E00241251108A40022D8A9 /* UpdateMasterDBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMasterDBViewController.swift; sourceTree = "<group>"; };
+		C3E0024425110F9B0022D8A9 /* UpdateMasterDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMasterDB.swift; sourceTree = "<group>"; };
+		C3E00246251115460022D8A9 /* ScrapingOldSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapingOldSong.swift; sourceTree = "<group>"; };
+		C3E00248251117E90022D8A9 /* ScrapingNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapingNotes.swift; sourceTree = "<group>"; };
+		C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NoNotesTitle.csv; sourceTree = "<group>"; };
+		C3E0024C251119830022D8A9 /* ScrapingNewSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapingNewSong.swift; sourceTree = "<group>"; };
+		C3E0024E25111A300022D8A9 /* SaveMasterDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMasterDB.swift; sourceTree = "<group>"; };
 		C3EFE1922357C08700CEE129 /* TagAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAddCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3EFE1942359060100CEE129 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		C3EFE1962359070C00CEE129 /* Tag.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tag.storyboard; sourceTree = "<group>"; };
@@ -202,6 +220,7 @@
 		C34E9C03232CB9A800D62373 /* Csv */ = {
 			isa = PBXGroup;
 			children = (
+				C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */,
 				C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */,
 			);
 			path = Csv;
@@ -239,6 +258,7 @@
 				C3D0EF6A231C7791001F1511 /* Operation */,
 				C3D7F4D823160E5700B5C895 /* Realm */,
 				C3D7F4F22316327500B5C895 /* Storyboad */,
+				C3E0024325110F750022D8A9 /* UpdateMasterDB */,
 				C3D0EF5F231BA6D9001F1511 /* ViewController */,
 			);
 			path = IIDX;
@@ -264,6 +284,7 @@
 				C3EFE1982359073C00CEE129 /* TagViewController.swift */,
 				C3D7F511231667B400B5C895 /* TargetAccountViewController.swift */,
 				C369F92824FFEBFB0088B856 /* TargetPageViewController.swift */,
+				C3E00241251108A40022D8A9 /* UpdateMasterDBViewController.swift */,
 				C34E9C012329291E00D62373 /* VersionViewController.swift */,
 			);
 			path = ViewController;
@@ -306,6 +327,7 @@
 		C3D7F4D823160E5700B5C895 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
+				C3BBB1DC2519305A00D27CE9 /* iidx_seed_27.5.realm */,
 				C3E00239250D07840022D8A9 /* iidx_seed_27.4.realm */,
 				C3D7F4DB2316132500B5C895 /* Code.swift */,
 				C3FD10F023182C5000C7A86F /* LastImportDate.swift */,
@@ -356,6 +378,7 @@
 				C3EFE1962359070C00CEE129 /* Tag.storyboard */,
 				C3D7F50D2316676E00B5C895 /* TargetAccount.storyboard */,
 				C369F92624FFE1840088B856 /* TargetPage.storyboard */,
+				C3E0023B251107830022D8A9 /* UpdateMasterDB.storyboard */,
 				C34E9BFF232928CC00D62373 /* Version.storyboard */,
 			);
 			path = Storyboad;
@@ -369,6 +392,18 @@
 				C3FD10EE23182B2500C7A86F /* SaveDB.swift */,
 			);
 			path = Import;
+			sourceTree = "<group>";
+		};
+		C3E0024325110F750022D8A9 /* UpdateMasterDB */ = {
+			isa = PBXGroup;
+			children = (
+				C3E0024E25111A300022D8A9 /* SaveMasterDB.swift */,
+				C3E0024C251119830022D8A9 /* ScrapingNewSong.swift */,
+				C3E00248251117E90022D8A9 /* ScrapingNotes.swift */,
+				C3E00246251115460022D8A9 /* ScrapingOldSong.swift */,
+				C3E0024425110F9B0022D8A9 /* UpdateMasterDB.swift */,
+			);
+			path = UpdateMasterDB;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -432,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C369F92724FFE1840088B856 /* TargetPage.storyboard in Resources */,
+				C3E0023C251107840022D8A9 /* UpdateMasterDB.storyboard in Resources */,
 				C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */,
 				C3D7F50C231665F100B5C895 /* Setting.storyboard in Resources */,
 				C3D7F50E2316676E00B5C895 /* TargetAccount.storyboard in Resources */,
@@ -442,8 +478,10 @@
 				C3E0023A250D07840022D8A9 /* iidx_seed_27.4.realm in Resources */,
 				C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */,
 				C3D7F4F6231634CB00B5C895 /* Login.storyboard in Resources */,
+				C3BBB1DD2519305A00D27CE9 /* iidx_seed_27.5.realm in Resources */,
 				C3D7F4F42316332800B5C895 /* List.storyboard in Resources */,
 				C34E9C07232CBE6F00D62373 /* CorrectTitle.csv in Resources */,
+				C3E0024B2511187D0022D8A9 /* NoNotesTitle.csv in Resources */,
 				C3D0EF70231CB458001F1511 /* Filter.storyboard in Resources */,
 				C3EFE1972359070C00CEE129 /* Tag.storyboard in Resources */,
 				C3D7F5102316678500B5C895 /* Account.storyboard in Resources */,
@@ -505,6 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3D7F4E02316192300B5C895 /* Song.swift in Sources */,
+				C3E00249251117E90022D8A9 /* ScrapingNotes.swift in Sources */,
 				C3D7F4E223161E6700B5C895 /* Init.swift in Sources */,
 				C3FD10ED23181EF500C7A86F /* Scraping.swift in Sources */,
 				C3D0EF7C231F45A8001F1511 /* StatisticsCLViewController.swift in Sources */,
@@ -519,6 +558,8 @@
 				C3FD10F123182C5000C7A86F /* LastImportDate.swift in Sources */,
 				C3AF62F3234E87B40022664D /* EditListTableViewCell.swift in Sources */,
 				C3D7F50A231665DD00B5C895 /* SettingViewController.swift in Sources */,
+				C3E0024525110F9B0022D8A9 /* UpdateMasterDB.swift in Sources */,
+				C3E00247251115460022D8A9 /* ScrapingOldSong.swift in Sources */,
 				C3D0EF7E231F4818001F1511 /* StatisticsDLViewController.swift in Sources */,
 				C338FF0D2352370400FBD47F /* EditSelectViewController.swift in Sources */,
 				C3D7F514231667C200B5C895 /* AccountViewController.swift in Sources */,
@@ -529,6 +570,7 @@
 				C3D0EF9523222A39001F1511 /* DetailTableViewCell.swift in Sources */,
 				C3D0EF9323221B24001F1511 /* DetailViewController.swift in Sources */,
 				C3D7F4D22315A7E200B5C895 /* ListViewController.swift in Sources */,
+				C3E00242251108A40022D8A9 /* UpdateMasterDBViewController.swift in Sources */,
 				C3F0579C2332A8E200F3831F /* Log.swift in Sources */,
 				C3D7F4E9231628BF00B5C895 /* MyUserDefaults.swift in Sources */,
 				C338FF0F2353879400FBD47F /* TagCollectionViewCell.swift in Sources */,
@@ -548,7 +590,9 @@
 				C369F92924FFEBFB0088B856 /* TargetPageViewController.swift in Sources */,
 				C3D0EF6E231CAF8B001F1511 /* Operation.swift in Sources */,
 				C369F92B250135B20088B856 /* TargetPageTableViewCell.swift in Sources */,
+				C3E0024D251119830022D8A9 /* ScrapingNewSong.swift in Sources */,
 				C3D7F4E7231623B800B5C895 /* CommonMetod.swift in Sources */,
+				C3E0024F25111A300022D8A9 /* SaveMasterDB.swift in Sources */,
 				C3AF62E92349DC010022664D /* ModeViewController.swift in Sources */,
 				C3D7F4E523161EE400B5C895 /* Const.swift in Sources */,
 				C3D7F516231764FE00B5C895 /* TargetAccountTableViewCell.swift in Sources */,
@@ -705,7 +749,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.0;
+				CURRENT_PROJECT_VERSION = 1.2.0;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -713,7 +757,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -729,7 +773,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.0;
+				CURRENT_PROJECT_VERSION = 1.2.0;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -737,7 +781,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

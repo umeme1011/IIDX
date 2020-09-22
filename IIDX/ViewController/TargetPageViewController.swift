@@ -191,6 +191,15 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
     }
     
     /*
+     右にスワイプ
+     */
+    @IBAction func swipeRight(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    /*
      表示切り替え
      */
     private func switchDisp() {

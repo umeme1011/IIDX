@@ -114,22 +114,29 @@ class Init {
      MyScore差分登録
      */
     private func updateMyScore(newSeedPath: String, oldSeedPath: String) -> String {
-        
         let newSeedRealm: Realm = CommonMethod.createSeedRealm()
         let oldSeedRealm: Realm = CommonMethod.createRealm(path: oldSeedPath)
-        let scoreRealm: Realm = CommonMethod.createScoreRealm()
-        
-        // 最新VerSong全件取得
         let newSongs: Results<Song> = newSeedRealm.objects(Song.self)
+        let oldSongs: Results<Song> = oldSeedRealm.objects(Song.self)
+
+        return updateMyScore(newSongs: Array(newSongs), oldSongs: oldSongs)
+    }
+    
+    /*
+     MyScore差分登録
+     */
+    func updateMyScore(newSongs: [Song], oldSongs: Results<Song>) -> String {
+        
+        let scoreRealm: Realm = CommonMethod.createScoreRealm()
         var songArray: [Song] = [Song]()
         var newSongTitleArray: [String] = [String]()
+        var ret: String = ""
         
         // 最新VerのSeedDBの内、新曲と更新ありの既存曲を抽出
         for new in newSongs {
             // タイトルから旧SeedDBを検索
-            let songs: Results<Song> = oldSeedRealm.objects(Song.self)
-                .filter("\(Song.Types.title.rawValue) = %@", new.title!)
-            
+            let songs: Results<Song> = oldSongs.filter("\(Song.Types.title.rawValue) = %@", new.title!)
+
             if songs.isEmpty {
                 // 新曲
                 songArray.append(new)
@@ -153,9 +160,15 @@ class Init {
                     songArray.append(new)
                     
                     print("【既存更新】")
+                    print(old)
                     print(new)
                 }
             }
+        }
+        
+        // 更新なし
+        if songArray.isEmpty {
+            return "更新はありませんでした。"
         }
         
         // 更新用MyScore配列作成
@@ -169,9 +182,12 @@ class Init {
         }
         
         // アラート用メッセージ作成
-        var ret = "楽曲データを更新しました！\n\nVer.\(Const.Realm.SEED_DB_VER) 追加楽曲"
-        for title in newSongTitleArray {
-            ret += "\n\(title)"
+        ret = "楽曲データを更新しました！"
+        if !newSongTitleArray.isEmpty {
+            ret += "\n\n追加楽曲"
+            for title in newSongTitleArray {
+                ret += "\n\(title)"
+            }
         }
         return ret
     }
