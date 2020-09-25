@@ -34,7 +34,6 @@ class UpdateMasterDBViewController: UIViewController {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         // インジケータ表示
-//        startIndicator()
         indicatorView.isHidden = false
         indicator.startAnimating()
 
@@ -77,41 +76,6 @@ class UpdateMasterDBViewController: UIViewController {
             }
             Log.debugEnd(cls: String(describing: self), method: #function + "Thread")
         }
-        
-        
-//        // wikiデータ取り込み
-//        let umd: UpdateMasterDB = UpdateMasterDB.init()
-//        umd.doUpdate()
-//
-//        // 更新ありの場合
-//        if umd.updFlg {
-//            // データ取得処理
-//            let vc: MainViewController
-//                = self.presentingViewController?.presentingViewController as! MainViewController
-//            let operation: Operation = Operation.init(mainVC: vc)
-//            let score: Results<MyScore> = operation.doOperation()
-//            // メイン画面のUI処理
-//            vc.mainUI()
-//            // リスト画面リロード
-//            let listVC: ListViewController
-//                = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
-//            listVC.scores = score
-//            listVC.listTV.reloadData()
-//
-//            // 最終更新日時更新
-//            let dateString = getDateString(date: Date())
-//            lastUpdLbl.text = "最終更新日時：\(dateString)"
-//            myUD.setLastUpdateMasterDB(date: dateString)
-//        }
-//
-//        // インジケータ非表示
-////        dismissIndicator()
-//        indicatorView.isHidden = true
-//        indicator.stopAnimating()
-//
-//        // アラート表示
-//        CommonMethod.dispAlert(message: umd.msg, vc: self)
-        
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     

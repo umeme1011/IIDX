@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Kanna
 
 class UpdateMasterDB {
     
@@ -15,7 +16,7 @@ class UpdateMasterDB {
     var songId: Int = 1
     var notesDic: [String : [Int]] = [String : [Int]]()
     var codeArray: [Code] = [Code]()
-    var updFlg: Bool = false
+    var updFlg: Bool = true
     var msg: String = ""
     var wikiOldSongLastModified: String = ""
     var wikiOldNotesLastModified: String = ""
@@ -29,27 +30,53 @@ class UpdateMasterDB {
      wikiからデータを取り込んでSeedDBへ登録
      */
     func doUpdate() {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
         // HTML取得
-        
-        // Old Song
-        let songHtml: String = getHtmlStr(url: Const.Url().getWikiOldSongUrl())
-        let notesHtml: String = getHtmlStr(url: Const.Url().getWikiOldNotesListUrl())
-        scrapingOldSong(songHtml: songHtml, notesHtml: notesHtml)
-        
-        // New Song
-        let newHtml: String = getHtmlStr(url: Const.Url().getWikiNewSongListUrl())
-        scrapingNewSong(html: newHtml)
+        let oldSongHtml: String = getHtmlStr(url: Const.Url().getWikiOldSongUrl())
+        let oldNotesHtml: String = getHtmlStr(url: Const.Url().getWikiOldNotesListUrl())
+        let newSongHtml: String = getHtmlStr(url: Const.Url().getWikiNewSongListUrl())
 
-        if !updFlg {
-            msg = "更新はありませんでした。"
+        var oldSongDoc: HTMLDocument!
+        var oldNotesDoc: HTMLDocument!
+        var newSongDoc: HTMLDocument!
+        
+        // 最終更新日時チェック
+        // wikiの旧曲ページ、旧曲ノーツページ、新曲ページの最終更新日時がすべて同じ場合は取得しない
+        if let doc = try? HTML(html: oldSongHtml, encoding: .utf8) {
+            oldSongDoc = doc
+            wikiOldSongLastModified = doc.css("div#lastmodified").first?.text ?? ""
+            wikiOldSongLastModified = wikiOldSongLastModified.trimmingCharacters(in: .whitespaces)
+        }
+        if let doc = try? HTML(html: oldNotesHtml, encoding: .utf8) {
+            oldNotesDoc = doc
+            wikiOldNotesLastModified = doc.css("div#lastmodified").first?.text ?? ""
+            wikiOldNotesLastModified = wikiOldNotesLastModified.trimmingCharacters(in: .whitespaces)
+        }
+        if let doc = try? HTML(html: newSongHtml, encoding: .utf8) {
+            newSongDoc = doc
+            wikiNewSongLastModified = doc.css("div#lastmodified").first?.text ?? ""
+            wikiNewSongLastModified = wikiNewSongLastModified.trimmingCharacters(in: .whitespaces)
+        }
+        if wikiOldSongLastModified == myUD.getWikiOldSongLastModified()
+            && wikiOldNotesLastModified == myUD.getWikiOldNotesLastModified()
+            && wikiNewSongLastModified == myUD.getWikiNewSongLastModified() {
+            updFlg = false
+            msg = "マスタDBの更新はありませんでした。"
             return
         }
 
-        // Notes
+        // スクレイピング
+        scrapingOldSong(oldSongDoc: oldSongDoc, oldNotesDoc: oldNotesDoc)
+        scrapingNewSong(newSongDoc: newSongDoc)
+
+        // songArrayにNotesをセット
         setNotes()
         
         // DB登録
         saveMasterDB()
+        
+        Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
     private func getHtmlStr(url: String) -> String {

@@ -168,7 +168,7 @@ class Init {
         
         // 更新なし
         if songArray.isEmpty {
-            return "更新はありませんでした。"
+            return "マスタDBの更新はありませんでした。"
         }
         
         // 更新用MyScore配列作成

@@ -10,6 +10,9 @@ import RealmSwift
 
 extension UpdateMasterDB {
     
+    /*
+     DB登録
+     */
     func saveMasterDB() {
         Log.debugStart(cls: String(describing: self), method: #function)
 
@@ -21,23 +24,23 @@ extension UpdateMasterDB {
         // 登録
         try! seedRealm.write {
             // Song全件取得
-            let oldSongs: Results<Song> = seedRealm.objects(Song.self)
+            let songs: Results<Song> = seedRealm.objects(Song.self)
 
             // MyScore差分登録
-            msg = Init.init().updateMyScore(newSongs: songArray, oldSongs: oldSongs)
+            msg = Init.init().updateMyScore(newSongs: songArray, oldSongs: songs)
             
             // UserDefaults更新
             myUD.setWikiOldSongLastModified(date: wikiOldSongLastModified)
             myUD.setWikiOldNotesLastModified(date: wikiOldNotesLastModified)
             myUD.setWikiNewSongLastModified(date: wikiNewSongLastModified)
 
-            if msg == "更新はありませんでした。" {
+            if msg == "マスタDBの更新はありませんでした。" {
                 updFlg = false
                 return
             }
 
-            // 削除
-            seedRealm.delete(oldSongs)
+            // 全件削除
+            seedRealm.delete(songs)
 
             // Song登録
             for song in songArray {

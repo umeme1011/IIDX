@@ -25,7 +25,7 @@ class Const {
     
     // Wiki
     class Wiki {
-        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-16 (水) 22:29:53"
+        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-25 (金) 16:00:30"
         static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:03:51"
         static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:06:26"
     }
@@ -33,7 +33,7 @@ class Const {
     // Realm
     class Realm {
         static let SCHEMA_VER = 2
-        static let SEED_DB_VER = "27.5"
+        static let SEED_DB_VER = "27.6"
         static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"

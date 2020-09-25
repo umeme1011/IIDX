@@ -11,104 +11,89 @@ import RealmSwift
 
 extension UpdateMasterDB {
     
-    func scrapingOldSong(songHtml: String, notesHtml: String) {
+    /*
+     旧曲ページをスクレイピング
+     */
+    func scrapingOldSong(oldSongDoc: HTMLDocument, oldNotesDoc: HTMLDocument) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        // 最終更新日時チェック
-        // wikiの旧曲ページと旧曲ノーツページ最終更新日時が同じ場合は取得しない
-        if let doc = try? HTML(html: songHtml, encoding: .utf8) {
-            wikiOldSongLastModified = doc.css("div#lastmodified").first?.text ?? ""
-            wikiOldSongLastModified = wikiOldSongLastModified.trimmingCharacters(in: .whitespaces)
-        }
-        if let doc = try? HTML(html: notesHtml, encoding: .utf8) {
-            wikiOldNotesLastModified = doc.css("div#lastmodified").first?.text ?? ""
-            wikiOldNotesLastModified = wikiOldNotesLastModified.trimmingCharacters(in: .whitespaces)
-        }
-        if wikiOldSongLastModified == myUD.getWikiOldSongLastModified()
-            && wikiOldNotesLastModified == myUD.getWikiOldNotesLastModified() {
-            return
-        }
+        var versionId: Int = 0
+        let seedRealm: Realm = CommonMethod.createSeedRealm()
         
-        // Scraping
-        if let doc = try? HTML(html: songHtml, encoding: .utf8) {
-            var versionId: Int = 0
+        // バージョン取得
+        let versions: Results<Code> = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.VERSION)
+        // インデックス取得
+        let indexes: Results<Code> = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.INDEX)
+        
+        for node1 in oldSongDoc.css("table.style_table")[1].css("tbody")[0].css("tr") {
+            var song: Song = Song()
             
-            let seedRealm: Realm = CommonMethod.createSeedRealm()
-            // バージョン取得
-            let versions: Results<Code> = seedRealm.objects(Code.self)
-                .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.VERSION)
-            // インデックス取得
-            let indexes: Results<Code> = seedRealm.objects(Code.self)
-                .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.INDEX)
-            
-            for node1 in doc.css("table.style_table")[1].css("tbody")[0].css("tr") {
-                var song: Song = Song()
-                
-                // get version
-                var nextflg: Bool = false
-                for node2 in node1.css("a") {
-                    if (node2["href"] ?? "") == "#BPM" {
-                        break
-                    }
-                    if (node2.text) == "参照" {
-                        break
-                    }
-                    versionId = getVersion(str: node2["id"] ?? "", versions: versions)
-                    if versionId != 0 {
-                        nextflg = true
-                        break
-                    }
+            // get version
+            var nextflg: Bool = false
+            for node2 in node1.css("a") {
+                if (node2["href"] ?? "") == "#BPM" {
+                    break
                 }
-                
-                // goto next <tr>
-                if nextflg {
-                    continue
+                if (node2.text) == "参照" {
+                    break
                 }
-                let text: String = node1.css("td")[0].text ?? ""
-                if text == "SP" {
-                    continue
+                versionId = getVersion(str: node2["id"] ?? "", versions: versions)
+                if versionId != 0 {
+                    nextflg = true
+                    break
                 }
-                let html: String = node1.css("td")[0].toHTML ?? ""
-                if html.contains("colspan=\"13\"") {
-                    continue
-                }
-                
-                // set song model
-                song.id = songId
-                song.spb = convertStringToInt(str: node1.css("td")[0].text ?? "")
-                song.spn = convertStringToInt(str: node1.css("td")[1].text ?? "")
-                song.sph = convertStringToInt(str: node1.css("td")[2].text ?? "")
-                song.spa = convertStringToInt(str: node1.css("td")[3].text ?? "")
-                song.spl = convertStringToInt(str: node1.css("td")[4].text ?? "")
-                song.dpn = convertStringToInt(str: node1.css("td")[5].text ?? "")
-                song.dph = convertStringToInt(str: node1.css("td")[6].text ?? "")
-                song.dpa = convertStringToInt(str: node1.css("td")[7].text ?? "")
-                song.dpl = convertStringToInt(str: node1.css("td")[8].text ?? "")
-                song.bpm = node1.css("td")[9].text ?? ""
-                song.genre = node1.css("td")[10].text ?? ""
-                song.title = node1.css("td")[11].text ?? ""
-                song.artist = node1.css("td")[12].text ?? ""
-                song.versionId = versionId
-                song.indexId = getIndexId(str: song.title ?? "", indexes: indexes)
-                
-                // どの難易度にもデータがない場合は取得しない
-                if song.spb == 0 && song.spn == 0 && song.sph == 0 && song.spa == 0 && song.spl == 0
-                    && song.dpn == 0 && song.dph == 0 && song.dpa == 0 && song.dpl == 0 {
-                    continue
-                }
-                
-                song = arrangeSong(song: song)
-                
-                songId += 1
-                
-//                print(song)
-                songArray.append(song)
             }
             
-            // set notes
-            makeOldNotesDic(html: notesHtml)
+            // goto next <tr>
+            if nextflg {
+                continue
+            }
+            let text: String = node1.css("td")[0].text ?? ""
+            if text == "SP" {
+                continue
+            }
+            let html: String = node1.css("td")[0].toHTML ?? ""
+            if html.contains("colspan=\"13\"") {
+                continue
+            }
+            
+            // set song model
+            song.id = songId
+            song.spb = convertStringToInt(str: node1.css("td")[0].text ?? "")
+            song.spn = convertStringToInt(str: node1.css("td")[1].text ?? "")
+            song.sph = convertStringToInt(str: node1.css("td")[2].text ?? "")
+            song.spa = convertStringToInt(str: node1.css("td")[3].text ?? "")
+            song.spl = convertStringToInt(str: node1.css("td")[4].text ?? "")
+            song.dpn = convertStringToInt(str: node1.css("td")[5].text ?? "")
+            song.dph = convertStringToInt(str: node1.css("td")[6].text ?? "")
+            song.dpa = convertStringToInt(str: node1.css("td")[7].text ?? "")
+            song.dpl = convertStringToInt(str: node1.css("td")[8].text ?? "")
+            song.bpm = node1.css("td")[9].text ?? ""
+            song.genre = node1.css("td")[10].text ?? ""
+            song.title = node1.css("td")[11].text ?? ""
+            song.artist = node1.css("td")[12].text ?? ""
+            song.versionId = versionId
+            song.indexId = getIndexId(str: song.title ?? "", indexes: indexes)
+            
+            // どの難易度にもデータがない場合は取得しない
+            if song.spb == 0 && song.spn == 0 && song.sph == 0 && song.spa == 0 && song.spl == 0
+                && song.dpn == 0 && song.dph == 0 && song.dpa == 0 && song.dpl == 0 {
+                continue
+            }
+            
+            song = arrangeSong(song: song)
+            
+            songId += 1
+            
+//                print(song)
+            songArray.append(song)
         }
-        updFlg = true
+        
+        // set notes
+        makeOldNotesDic(oldNotesDoc: oldNotesDoc)
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     

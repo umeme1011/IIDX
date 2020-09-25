@@ -10,71 +10,72 @@ import Kanna
 
 extension UpdateMasterDB {
     
-    func makeOldNotesDic(html: String) {
+    /*
+     旧曲ノーツページをスクレイピング
+     */
+    func makeOldNotesDic(oldNotesDoc: HTMLDocument) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        if let doc = try? HTML(html: html, encoding: .utf8) {
-            for node1 in doc.css("table.style_table")[1].css("tbody")[0].css("tr") {
-                
-                // goto next <tr>
-                let html: String = node1.css("td")[0].toHTML ?? ""
-                if html.contains("colspan=\"13\"") {
-                    continue
-                }
-                
-                let title: String = node1.css("td")[0].text ?? ""
-                var notesArray: [Int] = [Int]()
-                notesArray.append(convertStringToInt(str: node1.css("td")[1].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[2].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[3].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[4].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[5].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[6].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[7].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[8].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[9].text ?? ""))
+        for node1 in oldNotesDoc.css("table.style_table")[1].css("tbody")[0].css("tr") {
+            
+            // goto next <tr>
+            let html: String = node1.css("td")[0].toHTML ?? ""
+            if html.contains("colspan=\"13\"") {
+                continue
+            }
+            
+            let title: String = node1.css("td")[0].text ?? ""
+            var notesArray: [Int] = [Int]()
+            notesArray.append(convertStringToInt(str: node1.css("td")[1].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[2].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[3].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[4].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[5].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[6].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[7].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[8].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[9].text ?? ""))
 
 //                print(notesArray)
-                notesDic[title] = notesArray
-            }
+            notesDic[title] = notesArray
         }
-        
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
         
-    
-    func makeNewNotesDic(html: String) {
+    /*
+     新曲ノーツ部分をスクレイピング
+     */
+    func makeNewNotesDic(newSongDoc: HTMLDocument) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        if let doc = try? HTML(html: html, encoding: .utf8) {
-            for node1 in doc.css("table.style_table")[1].css("tbody")[0].css("tr") {
-                
-                // goto next <tr>
-                let html: String = node1.css("td")[0].toHTML ?? ""
-                if html.contains("colspan=\"13\"") {
-                    continue
-                }
-                
-                let title: String = node1.css("td")[0].text ?? ""
-                var notesArray: [Int] = [Int]()
-                notesArray.append(convertStringToInt(str: node1.css("td")[1].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[2].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[3].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[4].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[5].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[6].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[7].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[8].text ?? ""))
-                notesArray.append(convertStringToInt(str: node1.css("td")[9].text ?? ""))
-                
-                notesDic[title] = notesArray
+        for node1 in newSongDoc.css("table.style_table")[1].css("tbody")[0].css("tr") {
+            
+            // goto next <tr>
+            let html: String = node1.css("td")[0].toHTML ?? ""
+            if html.contains("colspan=\"13\"") {
+                continue
             }
+            
+            let title: String = node1.css("td")[0].text ?? ""
+            var notesArray: [Int] = [Int]()
+            notesArray.append(convertStringToInt(str: node1.css("td")[1].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[2].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[3].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[4].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[5].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[6].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[7].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[8].text ?? ""))
+            notesArray.append(convertStringToInt(str: node1.css("td")[9].text ?? ""))
+            
+            notesDic[title] = notesArray
         }
-        
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-        
+    /*
+     songArrayにノーツをセット
+     */
     func setNotes() {
         Log.debugStart(cls: String(describing: self), method: #function)
         
