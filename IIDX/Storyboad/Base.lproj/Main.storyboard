@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="noG-Yj-3x9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="noG-Yj-3x9">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -69,7 +70,7 @@
                                             <segue destination="xdc-K8-3nK" kind="presentation" identifier="toSetting" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="if7-Ph-pMo"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DiA-ox-snp">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DiA-ox-snp">
                                         <rect key="frame" x="376" y="7" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="EW9-j8-s0J"/>
@@ -152,7 +153,18 @@
                                 <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g13-h2-whk">
+                                <rect key="frame" x="310" y="88" width="88" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="88" id="Uie-dJ-cyJ"/>
+                                    <constraint firstAttribute="height" constant="30" id="XwJ-gy-cJP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="9Gn-8a-HTd"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
@@ -170,7 +182,9 @@
                             <constraint firstItem="nJz-ij-TLf" firstAttribute="bottom" secondItem="9Gn-8a-HTd" secondAttribute="bottom" id="IHO-Ca-f4X"/>
                             <constraint firstItem="BO8-mK-UbG" firstAttribute="top" secondItem="XvX-r5-eBv" secondAttribute="bottom" constant="16" id="KMh-Wz-lL6"/>
                             <constraint firstItem="9Gn-8a-HTd" firstAttribute="trailing" secondItem="6hn-HL-Mv7" secondAttribute="trailing" constant="16" id="KzX-L2-nUd"/>
+                            <constraint firstItem="g13-h2-whk" firstAttribute="top" secondItem="CIF-Z3-F0a" secondAttribute="bottom" id="TRV-bO-Qqb"/>
                             <constraint firstItem="pOX-UX-brj" firstAttribute="leading" secondItem="9Gn-8a-HTd" secondAttribute="leading" id="eGQ-kP-6FS"/>
+                            <constraint firstItem="9Gn-8a-HTd" firstAttribute="trailing" secondItem="g13-h2-whk" secondAttribute="trailing" constant="16" id="fSH-lk-0wA"/>
                             <constraint firstItem="9Gn-8a-HTd" firstAttribute="bottom" secondItem="0OU-HZ-224" secondAttribute="bottom" constant="57" id="kzE-5y-JPY"/>
                             <constraint firstItem="nJz-ij-TLf" firstAttribute="top" secondItem="CIF-Z3-F0a" secondAttribute="bottom" id="lqk-NL-Za7"/>
                             <constraint firstItem="QfS-7A-SPP" firstAttribute="top" secondItem="6hn-HL-Mv7" secondAttribute="bottom" constant="16" id="nG6-L8-YI6"/>
@@ -179,7 +193,6 @@
                             <constraint firstItem="9Gn-8a-HTd" firstAttribute="bottom" secondItem="QfS-7A-SPP" secondAttribute="bottom" constant="20" id="xuN-eA-6KP"/>
                             <constraint firstItem="9Gn-8a-HTd" firstAttribute="trailing" secondItem="XvX-r5-eBv" secondAttribute="trailing" constant="16" id="ysw-yw-Ta9"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="9Gn-8a-HTd"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="qTA-5B-dDx" appends="YES" id="F4b-e6-qiE"/>
                         </connections>
@@ -189,6 +202,7 @@
                         <outlet property="balloonLbl" destination="0OU-HZ-224" id="MXt-YJ-DLf"/>
                         <outlet property="filterBtn" destination="XvX-r5-eBv" id="3JE-jR-BLJ"/>
                         <outlet property="importBtn" destination="QfS-7A-SPP" id="j8o-2Q-F5o"/>
+                        <outlet property="numLbl" destination="g13-h2-whk" id="vWO-mE-RkE"/>
                         <outlet property="playStyleBtn" destination="DiA-ox-snp" id="Dcy-Eh-oCn"/>
                         <outlet property="progressLbl" destination="sOq-uS-V4E" id="4QA-wr-x0q"/>
                         <outlet property="progressView" destination="pOX-UX-brj" id="IHi-F8-bbA"/>

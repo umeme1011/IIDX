@@ -21,6 +21,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var settingBtn: UIButton!
     @IBOutlet weak var balloonIV: UIImageView!
     @IBOutlet weak var balloonLbl: UILabel!
+    @IBOutlet weak var numLbl: UILabel!
     
     let myUD: MyUserDefaults = MyUserDefaults()
     var firstLoadFlg: Bool!

@@ -33,6 +33,9 @@ class Operation {
         // ソート処理
         result = doSort(result: result)
         
+        // 件数を画面に表示
+        mainVC.numLbl.text = String(result.count)
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
         return result
     }
