@@ -14,7 +14,7 @@ class Const {
     // DEVELOP true:5thStyleまで同期 false:全バージョン同期
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = false
+        static let DEBUG_LOG = true
     }
     
     // Version
@@ -182,20 +182,20 @@ class Const {
             static let AAA = 9
         }
         class Sort {
-            static let CLEAR_LUMP_ASK = 1
-            static let CLEAR_LUMP_DESK = 2
-            static let DJ_LEVEL_ASK = 3
-            static let DJ_LEVEL_DESK = 4
-            static let LEVEL_ASK = 5
-            static let LEVEL_DESK = 6
-            static let INDEX_ASK = 7
-            static let INDEX_DESK = 8
-            static let SCORE_RATE_ASK = 9
-            static let SCORE_RATE_DESK = 10
-            static let VERSION_ASK = 11
-            static let VERSION_DESK = 12
-            static let MISS_COUNT_ASK = 13
-            static let MISS_COUNT_DESC = 14
+            static let CLEAR_LUMP_ASK = 101
+            static let CLEAR_LUMP_DESK = 201
+            static let DJ_LEVEL_ASK = 102
+            static let DJ_LEVEL_DESK = 202
+            static let MISS_COUNT_ASK = 103
+            static let MISS_COUNT_DESC = 203
+            static let SCORE_RATE_ASK = 104
+            static let SCORE_RATE_DESK = 204
+            static let LEVEL_ASK = 105
+            static let LEVEL_DESK = 205
+            static let INDEX_ASK = 106
+            static let INDEX_DESK = 206
+            static let VERSION_ASK = 107
+            static let VERSION_DESK = 207
         }
         class Filter {
             static let NEW_RECORD = 0
@@ -225,7 +225,8 @@ class Const {
 
     // Image
     class Image {
-        static let CHECK = "check"
+//        static let CHECK = "check"
+        static let CHECK = "checkmark"
         static let FCOMBO = "fcombo"
         static let FCOMBO_PIE = "fcombo_pie"
         static let FCOMBO_DETAIL = "fcombo_detail"

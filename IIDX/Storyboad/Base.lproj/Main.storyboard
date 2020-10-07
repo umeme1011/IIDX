@@ -111,7 +111,7 @@
                                 </constraints>
                                 <state key="normal" image="sort_ok"/>
                                 <connections>
-                                    <segue destination="azM-Xd-hOR" kind="presentation" identifier="toSort" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="dG9-xU-IPo"/>
+                                    <segue destination="VVG-rJ-tOa" kind="presentation" identifier="toSort2" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="V1f-sC-hFd"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6hn-HL-Mv7">
@@ -254,6 +254,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iuJ-Mc-7Tl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="326" y="-12"/>
+        </scene>
+        <!--Sort2-->
+        <scene sceneID="b8y-lR-yjI">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Sort2" id="VVG-rJ-tOa" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VrN-J7-JQo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="497" y="-12"/>
         </scene>
         <!--Filter-->
         <scene sceneID="Vz3-r4-g8l">

@@ -11,6 +11,8 @@
 		C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C338FF0A235236A300FBD47F /* EditSelect.storyboard */; };
 		C338FF0D2352370400FBD47F /* EditSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0C2352370400FBD47F /* EditSelectViewController.swift */; };
 		C338FF0F2353879400FBD47F /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */; };
+		C33ED854252A1A6F0073C1E9 /* Sort2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C33ED853252A1A6F0073C1E9 /* Sort2.storyboard */; };
+		C33ED857252A1A7E0073C1E9 /* Sort2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33ED856252A1A7E0073C1E9 /* Sort2ViewController.swift */; };
 		C34E9C00232928CC00D62373 /* Version.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C34E9BFF232928CC00D62373 /* Version.storyboard */; };
 		C34E9C022329291E00D62373 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34E9C012329291E00D62373 /* VersionViewController.swift */; };
 		C34E9C07232CBE6F00D62373 /* CorrectTitle.csv in Resources */ = {isa = PBXBuildFile; fileRef = C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */; };
@@ -99,6 +101,8 @@
 		C338FF0A235236A300FBD47F /* EditSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditSelect.storyboard; sourceTree = "<group>"; };
 		C338FF0C2352370400FBD47F /* EditSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectViewController.swift; sourceTree = "<group>"; };
 		C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		C33ED853252A1A6F0073C1E9 /* Sort2.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sort2.storyboard; sourceTree = "<group>"; };
+		C33ED856252A1A7E0073C1E9 /* Sort2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sort2ViewController.swift; sourceTree = "<group>"; };
 		C34E9BFF232928CC00D62373 /* Version.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Version.storyboard; sourceTree = "<group>"; };
 		C34E9C012329291E00D62373 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
 		C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CorrectTitle.csv; sourceTree = "<group>"; };
@@ -276,6 +280,7 @@
 				C3D7F4CF2315A3F400B5C895 /* MainViewController.swift */,
 				C3AF62E82349DC010022664D /* ModeViewController.swift */,
 				C3D7F509231665DD00B5C895 /* SettingViewController.swift */,
+				C33ED856252A1A7E0073C1E9 /* Sort2ViewController.swift */,
 				C3D0EF63231BA815001F1511 /* SortViewController.swift */,
 				C3D0EF7B231F45A8001F1511 /* StatisticsCLViewController.swift */,
 				C3D0EF7D231F4818001F1511 /* StatisticsDLViewController.swift */,
@@ -371,6 +376,7 @@
 				C3AF62E62349DBD70022664D /* Mode.storyboard */,
 				C3D7F50B231665F100B5C895 /* Setting.storyboard */,
 				C3D0EF61231BA7FB001F1511 /* Sort.storyboard */,
+				C33ED853252A1A6F0073C1E9 /* Sort2.storyboard */,
 				C3D0EF79231F457E001F1511 /* Statistics.storyboard */,
 				C3EFE1962359070C00CEE129 /* Tag.storyboard */,
 				C3D7F50D2316676E00B5C895 /* TargetAccount.storyboard */,
@@ -467,6 +473,7 @@
 				C3E0023C251107840022D8A9 /* UpdateMasterDB.storyboard in Resources */,
 				C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */,
 				C3D7F50C231665F100B5C895 /* Setting.storyboard in Resources */,
+				C33ED854252A1A6F0073C1E9 /* Sort2.storyboard in Resources */,
 				C3D7F50E2316676E00B5C895 /* TargetAccount.storyboard in Resources */,
 				C385B213251E5E0F001C0C91 /* iidx_seed_27.6.realm in Resources */,
 				C3F057D32334856C00F3831F /* Information.storyboard in Resources */,
@@ -582,6 +589,7 @@
 				C3EFE1992359073C00CEE129 /* TagViewController.swift in Sources */,
 				C3EFE1932357C08800CEE129 /* TagAddCollectionViewCell.swift in Sources */,
 				C3D7F512231667B400B5C895 /* TargetAccountViewController.swift in Sources */,
+				C33ED857252A1A7E0073C1E9 /* Sort2ViewController.swift in Sources */,
 				C3D0EF72231CB48F001F1511 /* FilterViewController.swift in Sources */,
 				C369F92924FFEBFB0088B856 /* TargetPageViewController.swift in Sources */,
 				C3D0EF6E231CAF8B001F1511 /* Operation.swift in Sources */,
