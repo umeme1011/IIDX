@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XcR-s6-unB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XcR-s6-unB">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,9 +20,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="8zJ-cY-hlI">
-                                        <rect key="frame" x="16" y="58" width="138" height="354"/>
+                                        <rect key="frame" x="16" y="58" width="138" height="408"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oka-M9-Vdq">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oka-M9-Vdq">
                                                 <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
                                                 <state key="normal" title="取込対象ページ">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -30,7 +31,7 @@
                                                     <segue destination="jmV-DL-6qD" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="TzI-92-b9v"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwM-tg-DND">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwM-tg-DND">
                                                 <rect key="frame" x="0.0" y="54" width="138" height="30"/>
                                                 <state key="normal" title="取込対象アカウント">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -39,7 +40,7 @@
                                                     <segue destination="gq6-tT-f9u" kind="presentation" identifier="toTargetAccount" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="BAP-A8-lOU"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-bt-NV5">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-bt-NV5">
                                                 <rect key="frame" x="0.0" y="108" width="108" height="30"/>
                                                 <state key="normal" title="アカウント設定">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -48,7 +49,7 @@
                                                     <segue destination="WqP-Ps-PHM" kind="presentation" identifier="toAccount" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="hYA-td-aI4"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cK1-Yj-p5w">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cK1-Yj-p5w">
                                                 <rect key="frame" x="0.0" y="162" width="62" height="30"/>
                                                 <state key="normal" title="タグ編集">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -57,7 +58,7 @@
                                                     <segue destination="9JK-Y7-67j" kind="presentation" identifier="toTag" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Th0-e5-DAx"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSF-aT-yFB">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSF-aT-yFB">
                                                 <rect key="frame" x="0.0" y="216" width="97" height="30"/>
                                                 <state key="normal" title="マスタDB更新">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,7 +67,7 @@
                                                     <segue destination="K6g-yG-zUh" kind="presentation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="O6M-Kh-7TE"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0c-bl-KhX">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0c-bl-KhX">
                                                 <rect key="frame" x="0.0" y="270" width="108" height="30"/>
                                                 <state key="normal" title="バージョン設定">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -75,13 +76,22 @@
                                                     <segue destination="TZA-L5-eDd" kind="presentation" identifier="toVersion" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="PYT-Q6-M2o"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U08-H8-Si2">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U08-H8-Si2">
                                                 <rect key="frame" x="0.0" y="324" width="77" height="30"/>
                                                 <state key="normal" title="アプリ情報">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
                                                     <segue destination="U0G-Ho-anp" kind="presentation" identifier="toInformation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="CiY-Nx-KAV"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dad-P6-0YC">
+                                                <rect key="frame" x="0.0" y="378" width="62" height="30"/>
+                                                <state key="normal" title="リザルト">
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="yRy-mq-gHR" kind="presentation" identifier="toResultImage" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="nDg-LB-yoC"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -108,13 +118,13 @@
                                 </connections>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="tbZ-hT-JJZ"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ERi-UZ-pQq" firstAttribute="top" secondItem="Ma6-k6-uNQ" secondAttribute="top" id="5FB-J8-GOG"/>
                             <constraint firstItem="ERi-UZ-pQq" firstAttribute="leading" secondItem="tbZ-hT-JJZ" secondAttribute="leading" id="AAq-kV-gy4"/>
                             <constraint firstItem="ERi-UZ-pQq" firstAttribute="bottom" secondItem="tbZ-hT-JJZ" secondAttribute="bottom" id="dRa-s2-5fl"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="tbZ-hT-JJZ"/>
                     </view>
                     <connections>
                         <outlet property="qproIV" destination="4E2-dE-Cp7" id="frO-RH-Xm5"/>
@@ -179,6 +189,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rGx-xq-exg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="676" y="246"/>
+        </scene>
+        <!--ResultImage-->
+        <scene sceneID="CPx-fK-5Lb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ResultImage" id="yRy-mq-gHR" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3qY-MQ-frz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="951" y="209"/>
         </scene>
         <!--Tag-->
         <scene sceneID="F7y-CB-2VL">
