@@ -63,7 +63,7 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // チェック
         if versions[indexPath.row].code == versionNo {
-            cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+            cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
         } else {
             cell.checkIV.image = nil
         }
@@ -84,7 +84,7 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
             // 選択状態を解除
             cell.isSelected = false
             // タップしたセルにチェックを表示
-            cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+            cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
             versionNo = versions[indexPath.row].code
             versionTV.reloadData()
         }

@@ -107,7 +107,7 @@ class EditSelectViewController: UIViewController,UITableViewDelegate,UITableView
             let section = i
             let row = checkArray[i]
             if section == indexPath.section && row == indexPath.row {
-                cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+                cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
                 break
             } else {
                 cell.checkIV.image = nil
@@ -127,7 +127,7 @@ class EditSelectViewController: UIViewController,UITableViewDelegate,UITableView
             cell.isSelected = false
             // タップしたセルにチェックを表示
             if cell.checkIV.image == nil {
-                cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+                cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
                 checkArray[indexPath.section] = indexPath.row
             } else {
                 cell.checkIV.image = nil
@@ -241,7 +241,7 @@ class EditSelectViewController: UIViewController,UITableViewDelegate,UITableView
     
     @IBAction func tapCheckAllBtn(_ sender: Any) {
         if checkBtn.backgroundImage(for: .normal) == nil {
-            checkBtn.setBackgroundImage(UIImage(named: Const.Image.CHECK), for: .normal)
+            checkBtn.setBackgroundImage(UIImage(systemName: Const.Image.CHECK), for: .normal)
             editScoreArray = Array(scores)
         } else {
             checkBtn.setBackgroundImage(nil, for: .normal)

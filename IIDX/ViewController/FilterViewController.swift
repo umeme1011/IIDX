@@ -162,7 +162,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
                 let code: Int = Int(cell.codeLbl.text ?? "") ?? 0
                 for check in checkDic[key]! {
                     if check == code {
-                        cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+                        cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
                         break
                     } else {
                         cell.checkIV.image = nil
@@ -191,7 +191,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
                 let code: String = cell.codeLbl.text ?? ""      // code = iidxId
                 for check in rivalCheckDic[key]! {
                     if check == code {
-                        cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+                        cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
                         break
                     } else {
                         cell.checkIV.image = nil
@@ -211,7 +211,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             } else {
                 for tag in tagCheckArray {
                     if tag == cell.itemLbl.text {
-                        cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+                        cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
                         break
                     } else {
                         cell.checkIV.image = nil
@@ -356,7 +356,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             if indexPath.section < filters.count {
                 // チェック切り替え
                 let key: String = convertSectionToColumn(section: indexPath.section)
-                if cell.checkIV.image == UIImage(named: Const.Image.CHECK) {
+                if cell.checkIV.image == UIImage(systemName: Const.Image.CHECK) {
                     checkDic[key]?.remove(value: Int(cell.codeLbl.text ?? "") ?? 0)
                     if checkDic[key]?.count == 0 {
                         checkDic.removeValue(forKey: key)
@@ -379,7 +379,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
                     title = filterName.replacingCharacters(in: range, with: item)
                 }
                 // チェック切り替え
-                if cell.checkIV.image == UIImage(named: Const.Image.CHECK) {
+                if cell.checkIV.image == UIImage(systemName: Const.Image.CHECK) {
                     rivalCheckDic[key]?.remove(value: cell.codeLbl.text ?? "")
                     if rivalCheckDic[key]?.count == 0 {
                         rivalCheckDic.removeValue(forKey: key)
@@ -395,7 +395,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             // タグフィルター項目
             } else if !tagFilters.isEmpty {
                 // チェック切り替え
-                if cell.checkIV.image == UIImage(named: Const.Image.CHECK) {
+                if cell.checkIV.image == UIImage(systemName: Const.Image.CHECK) {
                     tagCheckArray.remove(value: item)
                     titleArray.remove(value: item)
                 } else {

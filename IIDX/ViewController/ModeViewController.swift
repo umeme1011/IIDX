@@ -23,23 +23,23 @@ class ModeViewController: UIViewController {
         mode = myUD.getMode()
         if mode == Const.Value.Mode.EDIT_MODE {
             importCheckIV.image = nil
-            editCheckIV.image = UIImage(named: Const.Image.CHECK)
+            editCheckIV.image = UIImage(systemName: Const.Image.CHECK)
         } else {
-            importCheckIV.image = UIImage(named: Const.Image.CHECK)
+            importCheckIV.image = UIImage(systemName: Const.Image.CHECK)
             editCheckIV.image = nil
         }
     }
     
     @IBAction func tapImporModeBtn(_ sender: Any) {
         mode = Const.Value.Mode.IMPORT_MODE
-        importCheckIV.image = UIImage(named: Const.Image.CHECK)
+        importCheckIV.image = UIImage(systemName: Const.Image.CHECK)
         editCheckIV.image = nil
     }
     
     @IBAction func tapEditModeBtn(_ sender: Any) {
         mode = Const.Value.Mode.EDIT_MODE
         importCheckIV.image = nil
-        editCheckIV.image = UIImage(named: Const.Image.CHECK)
+        editCheckIV.image = UIImage(systemName: Const.Image.CHECK)
     }
     
     @IBAction func tapDoneBtn(_ sender: Any) {

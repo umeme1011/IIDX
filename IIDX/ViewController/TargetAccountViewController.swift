@@ -43,11 +43,11 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         // ミスカウントフラグ取得
         missFlg = myUD.getMissCountFlg()
         if missFlg {
-            yesMissCountIV.image = UIImage(named: Const.Image.CHECK)
+            yesMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
             noMissCountIV.image = nil
         } else {
             yesMissCountIV.image = nil
-            noMissCountIV.image = UIImage(named: Const.Image.CHECK)
+            noMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
         }
         
         // カバーView
@@ -98,7 +98,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         }
         
         if target == iidxId {
-            cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+            cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
         } else {
             cell.checkIV.image = nil
         }
@@ -118,7 +118,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
             let iidxId: String = cell.iidxIdLbl.text ?? ""
             // 画像の切り替えと取込対象アカウントのセット
             target = iidxId
-            cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+            cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
             taTV.reloadData()
 
             // 選択状態を解除
@@ -133,7 +133,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
     @IBAction func tapNoMissCountBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
-        noMissCountIV.image = UIImage(named: Const.Image.CHECK)
+        noMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
         yesMissCountIV.image = nil
         missFlg = false
         
@@ -146,7 +146,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
     @IBAction func tapYesMissCountBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        yesMissCountIV.image = UIImage(named: Const.Image.CHECK)
+        yesMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
         noMissCountIV.image = nil
         missFlg = true
         

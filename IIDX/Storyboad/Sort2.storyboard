@@ -39,15 +39,15 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="50"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="kJH-BC-MwG">
-                                                            <rect key="frame" x="8" y="19.5" width="15" height="11.5"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kJH-BC-MwG">
+                                                            <rect key="frame" x="16" y="17.5" width="15" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="15" id="bPy-qW-J58"/>
                                                                 <constraint firstAttribute="height" constant="15" id="p1Q-mQ-lVP"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1j-tp-5kN">
-                                                            <rect key="frame" x="31" y="16" width="201" height="18"/>
+                                                            <rect key="frame" x="39" y="16" width="193" height="18"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="18" id="mLE-o6-1dL"/>
                                                             </constraints>
@@ -58,7 +58,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="E1j-tp-5kN" secondAttribute="trailing" constant="8" id="8ko-vz-Uzq"/>
-                                                        <constraint firstItem="kJH-BC-MwG" firstAttribute="leading" secondItem="r1z-cL-63i" secondAttribute="leading" constant="8" id="Dkh-fE-F2y"/>
+                                                        <constraint firstItem="kJH-BC-MwG" firstAttribute="leading" secondItem="r1z-cL-63i" secondAttribute="leading" constant="16" id="Dkh-fE-F2y"/>
                                                         <constraint firstItem="kJH-BC-MwG" firstAttribute="centerY" secondItem="r1z-cL-63i" secondAttribute="centerY" id="GWA-lG-vKY"/>
                                                         <constraint firstItem="E1j-tp-5kN" firstAttribute="centerY" secondItem="r1z-cL-63i" secondAttribute="centerY" id="I9Y-8C-4aY"/>
                                                         <constraint firstItem="E1j-tp-5kN" firstAttribute="leading" secondItem="kJH-BC-MwG" secondAttribute="trailing" constant="8" id="NcI-N9-cSo"/>
@@ -72,7 +72,7 @@
                                         </prototypes>
                                     </tableView>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tup-F8-MHR">
-                                        <rect key="frame" x="55.5" y="67" width="129" height="32"/>
+                                        <rect key="frame" x="55.5" y="75" width="129" height="32"/>
                                         <segments>
                                             <segment title="ASC↓"/>
                                             <segment title="DESC↑"/>
@@ -87,7 +87,7 @@
                                     <constraint firstItem="OrB-nK-QzF" firstAttribute="top" secondItem="ahT-cN-xZf" secondAttribute="top" constant="38" id="M7W-xa-Pzj"/>
                                     <constraint firstAttribute="trailing" secondItem="DBX-ER-6EG" secondAttribute="trailing" id="Mqk-3k-sAj"/>
                                     <constraint firstAttribute="width" constant="240" id="fdr-yy-Vjf"/>
-                                    <constraint firstItem="tup-F8-MHR" firstAttribute="top" secondItem="OrB-nK-QzF" secondAttribute="bottom" constant="8" id="gb3-u5-LcR"/>
+                                    <constraint firstItem="tup-F8-MHR" firstAttribute="top" secondItem="OrB-nK-QzF" secondAttribute="bottom" constant="16" id="gb3-u5-LcR"/>
                                     <constraint firstItem="DBX-ER-6EG" firstAttribute="top" secondItem="OrB-nK-QzF" secondAttribute="bottom" constant="56" id="lcU-sh-lZu"/>
                                     <constraint firstItem="OrB-nK-QzF" firstAttribute="centerX" secondItem="ahT-cN-xZf" secondAttribute="centerX" id="mdF-wQ-6Fp"/>
                                     <constraint firstItem="tup-F8-MHR" firstAttribute="centerX" secondItem="ahT-cN-xZf" secondAttribute="centerX" id="rkD-bt-8S9"/>
@@ -115,7 +115,4 @@
             <point key="canvasLocation" x="138.40000000000001" y="88.605697151424295"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="checkmark" catalog="system" width="128" height="114"/>
-    </resources>
 </document>

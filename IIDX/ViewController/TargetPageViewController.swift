@@ -72,10 +72,10 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
         
         // ALlチェック表示
         if levelAllFlg {
-            levelAllIV.image = UIImage(named: Const.Image.CHECK)
+            levelAllIV.image = UIImage(systemName: Const.Image.CHECK)
         }
         if versionAllFlg {
-            versionAllIV.image = UIImage(named: Const.Image.CHECK)
+            versionAllIV.image = UIImage(systemName: Const.Image.CHECK)
         }
         
         // 取り込み先表示切り替え
@@ -150,7 +150,7 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
                     levelCheckArray.removeAll()
                 } else {
                     levelAllFlg = true
-                    levelAllIV.image = UIImage(named: Const.Image.CHECK)
+                    levelAllIV.image = UIImage(systemName: Const.Image.CHECK)
                     for level in levels {
                         if !levelCheckArray.contains(String(level.code)) {
                             levelCheckArray.append(String(level.code))
@@ -166,7 +166,7 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
                     versionCheckArray.removeAll()
                 } else {
                     versionAllFlg = true
-                    versionAllIV.image = UIImage(named: Const.Image.CHECK)
+                    versionAllIV.image = UIImage(systemName: Const.Image.CHECK)
                     for version in versions {
                         if !versionCheckArray.contains(String(version.code)) {
                             versionCheckArray.append(String(version.code))
@@ -210,7 +210,7 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
                 versionIV.image = nil
                 versionAllIV.isHidden = true
                 levelCV.isHidden = false
-                levelIV.image = UIImage(named: Const.Image.CHECK)
+                levelIV.image = UIImage(systemName: Const.Image.CHECK)
                 levelAllIV.isHidden = false
                 allView.isHidden = false
                 csvIV.image = nil
@@ -219,7 +219,7 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
             // シリーズ選択時
             case Const.Value.TargetPage.VERSION:
                 versionTV.isHidden = false
-                versionIV.image = UIImage(named: Const.Image.CHECK)
+                versionIV.image = UIImage(systemName: Const.Image.CHECK)
                 versionAllIV.isHidden = false
                 levelCV.isHidden = true
                 levelIV.image = nil
@@ -235,7 +235,7 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
                 levelCV.isHidden = true
                 levelIV.image = nil
                 allView.isHidden = true
-                csvIV.image = UIImage(named: Const.Image.CHECK)
+                csvIV.image = UIImage(systemName: Const.Image.CHECK)
                 noteLbl1.isHidden = true
                 noteLbl2.isHidden = false
             default:
@@ -271,7 +271,7 @@ extension TargetPageViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             for ver in versionCheckArray {
                 if ver == cell.codeLbl.text {
-                    cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+                    cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
                     break
                 } else {
                     cell.checkIV.image = nil
@@ -309,7 +309,7 @@ extension TargetPageViewController: UITableViewDelegate, UITableViewDataSource {
 //            print(versions)
             if versionCheckArray.count == versions.count {
                 versionAllFlg = true
-                versionAllIV.image = UIImage(named: Const.Image.CHECK)
+                versionAllIV.image = UIImage(systemName: Const.Image.CHECK)
             } else {
                 versionAllFlg = false
                 versionAllIV.image = nil
@@ -346,7 +346,7 @@ extension TargetPageViewController: UICollectionViewDelegate, UICollectionViewDa
         } else {
             for ver in levelCheckArray {
                 if ver == cell.codeLbl.text {
-                    cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+                    cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
                     break
                 } else {
                     cell.checkIV.image = nil
@@ -392,7 +392,7 @@ extension TargetPageViewController: UICollectionViewDelegate, UICollectionViewDa
             // 全選択かどうか
             if levelCheckArray.count == levels.count {
                 levelAllFlg = true
-                levelAllIV.image = UIImage(named: Const.Image.CHECK)
+                levelAllIV.image = UIImage(systemName: Const.Image.CHECK)
             } else {
                 levelAllFlg = false
                 levelAllIV.image = nil
