@@ -22,6 +22,7 @@ class RivalScore: RealmSwift.Object {
     @objc dynamic var missCount: Int = 9999
     @objc dynamic var versionId: Int = 0
     @objc dynamic var indexId: Int = 0
+    @objc dynamic var plusMinus: String?
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String?
     @objc dynamic var updateDate = Date()
@@ -45,6 +46,7 @@ class RivalScore: RealmSwift.Object {
         case missCount
         case versionId
         case indexId
+        case plusMinus
     }
 }
 

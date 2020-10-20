@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="8zJ-cY-hlI">
-                                        <rect key="frame" x="16" y="58" width="138" height="408"/>
+                                        <rect key="frame" x="16" y="58" width="138" height="354"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oka-M9-Vdq">
                                                 <rect key="frame" x="0.0" y="0.0" width="108" height="30"/>
@@ -83,15 +83,6 @@
                                                 </state>
                                                 <connections>
                                                     <segue destination="U0G-Ho-anp" kind="presentation" identifier="toInformation" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="CiY-Nx-KAV"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dad-P6-0YC">
-                                                <rect key="frame" x="0.0" y="378" width="62" height="30"/>
-                                                <state key="normal" title="リザルト">
-                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <segue destination="yRy-mq-gHR" kind="presentation" identifier="toResultImage" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="nDg-LB-yoC"/>
                                                 </connections>
                                             </button>
                                         </subviews>

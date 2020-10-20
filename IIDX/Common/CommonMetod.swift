@@ -222,4 +222,82 @@ class CommonMethod {
         Log.debugEnd(cls: String(describing: self), method: #function)
         return ret
     }
+    
+    /**
+     プラス・マイナス計算
+     MAXスコアの
+     AAA  8/9以上
+     AA  7/9以上
+     A   6/9以上
+     B   5/9以上
+     C   4/9以上
+     D   3/9以上
+     E   2/9以上
+     F   2/9未満
+     各スコア間の差 / 2 以上はマイナス、以下はプラス
+     */
+    static func calcuratePlusMinus(score: String, totalNotes: Int) -> String {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        var ret = ""
+        
+        var djLevelInt = 0
+        let scoreDouble: Double = Double(score.components(separatedBy: "(")[0]) ?? 0.0
+        if scoreDouble == 0 {
+            return ret
+        }
+        let maxScore = totalNotes * 2
+        let dev = floor(Double(maxScore) / 9)     // 小数点切り捨て
+        var plusMinus = ""
+        
+        for i in 2..<10 {
+            if dev * Double(i) > scoreDouble {
+                if i == 2 {
+                    let up = dev * Double(i)
+                    plusMinus = "-" + String(up - scoreDouble)
+                    djLevelInt = i
+                    break
+                }
+                let up = dev * Double(i)
+                let down = dev * Double(i - 1)
+                let border = ((up - down) / 2) + down
+                if scoreDouble >= border {
+                    plusMinus = "-" + String(Int(up - scoreDouble))
+                    djLevelInt = i + 1
+                } else {
+                    plusMinus = "+" + String(Int(scoreDouble - down))
+                    djLevelInt = i
+                }
+                break
+            }
+        }
+        
+        var djLevelStr = ""
+        switch djLevelInt {
+        case 10:
+            djLevelStr = "MAX"
+        case Const.Value.DjLevel.AAA:
+            djLevelStr = "AAA"
+        case Const.Value.DjLevel.AA:
+            djLevelStr = "AA"
+        case Const.Value.DjLevel.A:
+            djLevelStr = "A"
+        case Const.Value.DjLevel.B:
+            djLevelStr = "B"
+        case Const.Value.DjLevel.C:
+            djLevelStr = "C"
+        case Const.Value.DjLevel.D:
+            djLevelStr = "D"
+        case Const.Value.DjLevel.E:
+            djLevelStr = "E"
+        case Const.Value.DjLevel.F:
+            djLevelStr = "F"
+        default:
+            print("処理なし")
+        }
+        
+        ret = djLevelStr + plusMinus
+        
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return ret
+    }
 }

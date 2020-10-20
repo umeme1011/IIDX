@@ -14,7 +14,7 @@ class Const {
     // DEVELOP true:5thStyleまで同期 false:全バージョン同期
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = true
+        static let DEBUG_LOG = false
     }
     
     // Version
@@ -25,15 +25,15 @@ class Const {
     
     // Wiki
     class Wiki {
-        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-09-25 (金) 16:00:30"
-        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:03:51"
-        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-09-04 (金) 06:06:26"
+        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-10-19 (月) 23:22:46"
+        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-10-18 (日) 00:15:24"
+        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-10-18 (日) 00:19:58"
     }
     
     // Realm
     class Realm {
-        static let SCHEMA_VER = 2
-        static let SEED_DB_VER = "27.7"
+        static let SCHEMA_VER = 3
+        static let SEED_DB_VER = "27.8"
         static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"

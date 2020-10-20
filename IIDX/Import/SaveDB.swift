@@ -112,6 +112,7 @@ extension Import {
                     score.indexId = result.indexId
                     score.lastImportDateId = 0
                     score.oldScoreId = 0
+                    score.plusMinus = CommonMethod.calcuratePlusMinus(score: score.score, totalNotes: result.totalNotes)
                     score.createDate = result.createDate
                     score.createUser = result.createUser
                     score.updateDate = now
@@ -206,6 +207,7 @@ extension Import {
                         if score.difficultyId == Const.Value.Difficulty.NORMAL {
                             score.level = song.dpn
                             score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpn)
+                            score.plusMinus = CommonMethod.calcuratePlusMinus(score: score.score ?? "", totalNotes: song.totalNotesDpn)
                         } else if score.difficultyId == Const.Value.Difficulty.HYPER {
                             score.level = song.dph
                             score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDph)
@@ -226,6 +228,7 @@ extension Import {
                         } else if score.difficultyId == Const.Value.Difficulty.HYPER {
                             score.level = song.sph
                             score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSph)
+                            score.plusMinus = CommonMethod.calcuratePlusMinus(score: score.score ?? "", totalNotes: song.totalNotesSph)
                         } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
                             score.level = song.spa
                             score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpa)

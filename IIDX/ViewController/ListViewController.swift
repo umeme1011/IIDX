@@ -90,7 +90,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // スコアレート
         let scoreRate: String = setScoreRate(arg: scores[indexPath.row].scoreRate)
-        cell.scoreRateLbl.text = "scoreRate: \(scoreRate)"
+        cell.scoreRateLbl.text = "rate: \(scoreRate)"
+        
+        // プラス・マイナス
+        cell.plusMinusLbl.text = scores[indexPath.row].plusMinus
         
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cell

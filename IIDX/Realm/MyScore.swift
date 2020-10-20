@@ -28,6 +28,7 @@ class MyScore: RealmSwift.Object {
     @objc dynamic var lastImportDateId: Int = 0
     @objc dynamic var oldScoreId: Int = 0
     @objc dynamic var tag: String?
+    @objc dynamic var plusMinus: String?
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String = Const.Realm.SYSTEM
     @objc dynamic var updateDate = Date()
@@ -57,6 +58,7 @@ class MyScore: RealmSwift.Object {
         case lastImportDateId
         case oldScoreId
         case tag
+        case plusMinus
         case createDate
         case updateDate
     }
