@@ -123,6 +123,7 @@ extension Import {
                         || (score.djLevel != result.djLevel)
                         || (score.score != result.score))
                         || (score.missCount != result.missCount)
+                        || (score.plusMinus != result.plusMinus)
 //                        && !firstLoadFlg
                         && score.clearLump != Const.Value.ClearLump.NOPLAY
                     {
@@ -141,6 +142,7 @@ extension Import {
                         oldScore.score = result.score
                         oldScore.scoreRate = result.scoreRate
                         oldScore.missCount = result.missCount
+                        oldScore.plusMinus = result.plusMinus
                         oldScore.createDate = now
                         oldScore.createUser = Const.Realm.SYSTEM
                         oldScore.createDate = now

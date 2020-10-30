@@ -19,6 +19,7 @@ class OldScore : RealmSwift.Object {
     @objc dynamic var score: String?
     @objc dynamic var scoreRate: Double = 0
     @objc dynamic var missCount: Int = 9999
+    @objc dynamic var plusMinus: String?
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String?
     @objc dynamic var updateDate = Date()
@@ -39,5 +40,6 @@ class OldScore : RealmSwift.Object {
         case score
         case scoreRate
         case missCount
+        case plusMinus
     }
 }

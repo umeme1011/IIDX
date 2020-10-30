@@ -246,28 +246,35 @@ class CommonMethod {
             return ret
         }
         let maxScore = totalNotes * 2
-        let dev = floor(Double(maxScore) / 9)     // 小数点切り捨て
+        let dev = Double(maxScore) / 9
         var plusMinus = ""
         
-        for i in 2..<10 {
-            if dev * Double(i) > scoreDouble {
-                if i == 2 {
+        // MAX
+        if scoreDouble == Double(maxScore) {
+            plusMinus = "+0"
+            djLevelInt = 10
+
+        } else {
+            for i in 2..<10 {
+                if dev * Double(i) > scoreDouble {
+                    if i == 2 {
+                        let up = dev * Double(i)
+                        plusMinus = "-" + String(Int(ceil(up) - scoreDouble))
+                        djLevelInt = i
+                        break
+                    }
                     let up = dev * Double(i)
-                    plusMinus = "-" + String(up - scoreDouble)
-                    djLevelInt = i
+                    let down = dev * Double(i - 1)
+                    let border = ((up - down) / 2) + down
+                    if scoreDouble >= border {
+                        plusMinus = "-" + String(Int(ceil(up) - scoreDouble))
+                        djLevelInt = i + 1
+                    } else {
+                        plusMinus = "+" + String(Int(scoreDouble - ceil(down)))
+                        djLevelInt = i
+                    }
                     break
                 }
-                let up = dev * Double(i)
-                let down = dev * Double(i - 1)
-                let border = ((up - down) / 2) + down
-                if scoreDouble >= border {
-                    plusMinus = "-" + String(Int(up - scoreDouble))
-                    djLevelInt = i + 1
-                } else {
-                    plusMinus = "+" + String(Int(scoreDouble - down))
-                    djLevelInt = i
-                }
-                break
             }
         }
         
