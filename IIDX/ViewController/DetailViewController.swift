@@ -42,6 +42,10 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         let scoreRealm: Realm = CommonMethod.createScoreRealm()
         let seedRealm: Realm = CommonMethod.createSeedRealm()
+        var preScoreRealm: Realm!
+        if myUD.getVersion() != Const.Version.START_VERSION_NO {
+            preScoreRealm = CommonMethod.createPreScoreRealm()
+        }
         
         // バージョン
         var ret: Code = seedRealm.objects(Code.self)
@@ -92,7 +96,27 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             // newスコアのDJNAMEに(new)をつける
             scoreArray[0].djName = scoreArray[0].djName + "\n" + Const.Label.Score.NEW_SCORE
         }
-        
+
+        // 前作ゴーストフラグ表示ありの場合のみ表示
+        if myUD.getGhostDispFlg() && myUD.getVersion() != Const.Version.START_VERSION_NO {
+            // 自分（前作ゴースト）
+            if let preScore: MyScore = preScoreRealm.objects(MyScore.self)
+                .filter("\(MyScore.Types.title.rawValue) = %@", score.title!)
+                .filter("\(MyScore.Types.level.rawValue) = %@", score.level)
+                .filter("\(MyScore.Types.difficultyId.rawValue) = %@", score.difficultyId)
+                .filter("\(MyScore.Types.score.rawValue) != %@", Const.Label.Score.ZERO).first{
+                
+                dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.GHOST_SCORE
+                dl = preScore.djLevel
+                s = convertHyphenStr(s: preScore.score)
+                sr = makeScoreRateStr(scoreRate: preScore.scoreRate)
+                cl = preScore.clearLump
+                mc = preScore.missCount
+                detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+                scoreArray.append(detailScore)
+            }
+        }
+
         // ライバル
         let rivals: Results<RivalStatus> = scoreRealm.objects(RivalStatus.self)
             .filter("\(RivalStatus.Types.playStyle.rawValue) = %@", myUD.getPlayStyle())

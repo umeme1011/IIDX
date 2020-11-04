@@ -27,24 +27,57 @@ class CommonMethod {
     }
 
     /*
+     Seed Realm 作成（現行バージョン指定）
+     */
+    static func createCurrentSeedRealm() -> Realm {
+        return createRealm(path: getCurrentSeedRealmPath())
+    }
+
+    /*
      Score Realm 作成
      */
     static func createScoreRealm() -> Realm {
         return createRealm(path: getScoreRealmPath())
     }
     
+    /*
+     前作 Score Realm 作成
+     */
+    static func createPreScoreRealm() -> Realm {
+        return createRealm(path: getPreScoreRealmPath())
+    }
+    
     /// シードRealmファイルのパスを取得
     static func getSeedRealmPath() -> String {
         let documentDir: NSString
             = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-        let path = documentDir.appendingPathComponent("\(Const.Realm.SEED_FILE_NAME).realm")
+        let path = documentDir.appendingPathComponent("\(Const.Realm().getSeedFileName()).realm")
         return path
     }
-    
+
+    /**
+     現行バージョンSeedRealmパス取得
+     */
+    static func getCurrentSeedRealmPath() -> String {
+        let documentDir: NSString
+            = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+        let path = documentDir.appendingPathComponent("\(Const.Realm.CURRENT_SEED_FILE_NAME).realm")
+        return path
+    }
     
     /// スコアRealmファイルのパスを取得
     static func getScoreRealmPath() -> String {
         let version: Int = MyUserDefaults().getVersion()
+        
+        let documentDir: NSString
+            = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+        let path = documentDir.appendingPathComponent("\(Const.Realm.SCORE_FILE_NAME)_\(version).realm")
+        return path
+    }
+
+    /// 前作スコアRealmファイルのパスを取得
+    static func getPreScoreRealmPath() -> String {
+        let version: Int = MyUserDefaults().getVersion() - 1
         
         let documentDir: NSString
             = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString

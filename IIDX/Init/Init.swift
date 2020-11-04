@@ -15,6 +15,7 @@ class Init {
     
     /*
      初期処理
+     SeedDB.SongをMyScoreへ登録する
      return アラートメッセージ
      */
     public func doInit() -> String {
@@ -24,6 +25,21 @@ class Init {
         var ret: String = ""    // アラートメッセージ返却用
         
         do {
+            // 最初の一回のみ実施。ユーザの現在のバージョンを調べるため前作スコアテーブルをチェック
+            if !myUD.getVersionCheckFlg() {
+                let preScoreRealm = CommonMethod.createPreScoreRealm()
+                let scoreRealm = CommonMethod.createScoreRealm()
+                if !preScoreRealm.isEmpty && scoreRealm.isEmpty {
+                    myUD.setVersion(no: Const.Version.START_VERSION_NO)
+                    // ついでにアカウント情報を共通の方二セット
+                    myUD.setCommonId(id: myUD.getId())
+                    myUD.setCommonPassword(password: myUD.getPassword())
+                } else {
+                    myUD.setVersion(no: Const.Version.CURRENT_VERSION_NO)
+                }
+                myUD.setVersionCheckFlg(flg: true)
+            }
+
             let fileManager: FileManager = FileManager()
             let seedRealmPath: String = CommonMethod.getSeedRealmPath()
             
@@ -37,42 +53,53 @@ class Init {
                 let documentDir: NSString
                     = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
                 let fileNames = try fileManager.contentsOfDirectory(atPath: documentDir as String)
-                var existFlg: Bool = false
+//                var existFlg: Bool = false
 
                 // 最新VerSeedDBをコピー
                 let mainBundle = Bundle.main
-                let atPath = mainBundle.path(forResource: Const.Realm.SEED_FILE_NAME, ofType: "realm")
+                let atPath = mainBundle.path(forResource: Const.Realm().getSeedFileName(), ofType: "realm")
                 try! FileManager().copyItem(atPath: atPath!, toPath: seedRealmPath)
                 _ = Realm.Configuration(fileURL: URL(fileURLWithPath: seedRealmPath), readOnly: true)
-                
-                // 旧VerのSeedDBが存在する場合は差分登録
-                for name in fileNames {
-                    if name.contains("iidx_seed") && name.contains("realm") {
-                        if !name.contains("lock") && !name.contains("management") && !name.contains("note") {
-                            // 差分登録
-                            ret = updateMyScore(newSeedPath: seedRealmPath, oldSeedPath: documentDir.appendingPathComponent(name))
-                            // 旧VerのSeedDB類を削除
-                            try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent(name))
-                            if fileManager.fileExists(atPath: documentDir.appendingPathComponent("\(name).lock")) {
-                                    try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent("\(name).lock"))
+
+                // MyScore取得
+                let scoreRealm: Realm = CommonMethod.createScoreRealm()
+                let myScore = scoreRealm.objects(MyScore.self)
+                // MyScore未登録の場合
+                if myScore.count == 0 {
+                    // 全件登録
+                    insertMyScore(newSeedPath: seedRealmPath)
+                    ret = "初期データ登録完了！"
+                    
+                } else {
+                    // 旧VerのSeedDBが存在する場合は差分登録
+                    for name in fileNames {
+                        if name.contains("iidx_seed") && name.contains("realm") && name.contains("_\(String(myUD.getVersion()))") {
+                            if !name.contains("lock") && !name.contains("management") && !name.contains("note") {
+                                // 差分登録
+                                ret = updateMyScore(newSeedPath: seedRealmPath, oldSeedPath: documentDir.appendingPathComponent(name))
+                                // 旧VerのSeedDB類を削除
+                                try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent(name))
+                                if fileManager.fileExists(atPath: documentDir.appendingPathComponent("\(name).lock")) {
+                                        try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent("\(name).lock"))
+                                }
+                                if fileManager.fileExists(atPath: documentDir.appendingPathComponent("\(name).management")) {
+                                        try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent("\(name).management"))
+                                }
+                                if fileManager.fileExists(atPath: documentDir.appendingPathComponent("\(name).note")) {
+                                        try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent("\(name).note"))
+                                }
+//                                existFlg = true
                             }
-                            if fileManager.fileExists(atPath: documentDir.appendingPathComponent("\(name).management")) {
-                                    try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent("\(name).management"))
-                            }
-                            if fileManager.fileExists(atPath: documentDir.appendingPathComponent("\(name).note")) {
-                                    try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent("\(name).note"))
-                            }
-                            existFlg = true
                         }
                     }
                 }
                 
-                // 存在しない場合は全件登録
-                if !existFlg {
-                    // 全件登録
-                    insertMyScore(newSeedPath: seedRealmPath)
-                    ret = "初期データ登録完了！"
-                }
+//                // 存在しない場合は全件登録
+//                if !existFlg {
+//                    // 全件登録
+//                    insertMyScore(newSeedPath: seedRealmPath)
+//                    ret = "初期データ登録完了！"
+//                }
             }
             
             // リセットボタン押下時

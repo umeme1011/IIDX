@@ -333,9 +333,9 @@ class Import {
         , targetLevelArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        if isCancel(msg: "") { return }
-        
         for lvl in targetLevelArray {
+            
+            if isCancel(msg: "") { return }
             // レベル取得
             let level: Code = seedRealm.objects(Code.self)
                 .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.LEVEL, lvl).first ?? Code()
@@ -370,9 +370,10 @@ class Import {
         , targetLevelArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        if isCancel(msg: "") { return }
-        
         for lvl in targetLevelArray {
+            
+            if isCancel(msg: "") { return }
+            
             // レベル取得
             let level: Code = seedRealm.objects(Code.self)
                 .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.LEVEL, lvl).first ?? Code()
@@ -413,9 +414,10 @@ class Import {
         , targetVersionArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        if isCancel(msg: "") { return }
-        
         for ver in targetVersionArray {
+            
+            if isCancel(msg: "") { return }
+            
             // バージョン取得
             let version: Code = seedRealm.objects(Code.self)
                 .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, ver).first ?? Code()
@@ -441,10 +443,11 @@ class Import {
     private func makeRivalScoreArrayTargetVersion(iidxId: String, seedRealm: Realm, scoreRealm: Realm
         , targetVersionArray: [Int]) {
         Log.debugStart(cls: String(describing: self), method: #function)
-        
-        if isCancel(msg: "") { return }
 
         for ver in targetVersionArray {
+            
+            if isCancel(msg: "") { return }
+            
             // バージョン取得
             let version: Code = seedRealm.objects(Code.self)
                 .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, ver).first ?? Code()

@@ -14,6 +14,8 @@ class SettingViewController: UIViewController {
     @IBOutlet weak var qproIV: UIImageView!
     @IBOutlet weak var targetPageBtn: UIButton!
     @IBOutlet weak var targetAccountBtn: UIButton!
+    @IBOutlet weak var versionLbl: UILabel!
+    @IBOutlet weak var dispSettingBtn: UIButton!
     
     let myUD: MyUserDefaults = MyUserDefaults.init()
     
@@ -30,10 +32,13 @@ class SettingViewController: UIViewController {
         if myUD.getPlayStyle() == Const.Value.PlayStyle.SINGLE {
             targetPageBtn.setTitle("取込対象ページ（SP）", for: .normal)
             targetAccountBtn.setTitle("取込対象アカウント（SP）", for: .normal)
+            dispSettingBtn.setTitle("表示設定（SP）", for: .normal)
         } else {
             targetPageBtn.setTitle("取込対象ページ（DP）", for: .normal)
             targetAccountBtn.setTitle("取込対象アカウント（DP）", for: .normal)
+            dispSettingBtn.setTitle("表示設定（DP）", for: .normal)
         }
+        changeVersionLbl()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -76,5 +81,30 @@ class SettingViewController: UIViewController {
                 self.dismiss(animated: true, completion: nil)
         })
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     CodeCSV登録
+     */
+    @IBAction func tapLoadCsv(_ sender: Any) {
+        let lcc = LoadCodeCsv.init()
+        lcc.doLoadCodeCsv()
+    }
+    
+    /**
+     バージョンラベル変更
+     */
+    public func changeVersionLbl() {
+        let ver = "beatmania IIDX "
+        switch myUD.getVersion() {
+        case 27:
+            versionLbl.text = ver + "27 \nHEROIC VERSE"
+            versionLbl.textColor = UIColor.magenta
+        case 28:
+            versionLbl.text = ver + "28 \nBISTROVER"
+            versionLbl.textColor = UIColor.blue
+        default:
+            versionLbl.text = ""
+        }
     }
 }

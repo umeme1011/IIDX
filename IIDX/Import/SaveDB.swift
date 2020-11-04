@@ -113,6 +113,7 @@ extension Import {
                     score.lastImportDateId = 0
                     score.oldScoreId = 0
                     score.plusMinus = CommonMethod.calcuratePlusMinus(score: score.score, totalNotes: result.totalNotes)
+                    score.tag = result.tag
                     score.createDate = result.createDate
                     score.createUser = result.createUser
                     score.updateDate = now

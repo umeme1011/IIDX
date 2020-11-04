@@ -15,7 +15,6 @@ class UpdateMasterDB {
     var songArray: [Song] = [Song]()
     var songId: Int = 1
     var notesDic: [String : [Int]] = [String : [Int]]()
-    var codeArray: [Code] = [Code]()
     var updFlg: Bool = true
     var msg: String = ""
     var wikiOldSongLastModified: String = ""

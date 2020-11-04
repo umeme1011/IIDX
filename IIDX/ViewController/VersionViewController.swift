@@ -12,11 +12,11 @@ import RealmSwift
 class VersionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var versionTV: UITableView!
+    @IBOutlet weak var tagCopyView: UIView!
     
     var versions: Results<Code>!
     var myUD: MyUserDefaults = MyUserDefaults()
     var seedRealm: Realm!
-    var scoreRealm: Realm!
     var versionNo: Int = 0
     
     
@@ -28,7 +28,6 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         versionTV.dataSource = self
         
         seedRealm = CommonMethod.createSeedRealm()
-        scoreRealm = CommonMethod.createScoreRealm()
         
         // バージョン一覧取得
         versions = seedRealm.objects(Code.self)
@@ -36,6 +35,13 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         // バージョンNo取得
         versionNo = myUD.getVersion()
+        
+//        // バージョン27の場合はタグ引き継ぎを非活性にする
+//        if versionNo == Const.Version.START_VERSION_NO {
+//            tagCopyView.isHidden = false
+//        } else {
+//            tagCopyView.isHidden = true
+//        }
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -87,6 +93,13 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
             versionNo = versions[indexPath.row].code
             versionTV.reloadData()
+            
+//            // バージョン27の場合はタグ引き継ぎを非活性にする
+//            if versionNo == Const.Version.START_VERSION_NO {
+//                tagCopyView.isHidden = false
+//            } else {
+//                tagCopyView.isHidden = true
+//            }
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -109,18 +122,45 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 // バージョンセット
                 self.myUD.setVersion(no: self.versionNo)
-                // データ取得処理
-                let operation: Operation = Operation.init(mainVC: vc)
-                let score: Results<MyScore> = operation.doOperation()
-                // リスト画面リロード
-                let listVC: ListViewController
-                    = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
-                listVC.scores = score
-                listVC.listTV.reloadData()
-                // メイン画面のUI処理
-                vc.mainUI()
-                // 閉じる
-                self.dismiss(animated: false, completion: nil)
+                // バージョン27を選択時は、前作ゴーストを非表示にする
+                if self.versionNo == Const.Version.START_VERSION_NO {
+                    self.myUD.setGhostDispFlg(flg: false)
+                }
+                // 初期処理
+                let ini = Init.init()
+                let alertMsg = ini.doInit()
+                if alertMsg != "" {
+                    if self.versionNo != Const.Version.START_VERSION_NO {
+                        // タグ引き継ぎ
+                        self.copyTag()
+                    }
+                    
+                    // データ取得処理
+                    let operation: Operation = Operation.init(mainVC: vc)
+                    let score: Results<MyScore> = operation.doOperation()
+                    // リスト画面リロード
+                    let listVC: ListViewController
+                        = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
+                    listVC.scores = score
+                    listVC.listTV.reloadData()
+                    // メイン画面のUI処理
+                    vc.mainUI()
+                    // 取り込み完了アラート表示
+                    let alert = UIAlertController(title: "", message: alertMsg, preferredStyle: UIAlertController.Style.alert)
+                    let okBtn = UIAlertAction(title: Const.Label.OK, style: UIAlertAction.Style.default, handler:{(action: UIAlertAction!) in
+                        self.dismiss(animated: false, completion: nil)
+                    })
+                    alert.addAction(okBtn)
+                    self.present(alert, animated: false, completion: nil)
+                    
+                } else {
+                    // 閉じる
+                    self.dismiss(animated: false, completion: nil)
+
+                }
+                // 設定画面のバージョンラベルを変更
+                let parent = self.presentingViewController as! SettingViewController
+                parent.changeVersionLbl()
             })
             
             let cancelBtn = UIAlertAction(title: Const.Label.CANCEL, style: UIAlertAction.Style.cancel, handler: nil)
@@ -151,5 +191,69 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
+    }
+    
+    /**
+     タグデータ引き継ぎ（未使用）
+     */
+    @IBAction func tapCopy(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
+        copyTag()
+        
+        // アラート表示
+        let alert = UIAlertController(title: "", message: "引き継ぎ完了！", preferredStyle: UIAlertController.Style.alert)
+        let okBtn = UIAlertAction(title: Const.Label.OK, style: UIAlertAction.Style.default, handler:{(action: UIAlertAction!) in
+            self.dismiss(animated: false, completion: nil)
+        })
+        alert.addAction(okBtn)
+        present(alert, animated: false, completion: nil)
+
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     タグコピー
+     */
+    private func copyTag() {
+        let scoreRealm = CommonMethod.createScoreRealm()
+        let preScoreRealm = CommonMethod.createPreScoreRealm()
+
+        try! scoreRealm.write {
+            
+            let preTags = preScoreRealm.objects(Tag.self)
+            let tags = scoreRealm.objects(Tag.self)
+            
+            // タグデータなし
+            if preTags.isEmpty {
+                return
+            }
+            
+            // タグテーブル登録済みの場合は全件削除
+            if !tags.isEmpty {
+                scoreRealm.delete(tags)
+            }
+            // タグテーブル登録
+            for tag in preTags {
+                let t = Tag()
+                t.id = tag.id
+                t.tag = tag.tag
+                scoreRealm.add(t)
+            }
+            
+            let preScore = preScoreRealm.objects(MyScore.self).filter("\(MyScore.Types.tag.rawValue) != null")
+            for score in preScore {
+                if let s = scoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) == %@", score.title!)
+                    .filter("\(MyScore.Types.level.rawValue) == %@", score.level)
+                    .filter("\(MyScore.Types.difficultyId.rawValue) == %@", score.difficultyId)
+                    .filter("\(MyScore.Types.playStyle.rawValue) == %@", score.playStyle)
+                    .first {
+                    
+                    // MyScoreテーブル更新
+                    s.tag = score.tag
+                }
+            }
+        }
     }
 }

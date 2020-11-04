@@ -41,6 +41,8 @@ class MainViewController: UIViewController {
         
         // UI処理
         mainUI()
+        // リスト画面リロード
+        reloadList()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -137,12 +139,8 @@ class MainViewController: UIViewController {
         
         // 未取り込みの場合はボタン非表示
         mainUI()
-        
         // リスト画面リロード
-        let operation: Operation = Operation.init(mainVC: self)
-        let vc: ListViewController = self.children[0] as! ListViewController
-        vc.scores = operation.doOperation()
-        vc.listTV.reloadData()
+        reloadList()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -170,5 +168,16 @@ class MainViewController: UIViewController {
         }
         
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     リスト画面リロード
+     */
+    func reloadList() {
+        // リスト画面リロード
+        let operation: Operation = Operation.init(mainVC: self)
+        let vc: ListViewController = self.children[0] as! ListViewController
+        vc.scores = operation.doOperation()
+        vc.listTV.reloadData()
     }
 }

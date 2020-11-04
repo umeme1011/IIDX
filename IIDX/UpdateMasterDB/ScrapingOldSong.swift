@@ -148,17 +148,35 @@ extension UpdateMasterDB {
         if let range = s.range(of: "[CN]") {
             s.replaceSubrange(range, with: "")
         }
+        if let range = s.range(of: "[CN?]") {
+            s.replaceSubrange(range, with: "")
+        }
         if let range = s.range(of: "[BSS]") {
+            s.replaceSubrange(range, with: "")
+        }
+        if let range = s.range(of: "[BSS?]") {
             s.replaceSubrange(range, with: "")
         }
         if let range = s.range(of: "[HCN]") {
             s.replaceSubrange(range, with: "")
         }
+        if let range = s.range(of: "[HCN?]") {
+            s.replaceSubrange(range, with: "")
+        }
         if let range = s.range(of: "[HBSS]") {
             s.replaceSubrange(range, with: "")
         }
+        if let range = s.range(of: "[HBSS?]") {
+            s.replaceSubrange(range, with: "")
+        }
+        if let range = s.range(of: "(") {
+            s.replaceSubrange(range, with: "")
+        }
+        if let range = s.range(of: ")") {
+            s.replaceSubrange(range, with: "")
+        }
 
-        if s == "-" || s == "×" {
+        if s == "-" || s == "×" || s == "?" {
             ret = 0
         } else {
             ret = Int(s) ?? 0

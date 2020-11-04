@@ -3,7 +3,7 @@
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,7 +41,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="バージョン設定" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugI-jx-aqp">
-                                        <rect key="frame" x="134" y="13" width="107" height="18"/>
+                                        <rect key="frame" x="134" y="13" width="107.5" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -120,7 +120,7 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzT-bL-GyU">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="バージョンを切り替えます。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzT-bL-GyU">
                                 <rect key="frame" x="16" y="200" width="351" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="TY0-oY-ikE"/>
@@ -129,41 +129,88 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将来的にバージョン切り替え対応予定です。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULB-hU-DgE">
-                                <rect key="frame" x="16" y="200" width="351" height="16"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WS1-OL-5g2">
+                                <rect key="frame" x="0.0" y="272" width="375" height="46"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MFa-HQ-TNI">
+                                        <rect key="frame" x="167" y="8" width="41" height="30"/>
+                                        <state key="normal" title="COPY"/>
+                                        <connections>
+                                            <action selector="tapCopy:" destination="xOY-aa-QW5" eventType="touchUpInside" id="G7a-yr-wzp"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="KMj-8R-quQ"/>
+                                    <constraint firstItem="MFa-HQ-TNI" firstAttribute="centerX" secondItem="WS1-OL-5g2" secondAttribute="centerX" id="Uzh-9X-fx3"/>
+                                    <constraint firstItem="MFa-HQ-TNI" firstAttribute="centerY" secondItem="WS1-OL-5g2" secondAttribute="centerY" id="oZQ-dD-rQs"/>
+                                    <constraint firstAttribute="height" constant="46" id="vFz-bD-hwT"/>
+                                </constraints>
+                            </view>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タグ引き継ぎ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivn-Wy-Q4f">
+                                <rect key="frame" x="16" y="248" width="351" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="Wpd-ph-12G"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rW-et-wN2">
+                                <rect key="frame" x="16" y="326" width="351" height="31.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="32" id="tT3-FV-1lM"/>
+                                </constraints>
+                                <string key="text">前作からタグデータを引き継ぎます。
+※元に戻すことはできません。</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNc-m9-m1y">
+                                <rect key="frame" x="0.0" y="272" width="375" height="46"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="46" id="Rb9-av-fu9"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9mR-fa-lio"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="Ivn-Wy-Q4f" firstAttribute="top" secondItem="hzT-bL-GyU" secondAttribute="bottom" constant="32" id="2Da-NE-ALz"/>
+                            <constraint firstItem="WS1-OL-5g2" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" id="3js-PL-C08"/>
                             <constraint firstItem="hzT-bL-GyU" firstAttribute="top" secondItem="8X1-KC-LTE" secondAttribute="bottom" constant="8" id="5kU-SU-X12"/>
                             <constraint firstItem="k17-Ef-AHe" firstAttribute="top" secondItem="0KL-aP-Mwn" secondAttribute="bottom" constant="24" id="8Vr-Vo-4mg"/>
-                            <constraint firstItem="ULB-hU-DgE" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" constant="16" id="Bdo-7M-zJW"/>
+                            <constraint firstItem="WS1-OL-5g2" firstAttribute="top" secondItem="Ivn-Wy-Q4f" secondAttribute="bottom" constant="8" id="95Y-sN-TDq"/>
+                            <constraint firstItem="9mR-fa-lio" firstAttribute="trailing" secondItem="3rW-et-wN2" secondAttribute="trailing" constant="8" id="EuE-Ic-bar"/>
+                            <constraint firstItem="WS1-OL-5g2" firstAttribute="trailing" secondItem="9mR-fa-lio" secondAttribute="trailing" id="GCU-NC-ddd"/>
                             <constraint firstItem="k17-Ef-AHe" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" constant="16" id="LjN-Uv-Ecg"/>
                             <constraint firstItem="8X1-KC-LTE" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" id="LyH-c9-011"/>
+                            <constraint firstItem="DNc-m9-m1y" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" id="NCC-O2-bTa"/>
                             <constraint firstItem="0KL-aP-Mwn" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" id="PF0-m1-bIt"/>
                             <constraint firstItem="0KL-aP-Mwn" firstAttribute="trailing" secondItem="9mR-fa-lio" secondAttribute="trailing" id="St3-kb-oKR"/>
                             <constraint firstItem="0KL-aP-Mwn" firstAttribute="top" secondItem="9mR-fa-lio" secondAttribute="top" id="UVD-8r-Wc0"/>
                             <constraint firstItem="8X1-KC-LTE" firstAttribute="trailing" secondItem="9mR-fa-lio" secondAttribute="trailing" id="VFh-PC-8jB"/>
+                            <constraint firstItem="DNc-m9-m1y" firstAttribute="top" secondItem="Ivn-Wy-Q4f" secondAttribute="bottom" constant="8" id="XeZ-NI-FDy"/>
                             <constraint firstItem="8X1-KC-LTE" firstAttribute="top" secondItem="k17-Ef-AHe" secondAttribute="bottom" constant="8" id="Xxz-I4-0X8"/>
-                            <constraint firstItem="9mR-fa-lio" firstAttribute="trailing" secondItem="ULB-hU-DgE" secondAttribute="trailing" constant="8" id="aMD-Gc-twp"/>
-                            <constraint firstItem="ULB-hU-DgE" firstAttribute="top" secondItem="8X1-KC-LTE" secondAttribute="bottom" constant="8" id="cuz-bb-tsv"/>
+                            <constraint firstItem="3rW-et-wN2" firstAttribute="top" secondItem="WS1-OL-5g2" secondAttribute="bottom" constant="8" id="g8D-an-mpK"/>
                             <constraint firstItem="9mR-fa-lio" firstAttribute="trailing" secondItem="k17-Ef-AHe" secondAttribute="trailing" constant="8" id="hp1-95-LIj"/>
                             <constraint firstItem="hzT-bL-GyU" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" constant="16" id="lGT-54-ake"/>
                             <constraint firstItem="9mR-fa-lio" firstAttribute="trailing" secondItem="hzT-bL-GyU" secondAttribute="trailing" constant="8" id="lu9-vV-fRf"/>
+                            <constraint firstItem="Ivn-Wy-Q4f" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" constant="16" id="qM0-YN-Dh1"/>
+                            <constraint firstItem="DNc-m9-m1y" firstAttribute="trailing" secondItem="9mR-fa-lio" secondAttribute="trailing" id="qTI-yn-VfG"/>
+                            <constraint firstItem="3rW-et-wN2" firstAttribute="top" secondItem="DNc-m9-m1y" secondAttribute="bottom" constant="8" id="trO-lV-mUI"/>
+                            <constraint firstItem="3rW-et-wN2" firstAttribute="leading" secondItem="9mR-fa-lio" secondAttribute="leading" constant="16" id="x4o-y1-7N4"/>
+                            <constraint firstItem="9mR-fa-lio" firstAttribute="trailing" secondItem="Ivn-Wy-Q4f" secondAttribute="trailing" constant="8" id="xyh-RC-G39"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="jXj-xu-3Af" appends="YES" id="Z6i-S3-u0X"/>
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="tagCopyView" destination="DNc-m9-m1y" id="hl8-vj-CS7"/>
                         <outlet property="versionTV" destination="8X1-KC-LTE" id="aRV-eh-5hi"/>
                     </connections>
                 </viewController>

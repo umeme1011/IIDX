@@ -38,6 +38,39 @@ class MyUserDefaults {
         }
     }
     
+    /**
+     全バージョン共通
+     */
+    // 一時的なバージョンチェックフラグ
+    func setVersionCheckFlg(flg : Bool) {
+        ud.set(flg, forKey: "versionCheckFlg")
+    }
+    
+    func getVersionCheckFlg() -> Bool {
+        return ud.object(forKey: "versionCheckFlg") as? Bool ?? false
+    }
+    
+    // アカウント情報
+    func setCommonId(id : String) {
+        ud.set(id, forKey: "CommonId")
+    }
+    
+    func getCommonId() -> String {
+        return ud.object(forKey: "CommonId") as? String ?? ""
+    }
+    
+    func setCommonPassword(password : String) {
+        ud.set(password, forKey: "CommonPassword")
+    }
+    
+    func getCommonPassword() -> String {
+        return ud.object(forKey: "CommonPassword") as? String ?? ""
+    }
+
+
+    /**
+     バージョンごと
+     */
     // wiki 新曲ページ最終更新日時
     func setWikiNewSongLastModified(date: String) {
         ud.set(date, forKey: "wikiNewSongLastModified\(String(getVersion()))")
@@ -101,6 +134,7 @@ class MyUserDefaults {
         return ud.object(forKey: "updateInfoFlg\(String(getVersion()))") as? Bool ?? true
     }
     
+
     /*
      設定（SPDP共通）
      */
@@ -109,7 +143,7 @@ class MyUserDefaults {
     }
     
     func getVersion() -> Int {
-        return ud.object(forKey: "version") as? Int ?? Const.Version.PRESENT_VERSION_NO
+        return ud.object(forKey: "version") as? Int ?? Const.Version.CURRENT_VERSION_NO
     }
     
     func setId(id : String) {
@@ -296,6 +330,18 @@ class MyUserDefaults {
     
     func getTargetPageVersionAllFlg() -> Bool {
         return ud.object(forKey: "targetPageVersionAllFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
+    }
+
+    /**
+     前作ゴースト表示
+     */
+    func setGhostDispFlg(flg: Bool) {
+        ud.set(flg, forKey: "ghostDispFlg\(getPlayStyle())\(String(getVersion()))")
+    }
+    
+    func getGhostDispFlg() -> Bool{
+        // 初期値：表示する
+        return ud.object(forKey: "ghostDispFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
     }
 
 }

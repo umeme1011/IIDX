@@ -11,32 +11,54 @@ import UIKit
 class Const {
     
     // テスト用
-    // DEVELOP true:5thStyleまで同期 false:全バージョン同期
+    // DEVELOP true:5thStyleまで同期 false:全バージョン同期（未使用）
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = false
+        static let DEBUG_LOG = true
     }
     
     // Version
     class Version {
         static let START_VERSION_NO = 27
-        static let PRESENT_VERSION_NO = 27
+        static let CURRENT_VERSION_NO = 28
     }
     
     // Wiki
     class Wiki {
-        static let NEW_SONG_LAST_MODIFIED = "Last-modified: 2020-10-19 (月) 23:22:46"
-        static let OLD_SONG_LAST_MODIFIED = "Last-modified: 2020-10-18 (日) 00:15:24"
-        static let OLD_NOTES_LAST_MODIFIED = "Last-modified: 2020-10-18 (日) 00:19:58"
+        static let NEW_SONG_LAST_MODIFIED = ""
+        static let OLD_SONG_LAST_MODIFIED = ""
+        static let OLD_NOTES_LAST_MODIFIED = ""
     }
     
     // Realm
     class Realm {
         static let SCHEMA_VER = 4
-        static let SEED_DB_VER = "27.8"
-        static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
+        static let CURRENT_SEED_DB_VER = "28.1"
+        static let CURRENT_SEED_FILE_NAME = "iidx_seed_\(CURRENT_SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"
+        
+        let versionNo: Int = MyUserDefaults().getVersion()
+        func getSeedDbVer() -> String {
+            var ret = ""
+            if versionNo == 27 {
+                ret = "27.9"
+            }
+            if versionNo == Const.Version.CURRENT_VERSION_NO {
+                ret = Const.Realm.CURRENT_SEED_DB_VER
+            }
+            return ret
+        }
+        func getSeedFileName() -> String {
+            var ret = ""
+            if versionNo == 27 {
+                ret = "iidx_seed_\(getSeedDbVer())"
+            }
+            if versionNo == Const.Version.CURRENT_VERSION_NO {
+                ret = Const.Realm.CURRENT_SEED_FILE_NAME
+            }
+            return ret
+        }
     }
     
     // CSV
@@ -44,6 +66,7 @@ class Const {
         static let CORRECT_TITLE = "CorrectTitle"
         static let SEPARATER = "@@@"
         static let NO_NOTES_TITLE = "NoNotesTitle"
+        static let CODE = "Code_20201031"
     }
     
     
@@ -108,22 +131,32 @@ class Const {
         // Wiki Url バージョン毎に分岐
         func getWikiOldSongUrl() -> String {
             var ret: String = ""
-            if Const.Version.PRESENT_VERSION_NO == 27 {
+            if versionNo == 27 {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
             }
+            if versionNo == 28 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+
             return ret
         }
         func getWikiOldNotesListUrl() -> String {
             var ret: String = ""
-            if Const.Version.PRESENT_VERSION_NO == 27 {
+            if versionNo == 27 {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C8%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 28 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C8%BF%F4%A5%EA%A5%B9%A5%C8"
             }
             return ret
         }
         func getWikiNewSongListUrl() -> String {
             var ret: String = ""
-            if Const.Version.PRESENT_VERSION_NO == 27 {
+            if versionNo == 27 {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 28 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
             }
             return ret
         }
@@ -317,6 +350,7 @@ class Const {
             static let ZERO = "0(0/0)"
             static let OLD_SCORE = "(old)"
             static let NEW_SCORE = "(new)"
+            static let GHOST_SCORE = "(ghost)"
             static let HYPHEN = "-"
         }
     }
@@ -327,10 +361,10 @@ class Const {
         static let IMPORT_FAILED = "スコアデータの取込に失敗しました。\n公式サイトにデータが存在しない、またはメンテナンス中の可能性があります。"
         static let IMPORT_CANCEL = "スコアデータの取込をキャンセルしました。"
         static let NO_TARGET_ACCOUNT = "取込対象のアカウントを選択してください。"
-        static let VERSION_CHANGE_COMFIRM = "バージョンを切り替えます。よろしいですか？"
+        static let VERSION_CHANGE_COMFIRM = "バージョンを切り替えます。\nよろしいですか？"
         static let IMPORT_BALLOON = "インポートします。"
         static let IMPORT_CANCEL_BALLOON = "キャンセルします。"
-        static let RESET_COMFIRM = "アプリを初期状態に戻します。よろしいですか？"
+        static let RESET_COMFIRM = "アプリを初期状態に戻します。\nよろしいですか？"
         static let LOGOUT_COMPLETE = "ログアウトしました。"
         static let RESET_COMPLETE = "リセットしました。"
         static let SEED_DB_IMPORT_COMPLETE = "初期データ取り込み完了！"

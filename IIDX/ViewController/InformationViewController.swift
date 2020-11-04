@@ -30,7 +30,7 @@ class InformationViewController: UIViewController {
         verLbl.text = "Ver. \(version)"
         
         // seedDBバージョン設定
-        seedDbLbl.text = "Ver. \(Const.Realm.SEED_DB_VER)"
+        seedDbLbl.text = "Ver. \(Const.Realm().getSeedDbVer())"
         
         scoreRealm = CommonMethod.createScoreRealm()
         seedRealm = CommonMethod.createSeedRealm()
@@ -54,8 +54,8 @@ class InformationViewController: UIViewController {
             try! self.scoreRealm.write {
                 self.scoreRealm.deleteAll()
             }
-            // UserDefaults全初期化
-            self.myUD.initAll()
+            // UserDefaults対象バージョンのみ全初期化
+            self.myUD.initVersion()
             
             // クプロ画像を削除
             let path = CommonMethod.fileInDocumentsDirectory(filename: Const.Image.Qpro.FILE_NAME)

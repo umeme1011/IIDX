@@ -131,8 +131,7 @@ class TargetPageViewController: UIViewController, UICollectionViewDelegateFlowLa
         myUD.setTargetPageVersionAllFlg(flg: versionAllFlg)
         
         Log.debugEnd(cls: String(describing: self), method: #function)
-        self.presentingViewController?.presentingViewController?
-            .dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
     /*

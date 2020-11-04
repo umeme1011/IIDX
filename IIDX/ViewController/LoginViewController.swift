@@ -32,10 +32,6 @@ class LoginViewController: UIViewController, WKNavigationDelegate, WKUIDelegate 
             let req: NSURLRequest = NSURLRequest(url: url)
             loginWV.load(req as URLRequest)
         }
-        
-        
-//        loadLocalHtml()
-        
 
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
