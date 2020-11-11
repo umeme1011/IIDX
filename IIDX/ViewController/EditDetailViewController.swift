@@ -194,6 +194,20 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
     }
     
     /*
+     タッチイベント
+     */
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        super.touchesEnded(touches, with: event)
+        for touch in touches {
+            if touch.view?.tag == 1 {
+                self.dismiss(animated: false, completion: nil)
+            }
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /*
      tap Cancel Btn
      */
     @IBAction func tapCancelBtn(_ sender: Any) {

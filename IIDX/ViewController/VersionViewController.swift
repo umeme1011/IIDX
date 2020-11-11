@@ -116,9 +116,6 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
                 , preferredStyle: UIAlertController.Style.alert)
             let okBtn = UIAlertAction(title: Const.Label.OK, style: UIAlertAction.Style.default, handler: {
                 (action: UIAlertAction!) -> Void in
-
-                let vc: MainViewController
-                    = self.presentingViewController?.presentingViewController as! MainViewController
                 
                 // バージョンセット
                 self.myUD.setVersion(no: self.versionNo)
@@ -134,17 +131,8 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
                         // タグ引き継ぎ
                         self.copyTag()
                     }
-                    
-                    // データ取得処理
-                    let operation: Operation = Operation.init(mainVC: vc)
-                    let score: Results<MyScore> = operation.doOperation()
-                    // リスト画面リロード
-                    let listVC: ListViewController
-                        = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
-                    listVC.scores = score
-                    listVC.listTV.reloadData()
-                    // メイン画面のUI処理
-                    vc.mainUI()
+                    // データリロード
+                    self.dataReload()
                     // 取り込み完了アラート表示
                     let alert = UIAlertController(title: "", message: alertMsg, preferredStyle: UIAlertController.Style.alert)
                     let okBtn = UIAlertAction(title: Const.Label.OK, style: UIAlertAction.Style.default, handler:{(action: UIAlertAction!) in
@@ -154,13 +142,11 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.present(alert, animated: false, completion: nil)
                     
                 } else {
+                    // データリロード
+                    self.dataReload()
                     // 閉じる
                     self.dismiss(animated: false, completion: nil)
-
                 }
-                // 設定画面のバージョンラベルを変更
-                let parent = self.presentingViewController as! SettingViewController
-                parent.changeVersionLbl()
             })
             
             let cancelBtn = UIAlertAction(title: Const.Label.CANCEL, style: UIAlertAction.Style.cancel, handler: nil)
@@ -255,5 +241,27 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
         }
+    }
+    
+    /**
+     データリロード処理
+     */
+    private func dataReload() {
+        let vc: MainViewController
+            = self.presentingViewController?.presentingViewController as! MainViewController
+
+        // データ取得処理
+        let operation: Operation = Operation.init(mainVC: vc)
+        let score: Results<MyScore> = operation.doOperation()
+        // リスト画面リロード
+        let listVC: ListViewController
+            = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
+        listVC.scores = score
+        listVC.listTV.reloadData()
+        // メイン画面のUI処理
+        vc.mainUI()
+        // 設定画面のバージョンラベルを変更
+        let parent = self.presentingViewController as! SettingViewController
+        parent.changeVersionLbl()
     }
 }

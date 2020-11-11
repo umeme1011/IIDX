@@ -119,20 +119,41 @@ class TagViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             try! scoreRealm.write {
                 for score in scores {
                     var tag: String = score.tag ?? ""
+                    // タグが設定されていない場合は次の曲へ
+                    if tag == "" {
+                        continue
+                    }
+                    // 削除したタグが設定されている場合のみ削除処理
                     for t in tagDeleteArray {
-                        tag.replaceSubrange(tag.range(of: "[" + t + "]")!, with: "")
+                        if !tag.contains("[" + t + "]") {
+                            continue
+                        }
+                        tag = tag.replacingOccurrences(of: "[" + t + "]", with: "")
+                        if tag.hasPrefix(",") {
+                            tag = String(tag.dropFirst())
+                        }
+                        if tag.hasSuffix(",") {
+                            tag = String(tag.dropLast())
+                        }
+                        if let range = tag.range(of: ",,") {
+                            tag.replaceSubrange(range, with: ",")
+                        }
+                        score.tag = tag
+                        scoreRealm.add(score, update: .all)
+                        
+                        // データ取得処理
+                        let vc: MainViewController
+                            = self.presentingViewController?.presentingViewController as! MainViewController
+                        let operation: Operation = Operation.init(mainVC: vc)
+                        let score: Results<MyScore> = operation.doOperation()
+                        // リスト画面リロード
+                        let listVC: ListViewController
+                            = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
+                        listVC.scores = score
+                        listVC.listTV.reloadData()
+                        // メイン画面のUI処理
+                        vc.mainUI()
                     }
-                    if tag.hasPrefix(",") {
-                        tag = String(tag.dropFirst())
-                    }
-                    if tag.hasSuffix(",") {
-                        tag = String(tag.dropLast())
-                    }
-                    if let range = tag.range(of: ",,") {
-                        tag.replaceSubrange(range, with: ",")
-                    }
-                    score.tag = tag
-                    scoreRealm.add(score, update: .all)
                 }
             }
         }
