@@ -50,6 +50,15 @@ class MyUserDefaults {
         return ud.object(forKey: "versionCheckFlg") as? Bool ?? false
     }
     
+    // 一時的な前作ゴーストコピー済みフラグ
+    func setGhostScoreCopyFlg(flg : Bool) {
+        ud.set(flg, forKey: "ghostScoreCopyFlg")
+    }
+    
+    func getGhostScoreCopyFlg() -> Bool {
+        return ud.object(forKey: "ghostScoreCopyFlg") as? Bool ?? false
+    }
+    
     // アカウント情報
     func setCommonId(id : String) {
         ud.set(id, forKey: "CommonId")

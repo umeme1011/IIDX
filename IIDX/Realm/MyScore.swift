@@ -29,6 +29,8 @@ class MyScore: RealmSwift.Object {
     @objc dynamic var oldScoreId: Int = 0
     @objc dynamic var tag: String?
     @objc dynamic var plusMinus: String?
+    @objc dynamic var memo: String?
+    @objc dynamic var ghostScore: String?
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String = Const.Realm.SYSTEM
     @objc dynamic var updateDate = Date()
@@ -59,6 +61,8 @@ class MyScore: RealmSwift.Object {
         case oldScoreId
         case tag
         case plusMinus
+        case memo
+        case ghostScore
         case createDate
         case updateDate
     }

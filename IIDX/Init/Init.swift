@@ -25,21 +25,23 @@ class Init {
         var ret: String = ""    // アラートメッセージ返却用
         
         do {
-            // 最初の一回のみ実施。ユーザの現在のバージョンを調べるため前作スコアテーブルをチェック
+            // 最初の一回のみ実施。ユーザの現在のバージョンを調べるため前作スコアテーブルの有無をチェック
             if !myUD.getVersionCheckFlg() {
                 let preScoreRealm = CommonMethod.createPreScoreRealm()
                 let scoreRealm = CommonMethod.createScoreRealm()
                 if !preScoreRealm.isEmpty && scoreRealm.isEmpty {
+                    // 前作スコアがある場合は27をセット
                     myUD.setVersion(no: Const.Version.START_VERSION_NO)
                     // ついでにアカウント情報を共通の方二セット
                     myUD.setCommonId(id: myUD.getId())
                     myUD.setCommonPassword(password: myUD.getPassword())
                 } else {
+                    // 前作スコアがない場合は新規と判断して28をセット
                     myUD.setVersion(no: Const.Version.CURRENT_VERSION_NO)
                 }
                 myUD.setVersionCheckFlg(flg: true)
             }
-
+            
             let fileManager: FileManager = FileManager()
             let seedRealmPath: String = CommonMethod.getSeedRealmPath()
             
@@ -88,18 +90,10 @@ class Init {
                                 if fileManager.fileExists(atPath: documentDir.appendingPathComponent("\(name).note")) {
                                         try FileManager.default.removeItem(atPath: documentDir.appendingPathComponent("\(name).note"))
                                 }
-//                                existFlg = true
                             }
                         }
                     }
                 }
-                
-//                // 存在しない場合は全件登録
-//                if !existFlg {
-//                    // 全件登録
-//                    insertMyScore(newSeedPath: seedRealmPath)
-//                    ret = "初期データ登録完了！"
-//                }
             }
             
             // リセットボタン押下時
