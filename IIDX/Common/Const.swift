@@ -66,7 +66,7 @@ class Const {
         static let CORRECT_TITLE = "CorrectTitle"
         static let SEPARATER = "@@@"
         static let NO_NOTES_TITLE = "NoNotesTitle"
-        static let CODE = "Code_20201031"
+        static let CODE = "Code"
     }
     
     
@@ -364,7 +364,7 @@ class Const {
         static let VERSION_CHANGE_COMFIRM = "バージョンを切り替えます。\nよろしいですか？"
         static let IMPORT_BALLOON = "インポートします。"
         static let IMPORT_CANCEL_BALLOON = "キャンセルします。"
-        static let RESET_COMFIRM = "アプリを初期状態に戻します。\nよろしいですか？"
+        static let RESET_COMFIRM = "選択バージョンのデータをリセットします。\nよろしいですか？"
         static let LOGOUT_COMPLETE = "ログアウトしました。"
         static let RESET_COMPLETE = "リセットしました。"
         static let SEED_DB_IMPORT_COMPLETE = "初期データ取り込み完了！"

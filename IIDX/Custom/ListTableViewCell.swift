@@ -18,6 +18,10 @@ class ListTableViewCell: UITableViewCell {
     @IBOutlet weak var missLbl: UILabel!
     @IBOutlet weak var scoreRateLbl: UILabel!
     @IBOutlet weak var plusMinusLbl: UILabel!
+    @IBOutlet weak var ghostScoreLbl: UILabel!
+    @IBOutlet weak var ghostScoreRateLbl: UILabel!
+    @IBOutlet weak var ghostMissLbl: UILabel!
+    @IBOutlet weak var ghostPlusMinusLbl: UILabel!
     
     override func awakeFromNib() {
 //        super.awakeFromNib()

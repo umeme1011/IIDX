@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B96F567ADFFFA3CFE8518F7B /* Pods_IIDX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */; };
-		C31A3CC4254C641C00EDF1E3 /* Code_20201031.csv in Resources */ = {isa = PBXBuildFile; fileRef = C31A3CC3254C641C00EDF1E3 /* Code_20201031.csv */; };
 		C31A3CCB254C6F2F00EDF1E3 /* LoadCodeCsv.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31A3CCA254C6F2F00EDF1E3 /* LoadCodeCsv.swift */; };
 		C31A3CD2254DC2B000EDF1E3 /* iidx_seed_28.1.realm in Resources */ = {isa = PBXBuildFile; fileRef = C31A3CD1254DC2B000EDF1E3 /* iidx_seed_28.1.realm */; };
 		C31A3CDA254DD5D400EDF1E3 /* iidx_seed_27.9.realm in Resources */ = {isa = PBXBuildFile; fileRef = C31A3CD9254DD5D400EDF1E3 /* iidx_seed_27.9.realm */; };
@@ -103,7 +102,6 @@
 /* Begin PBXFileReference section */
 		08AAAF1DD6A69654DD611564 /* Pods-IIDX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IIDX.debug.xcconfig"; path = "Target Support Files/Pods-IIDX/Pods-IIDX.debug.xcconfig"; sourceTree = "<group>"; };
 		6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IIDX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C31A3CC3254C641C00EDF1E3 /* Code_20201031.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Code_20201031.csv; sourceTree = "<group>"; };
 		C31A3CCA254C6F2F00EDF1E3 /* LoadCodeCsv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadCodeCsv.swift; sourceTree = "<group>"; };
 		C31A3CD1254DC2B000EDF1E3 /* iidx_seed_28.1.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_28.1.realm; sourceTree = "<group>"; };
 		C31A3CD9254DD5D400EDF1E3 /* iidx_seed_27.9.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.9.realm; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 		C34E9C03232CB9A800D62373 /* Csv */ = {
 			isa = PBXGroup;
 			children = (
-				C31A3CC3254C641C00EDF1E3 /* Code_20201031.csv */,
 				C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */,
 				C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */,
 			);
@@ -493,7 +490,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C369F92724FFE1840088B856 /* TargetPage.storyboard in Resources */,
-				C31A3CC4254C641C00EDF1E3 /* Code_20201031.csv in Resources */,
 				C3E0023C251107840022D8A9 /* UpdateMasterDB.storyboard in Resources */,
 				C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */,
 				C31A3CD2254DC2B000EDF1E3 /* iidx_seed_28.1.realm in Resources */,

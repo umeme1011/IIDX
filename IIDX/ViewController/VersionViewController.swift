@@ -256,6 +256,8 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         // リスト画面リロード
         let listVC: ListViewController
             = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
+        // 前作スコア表示有無によるセルの高さ指定
+        listVC.changeRowHeight()
         listVC.scores = score
         listVC.listTV.reloadData()
         // メイン画面のUI処理

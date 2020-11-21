@@ -37,6 +37,9 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         // ラインを左端まで引く
         listTV.separatorInset = .zero
         
+        // セルの高さ
+        changeRowHeight()
+        
         // スコアデータ取得
         let operation: Operation = Operation.init(mainVC: mainVC)
         scores = operation.doOperation()
@@ -64,36 +67,46 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         let ret = setClearLump(arg: scores[indexPath.row].clearLump)
         cell.clearLumpIV.image = ret.image
         cell.clearLumpIV.backgroundColor = ret.color
-        
         // DjLevel
         let image = setDjLevel(arg: scores[indexPath.row].djLevel)
         cell.djLevelIV.image = image
-        
         // レベル
         cell.levelLbl.text = String(scores[indexPath.row].level)
         let color = setLevel(arg: scores[indexPath.row].difficultyId)
         cell.levelLbl.textColor = color
-        
         // タイトル
         cell.titleLbl.text = scores[indexPath.row].title
-        
         // スコア
         let score: String = setScore(arg: String(describing: scores[indexPath.row].score))
         cell.scoreLbl.text = "score: \(score)"
-        
         // ミスカウント
         var missCount: String = String(describing: scores[indexPath.row].missCount)
         if scores[indexPath.row].missCount == 9999 {
             missCount = Const.Label.Score.HYPHEN
         }
         cell.missLbl.text = "miss: \(missCount)"
-        
         // スコアレート
         let scoreRate: String = setScoreRate(arg: scores[indexPath.row].scoreRate)
         cell.scoreRateLbl.text = "rate: \(scoreRate)"
-        
         // プラス・マイナス
         cell.plusMinusLbl.text = scores[indexPath.row].plusMinus
+        
+        // 前作ゴースト
+        // スコア
+        let ghostScore = setScore(arg: String(describing: scores[indexPath.row].ghostScore))
+        cell.ghostScoreLbl.text = "score: \(ghostScore)"
+        // スコアレート
+        let ghostScoreRate = setScoreRate(arg: scores[indexPath.row].ghostScoreRate)
+        cell.ghostScoreRateLbl.text = "rate: \(ghostScoreRate)"
+        // ミスカウント
+        var ghostMissCount: String = String(describing: scores[indexPath.row].ghostMissCount)
+        if scores[indexPath.row].ghostMissCount == 9999 {
+            ghostMissCount = Const.Label.Score.HYPHEN
+        }
+        cell.ghostMissLbl.text = "miss: \(ghostMissCount)"
+        // プラス・マイナス
+        cell.ghostPlusMinusLbl.text = scores[indexPath.row].ghostPlusMinus
+
         
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cell
@@ -300,5 +313,14 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    func changeRowHeight() {
+        // セルの高さ
+        if myUD.getGhostDispFlg() {
+            listTV.rowHeight = 49
+        } else {
+            listTV.rowHeight = 35
+        }
     }
 }

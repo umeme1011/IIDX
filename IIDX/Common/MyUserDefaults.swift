@@ -247,6 +247,15 @@ class MyUserDefaults {
         return ud.object(forKey: "tagFoldingFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
     }
 
+    func setGhostFoldingFlg(flg: Bool) {
+        ud.set(flg, forKey: "ghostFoldingFlg\(getPlayStyle())\(String(getVersion()))")
+    }
+    
+    func getGhostFoldingFlg() -> Bool {
+        // 初期値：全セクション折りたたみ状態
+        return ud.object(forKey: "ghostFoldingFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
+    }
+
     func setCheckDic(dic: Data) {
         ud.set(dic, forKey: "checkDic\(getPlayStyle())\(String(getVersion()))")
     }
@@ -269,6 +278,14 @@ class MyUserDefaults {
     
     func getTagCheckArray() -> [String] {
         return ud.object(forKey: "tagCheckDic\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
+    }
+
+    func setGhostCheckArray(array: [String]) {
+        ud.set(array, forKey: "ghostCheckArray\(getPlayStyle())\(String(getVersion()))")
+    }
+    
+    func getGhostCheckArray() -> [String] {
+        return ud.object(forKey: "ghostCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
     }
 
     func setSearchWord(word: String) {

@@ -30,6 +30,8 @@ class Operation {
         result = doRivalFilter(result: result)
         // フィルター処理（タグ）
         result = doTagFilter(result: result)
+        // フィルター処理（前作ゴースト）
+        result = doGhostFilter(result: result)
         // ソート処理
         result = doSort(result: result)
         
@@ -202,6 +204,33 @@ class Operation {
         return ret
     }
     
+    /*
+     フィルター処理（前作ゴースト）
+     */
+    private func doGhostFilter(result: Results<MyScore>) -> Results<MyScore> {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        var ret: Results<MyScore>!
+        // UserDefaultsより設定値取得
+        let ghostArray: [String] = myUD.getGhostCheckArray()
+        
+        if ghostArray.isEmpty {
+            ret = result
+        } else {
+            var predicates: [NSPredicate] = [NSPredicate]()
+            if ghostArray.contains("WIN") {
+                let predicate = NSPredicate(format: "\(MyScore.Types.score.rawValue) > \(MyScore.Types.ghostScore.rawValue)")
+                predicates.append(predicate)
+            }
+            if ghostArray.contains("LOSE") {
+                let predicate = NSPredicate(format: "\(MyScore.Types.score.rawValue) <= \(MyScore.Types.ghostScore.rawValue)")
+                predicates.append(predicate)
+            }
+            ret = result.filter("playStyle = %@", myUD.getPlayStyle())
+            ret = ret.filter(NSCompoundPredicate(andPredicateWithSubpredicates: predicates))
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+        return ret
+    }
     /*
      ソート処理
      */

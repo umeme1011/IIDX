@@ -402,7 +402,13 @@ extension Import {
                             .filter("\(MyScore.Types.difficultyId.rawValue) == %@", new.difficultyId)
                             .filter("\(MyScore.Types.playStyle.rawValue) == %@", new.playStyle)
                             .first {
+                            new.ghostClearLump = old.clearLump
+                            new.ghostDjLevel = old.djLevel
                             new.ghostScore = old.score
+                            new.ghostScoreRate = old.scoreRate
+                            new.ghostMissCount = old.missCount
+                            new.ghostSelectCount = old.selectCount
+                            new.ghostPlusMinus = old.plusMinus
                         }
                     }
                 }

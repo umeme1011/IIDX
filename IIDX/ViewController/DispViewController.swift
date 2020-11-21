@@ -84,6 +84,12 @@ class DispViewController: UIViewController {
 
         myUD.setGhostDispFlg(flg: ghostDispFlg)
         
+        // リスト画面のセル高さ変更
+        let listVC: ListViewController
+            = self.presentingViewController?.presentingViewController?.children[0] as! ListViewController
+        listVC.changeRowHeight()
+        listVC.listTV.reloadData()
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }

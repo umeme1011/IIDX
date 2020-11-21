@@ -30,7 +30,10 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
     var rivalCheckDic: Dictionary = Dictionary<Int, [String]>()
     var tagCheckArray: [String] = [String]()
     var titleArray: [String] = [String]()
-    
+    var ghostFilters = [String]()
+    var ghostFoldingFlg: Bool!
+    var ghostCheckArray: [String] = [String]()
+
     
     override func viewDidLoad() {
         Log.debugStart(cls: String(describing: self), method: #function)
@@ -77,6 +80,10 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         makeRivalFilterArray(kindCode: Const.Value.kindCode.RIVAL_LUMP_WIN)
         // 項目作成（タグ）
         tagFilters = scoreRealm.objects(Tag.self)
+        // 項目作成（前作ゴースト）
+        if myUD.getGhostDispFlg() {
+            ghostFilters = ["WIN", "LOSE"]
+        }
         
         // 折りたたみフラグ
         foldingFlgArray = myUD.getFoldingFlgArray()
@@ -84,6 +91,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         rivalFoldingFlgArray = myUD.getRivalFoldingFlgArray()
         // 折りたたみフラグ（タグ）
         tagFoldingFlg = myUD.getTagFoldingFlg()
+        // 折りたたみフラグ（前作ゴースト）
+        ghostFoldingFlg = myUD.getGhostFoldingFlg()
         
         // チェックリスト
         var data: Data = myUD.getCheckDic()
@@ -93,6 +102,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         rivalCheckDic = NSKeyedUnarchiver.unarchiveObject(with: data)
             as? Dictionary<Int, [String]> ?? Dictionary<Int, [String]>()
         tagCheckArray = myUD.getTagCheckArray()
+        ghostCheckArray = myUD.getGhostCheckArray()
         
         // タイトル
         titleArray = myUD.getTitleArray()
@@ -121,6 +131,10 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         } else if !tagFilters.isEmpty {
             if tagFoldingFlg {
                 cnt = tagFilters.count
+            }
+        } else if !ghostFilters.isEmpty {
+            if ghostFoldingFlg {
+                cnt = ghostFilters.count
             }
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -218,6 +232,24 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
                     }
                 }
             }
+            
+        // 前作ゴーストフィルター
+        } else if !ghostFilters.isEmpty {
+            // 項目名
+            cell.itemLbl.text = ghostFilters[indexPath.row]
+            // チェック
+            if ghostCheckArray.isEmpty {
+                cell.checkIV.image = nil
+            } else {
+                for tag in ghostCheckArray {
+                    if tag == cell.itemLbl.text {
+                        cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
+                        break
+                    } else {
+                        cell.checkIV.image = nil
+                    }
+                }
+            }
         }
         
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -238,6 +270,11 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         if !tagFilters.isEmpty {
             cnt += 1
         }
+        // 前作ゴーストを表示しない設定の場合は前作ゴースト項目を表示しない
+        if !ghostFilters.isEmpty {
+            cnt += 1
+        }
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cnt
     }
@@ -257,6 +294,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             label.text = rivalFilters[i].name
         } else if !tagFilters.isEmpty {
             label.text = "TAG"
+        } else if !ghostFilters.isEmpty {
+            label.text = "GHOST SCORE"
         }
         
         // Viewデザイン
@@ -332,6 +371,15 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
                 tagFoldingFlg = true
             }
             myUD.setTagFoldingFlg(flg: tagFoldingFlg)
+            
+        // 前作ゴーストフィルター
+        } else if !ghostFilters.isEmpty {
+            if ghostFoldingFlg {
+                ghostFoldingFlg = false
+            } else {
+                ghostFoldingFlg = true
+            }
+            myUD.setGhostFoldingFlg(flg: ghostFoldingFlg)
         }
         
         filterTV.reloadData()
@@ -402,8 +450,19 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
                     tagCheckArray.append(item)
                     titleArray.append(item)
                 }
-            }
             
+            // 前作ゴーストフィルター項目
+            } else if !ghostFilters.isEmpty {
+                // チェック切り替え
+                if cell.checkIV.image == UIImage(systemName: Const.Image.CHECK) {
+                    ghostCheckArray.remove(value: item)
+                    titleArray.remove(value: "GHOST SCORE " + item)
+                } else {
+                    ghostCheckArray.append(item)
+                    titleArray.append("GHOST SCORE " + item)
+                }
+            }
+
             filterTV.reloadData()
             
             // フィルター処理
@@ -445,12 +504,15 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         rivalCheckDic = Dictionary<Int, [String]>()
         tagFoldingFlg = false
         tagCheckArray = [String]()
+        ghostFoldingFlg = false
+        ghostCheckArray = [String]()
         filterTV.reloadData()
         
         // 折りたたみフラグ
         myUD.setFoldingFlgArray(array: foldingFlgArray)
         myUD.setRivalFoldingFlgArray(array: rivalFoldingFlgArray)
         myUD.setTagFoldingFlg(flg: false)
+        myUD.setGhostFoldingFlg(flg: false)
         
         // タイトル初期化
         titleArray.removeAll()
@@ -552,6 +614,7 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         data = NSKeyedArchiver.archivedData(withRootObject: rivalCheckDic)
         myUD.setRivalCheckDic(dic: data)
         myUD.setTagCheckArray(array: tagCheckArray)
+        myUD.setGhostCheckArray(array: ghostCheckArray)
         
         // タイトル
         myUD.setTitleArray(title: titleArray)
