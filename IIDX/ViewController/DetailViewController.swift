@@ -42,10 +42,6 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         
         let scoreRealm: Realm = CommonMethod.createScoreRealm()
         let seedRealm: Realm = CommonMethod.createSeedRealm()
-        var preScoreRealm: Realm!
-        if myUD.getVersion() != Const.Version.START_VERSION_NO {
-            preScoreRealm = CommonMethod.createPreScoreRealm()
-        }
         
         // バージョン
         var ret: Code = seedRealm.objects(Code.self)
@@ -86,7 +82,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             
             dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.OLD_SCORE
             dl = oldScore.djLevel
-            s = convertHyphenStr(s: oldScore.score ?? "")
+            s = convertHyphenStr(s: oldScore.score)
             sr = makeScoreRateStr(scoreRate: oldScore.scoreRate)
             cl = oldScore.clearLump
             mc = oldScore.missCount
@@ -98,23 +94,15 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         }
 
         // 前作ゴーストフラグ表示ありの場合のみ表示
-        if myUD.getGhostDispFlg() && myUD.getVersion() != Const.Version.START_VERSION_NO {
-            // 自分（前作ゴースト）
-            if let preScore: MyScore = preScoreRealm.objects(MyScore.self)
-                .filter("\(MyScore.Types.title.rawValue) = %@", score.title!)
-                .filter("\(MyScore.Types.level.rawValue) = %@", score.level)
-                .filter("\(MyScore.Types.difficultyId.rawValue) = %@", score.difficultyId)
-                .filter("\(MyScore.Types.score.rawValue) != %@", Const.Label.Score.ZERO).first{
-                
-                dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.GHOST_SCORE
-                dl = preScore.djLevel
-                s = convertHyphenStr(s: preScore.score)
-                sr = makeScoreRateStr(scoreRate: preScore.scoreRate)
-                cl = preScore.clearLump
-                mc = preScore.missCount
-                detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
-                scoreArray.append(detailScore)
-            }
+        if myUD.getGhostDispFlg() {
+            dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.GHOST_SCORE
+            dl = score.ghostDjLevel
+            s = convertHyphenStr(s: score.ghostScore)
+            sr = makeScoreRateStr(scoreRate: score.ghostScoreRate)
+            cl = score.ghostClearLump
+            mc = score.ghostMissCount
+            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+            scoreArray.append(detailScore)
         }
 
         // ライバル
@@ -128,7 +116,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
                 let rivalScore: RivalScore = rivalScores.first ?? RivalScore()
                 dn = rival.djName ?? ""
                 dl = rivalScore.djLevel
-                s = convertHyphenStr(s: rivalScore.score ?? "")
+                s = convertHyphenStr(s: rivalScore.score)
                 sr = makeScoreRateStr(scoreRate: rivalScore.scoreRate)
                 cl = rivalScore.clearLump
                 mc = rivalScore.missCount
@@ -314,15 +302,15 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
     }
     
     /*
-     スコアが"0(0/0)"の場合は"-"に変換する
+     スコアが0の場合は"-"に変換する
      */
-    private func convertHyphenStr(s: String) -> String {
+    private func convertHyphenStr(s: Int) -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: String = ""
-        if s == Const.Label.Score.ZERO {
+        if s == 0 {
             ret = Const.Label.Score.HYPHEN
         } else {
-            ret = s.components(separatedBy: "(")[0]
+            ret = s.description
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
         return ret

@@ -129,7 +129,7 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         scoreToolbar.setItems([scoreCancelItem, scoreSpacelItem, scoreDoneItem], animated: true)
         
         scoreTF.inputAccessoryView = scoreToolbar
-        var s: String = score.score.components(separatedBy: "(")[0]
+        var s: String = score.score.description
         if s == "0" {
             s = ""
         }
@@ -227,12 +227,9 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         // djlevel
         let djLevel: Int = djLevelTF.tag
         // score
-        var s: String = scoreTF.text ?? ""
-        if s == "" || s == "0" {
-            s = Const.Label.Score.ZERO
-        }
+        let s = scoreTF.text ?? ""
         // scoreRate
-        let scoreRate: Double = CommonMethod.calcurateScoreRate(score: s, totalNotes: score.totalNotes)
+        let scoreRate: Double = CommonMethod.calcurateScoreRate(score: Int(s) ?? 0, totalNotes: score.totalNotes)
         // misscount
         var missCount: Int = Int(missCountTF.text ?? "") ?? 9999
         if missCountTF.text == "" || missCount == 0 {
@@ -251,7 +248,7 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         try! scoreRealm.write {
             score.clearLump = clearLump
             score.djLevel = djLevel
-            score.score = s
+            score.score = Int(s) ?? 0
             score.scoreRate = scoreRate
             score.missCount = missCount
             score.tag = tagStr

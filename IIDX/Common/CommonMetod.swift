@@ -236,18 +236,18 @@ class CommonMethod {
 
     
     /// スコアレート計算
-    static func calcurateScoreRate(score: String, totalNotes: Int) -> Double {
+    static func calcurateScoreRate(score: Int, totalNotes: Int) -> Double {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret = 0.0
         
-        if score.isEmpty {
+        if score == 0 {
             return ret
         }
         if totalNotes == 0 {
             return ret
         }
         
-        let scoreDouble: Double = Double(score.components(separatedBy: "(")[0]) ?? 0.0
+        let scoreDouble: Double = Double(score)
         let theoreticalValue: Double = Double(totalNotes * 2)
         if theoreticalValue != 0 {
             ret = (scoreDouble / theoreticalValue) * 100.0
@@ -269,12 +269,12 @@ class CommonMethod {
      F   2/9未満
      各スコア間の差 / 2 以上はマイナス、以下はプラス
      */
-    static func calcuratePlusMinus(score: String, totalNotes: Int) -> String {
+    static func calcuratePlusMinus(score: Int, totalNotes: Int) -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret = ""
         
         var djLevelInt = 0
-        let scoreDouble: Double = Double(score.components(separatedBy: "(")[0]) ?? 0.0
+        let scoreDouble: Double = Double(score)
         if scoreDouble == 0 {
             return ret
         }

@@ -165,15 +165,24 @@ extension Import {
                 // djLevel
                 let djLevel: Int = getDjLevel(src: node1.css("td")[2].innerHTML!)
                 // score
-                var score: String = node1.css("td")[3].innerHTML!
-                score.replaceSubrange(score.range(of: "<br>")!, with: "")
+                var scoreStr: String = node1.css("td")[3].innerHTML!
+                scoreStr.replaceSubrange(scoreStr.range(of: "<br>")!, with: "")
+                let score = Int(scoreStr.components(separatedBy: "(")[0])
+                // pgreat
+                let pgreatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[0]
+                let pgreat = Int(pgreatStr)
+                // great
+                let greatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[1].replacingOccurrences(of: ")", with: "")
+                let great = Int(greatStr)
                 // clearLump
                 let clearLump: Int = getClearLump(src: node1.css("td")[4].innerHTML!)
                 
                 myScore.title = title
                 myScore.difficultyId = difficulty
                 myScore.djLevel = djLevel
-                myScore.score = score
+                myScore.score = score ?? 0
+                myScore.pgreat = pgreat ?? 0
+                myScore.great = great ?? 0
                 myScore.clearLump = clearLump
                 myScore.playStyle = playStyle
                 
@@ -277,15 +286,24 @@ extension Import {
                 // djLevel
                 let djLevel: Int = getDjLevel(src: node1.css("td")[2].innerHTML!)
                 // score
-                var score: String = node1.css("td")[3].innerHTML!
-                score.replaceSubrange(score.range(of: "<br>")!, with: "")
+                var scoreStr: String = node1.css("td")[3].innerHTML!
+                scoreStr.replaceSubrange(scoreStr.range(of: "<br>")!, with: "")
+                let score = Int(scoreStr.components(separatedBy: "(")[0])
+                // pgreat
+                let pgreatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[0]
+                let pgreat = Int(pgreatStr)
+                // great
+                let greatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[1].replacingOccurrences(of: ")", with: "")
+                let great = Int(greatStr)
                 // clearLump
                 let clearLump: Int = getClearLump(src: node1.css("td")[4].innerHTML!)
                 
                 rivalScore.title = title
                 rivalScore.difficultyId = difficulty
                 rivalScore.djLevel = djLevel
-                rivalScore.score = score
+                rivalScore.score = score ?? 0
+                rivalScore.pgreat = pgreat ?? 0
+                rivalScore.great = great ?? 0
                 rivalScore.clearLump = clearLump
                 rivalScore.playStyle = playStyle
                 rivalScore.iidxId = iidxId
@@ -477,28 +495,46 @@ extension Import {
                         //score
                         scoreStr = (node3.innerHTML?.description.components(separatedBy: "<br>")[3]
                             .trimmingCharacters(in: .whitespaces))!
+                        let score = Int(scoreStr.components(separatedBy: "(")[0])
+                        // pgreat
+                        let pgreatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[0]
+                        let pgreat = Int(pgreatStr)
+                        // great
+                        let greatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[1].replacingOccurrences(of: ")", with: "")
+                        let great = Int(greatStr)
+
                         // N or H or A
                         switch node3.css("span")[0].text {
                         case "BEGINNER":
                             bScore.clearLump = clearlump
                             bScore.djLevel = djlevel
-                            bScore.score = scoreStr
+                            bScore.score = score ?? 0
+                            bScore.pgreat = pgreat ?? 0
+                            bScore.great = great ?? 0
                         case "NORMAL":
                             nScore.clearLump = clearlump
                             nScore.djLevel = djlevel
-                            nScore.score = scoreStr
+                            nScore.score = score ?? 0
+                            nScore.pgreat = pgreat ?? 0
+                            nScore.great = great ?? 0
                         case "HYPER":
                             hScore.clearLump = clearlump
                             hScore.djLevel = djlevel
-                            hScore.score = scoreStr
+                            hScore.score = score ?? 0
+                            hScore.pgreat = pgreat ?? 0
+                            hScore.great = great ?? 0
                         case "ANOTHER":
                             aScore.clearLump = clearlump
                             aScore.djLevel = djlevel
-                            aScore.score = scoreStr
+                            aScore.score = score ?? 0
+                            aScore.pgreat = pgreat ?? 0
+                            aScore.great = great ?? 0
                         case "LEGGENDARIA":
                             lScore.clearLump = clearlump
                             lScore.djLevel = djlevel
-                            lScore.score = scoreStr
+                            lScore.score = score ?? 0
+                            lScore.pgreat = pgreat ?? 0
+                            lScore.great = great ?? 0
                         default:
                             Log.error(cls: String(describing: self), method: #function
                                 , msg: Const.Log.SCRAPING_002)
@@ -643,28 +679,46 @@ extension Import {
                             //score
                             scoreStr = (node3.innerHTML?.description.components(separatedBy: "<br>")[3]
                                 .trimmingCharacters(in: .whitespaces))!
+                            let score = Int(scoreStr.components(separatedBy: "(")[0])
+                            // pgreat
+                            let pgreatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[0]
+                            let pgreat = Int(pgreatStr)
+                            // great
+                            let greatStr = scoreStr.components(separatedBy: "(")[1].components(separatedBy: "/")[1].replacingOccurrences(of: ")", with: "")
+                            let great = Int(greatStr)
+                            
                             // N or H or A
                             switch node3.css("span")[0].text {
                             case "BEGINNER":
                                 bScore.clearLump = clearlump
                                 bScore.djLevel = djlevel
-                                bScore.score = scoreStr
+                                bScore.score = score ?? 0
+                                bScore.pgreat = pgreat ?? 0
+                                bScore.great = great ?? 0
                             case "NORMAL":
                                 nScore.clearLump = clearlump
                                 nScore.djLevel = djlevel
-                                nScore.score = scoreStr
+                                nScore.score = score ?? 0
+                                nScore.pgreat = pgreat ?? 0
+                                nScore.great = great ?? 0
                             case "HYPER":
                                 hScore.clearLump = clearlump
                                 hScore.djLevel = djlevel
-                                hScore.score = scoreStr
+                                hScore.score = score ?? 0
+                                hScore.pgreat = pgreat ?? 0
+                                hScore.great = great ?? 0
                             case "ANOTHER":
                                 aScore.clearLump = clearlump
                                 aScore.djLevel = djlevel
-                                aScore.score = scoreStr
+                                aScore.score = score ?? 0
+                                aScore.pgreat = pgreat ?? 0
+                                aScore.great = great ?? 0
                             case "LEGGENDARIA":
                                 lScore.clearLump = clearlump
                                 lScore.djLevel = djlevel
-                                lScore.score = scoreStr
+                                lScore.score = score ?? 0
+                                lScore.pgreat = pgreat ?? 0
+                                lScore.great = great ?? 0
                             default:
                                 Log.error(cls: String(describing: self), method: #function
                                     , msg: Const.Log.SCRAPING_002)
@@ -720,7 +774,9 @@ extension Import {
                 score.difficultyId = Const.Value.Difficulty.BEGINNER
                 score.title = columns[1]
                 score.selectCount = Int(columns[4]) ?? 0
-                score.score = "\(columns[6])(\(columns[7])/\(columns[8]))"
+                score.score = Int(columns[6]) ?? 0
+                score.pgreat = Int(columns[7]) ?? 0
+                score.great = Int(columns[8]) ?? 0
                 score.missCount = convertMissCountForCsv(missCount: columns[9])
                 score.clearLump = getClearLumpForCsv(column: columns[10])
                 score.djLevel = getDjLevelForCsv(column: columns[11])
@@ -731,7 +787,9 @@ extension Import {
                 score.difficultyId = Const.Value.Difficulty.NORMAL
                 score.title = columns[1]
                 score.selectCount = Int(columns[4]) ?? 0
-                score.score = "\(columns[13])(\(columns[14])/\(columns[15]))"
+                score.score = Int(columns[13]) ?? 0
+                score.pgreat = Int(columns[14]) ?? 0
+                score.great = Int(columns[15]) ?? 0
                 score.missCount = convertMissCountForCsv(missCount: columns[16])
                 score.clearLump = getClearLumpForCsv(column: columns[17])
                 score.djLevel = getDjLevelForCsv(column: columns[18])
@@ -742,7 +800,9 @@ extension Import {
                 score.difficultyId = Const.Value.Difficulty.HYPER
                 score.title = columns[1]
                 score.selectCount = Int(columns[4]) ?? 0
-                score.score = "\(columns[20])(\(columns[21])/\(columns[22]))"
+                score.score = Int(columns[20]) ?? 0
+                score.pgreat = Int(columns[21]) ?? 0
+                score.great = Int(columns[22]) ?? 0
                 score.missCount = convertMissCountForCsv(missCount: columns[23])
                 score.clearLump = getClearLumpForCsv(column: columns[24])
                 score.djLevel = getDjLevelForCsv(column: columns[25])
@@ -753,7 +813,9 @@ extension Import {
                 score.difficultyId = Const.Value.Difficulty.ANOTHER
                 score.title = columns[1]
                 score.selectCount = Int(columns[4]) ?? 0
-                score.score = "\(columns[27])(\(columns[28])/\(columns[29]))"
+                score.score = Int(columns[27]) ?? 0
+                score.pgreat = Int(columns[28]) ?? 0
+                score.great = Int(columns[29]) ?? 0
                 score.missCount = convertMissCountForCsv(missCount: columns[30])
                 score.clearLump = getClearLumpForCsv(column: columns[31])
                 score.djLevel = getDjLevelForCsv(column: columns[32])
@@ -764,7 +826,9 @@ extension Import {
                 score.difficultyId = Const.Value.Difficulty.LEGGENDARIA
                 score.title = columns[1]
                 score.selectCount = Int(columns[4]) ?? 0
-                score.score = "\(columns[34])(\(columns[35])/\(columns[36]))"
+                score.score = Int(columns[34]) ?? 0
+                score.pgreat = Int(columns[35]) ?? 0
+                score.great = Int(columns[36]) ?? 0
                 score.missCount = convertMissCountForCsv(missCount: columns[37])
                 score.clearLump = getClearLumpForCsv(column: columns[38])
                 score.djLevel = getDjLevelForCsv(column: columns[39])

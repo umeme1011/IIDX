@@ -17,7 +17,9 @@ class RivalScore: RealmSwift.Object {
     @objc dynamic var level: Int = 0
     @objc dynamic var clearLump: Int = 0
     @objc dynamic var djLevel: Int = 0
-    @objc dynamic var score: String?
+    @objc dynamic var score: Int = 0
+    @objc dynamic var pgreat: Int = 0
+    @objc dynamic var great: Int = 0
     @objc dynamic var scoreRate: Double = 0
     @objc dynamic var missCount: Int = 9999
     @objc dynamic var versionId: Int = 0
@@ -42,6 +44,8 @@ class RivalScore: RealmSwift.Object {
         case clearLump
         case djLevel
         case score
+        case pgreat
+        case great
         case scoreRate
         case missCount
         case versionId

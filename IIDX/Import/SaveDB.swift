@@ -112,7 +112,7 @@ extension Import {
                     score.indexId = result.indexId
                     score.lastImportDateId = 0
                     score.oldScoreId = 0
-                    score.plusMinus = CommonMethod.calcuratePlusMinus(score: score.score, totalNotes: result.totalNotes)
+                    score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: result.totalNotes)
                     score.tag = result.tag
                     score.ghostScore = result.ghostScore
                     score.memo = result.memo
@@ -143,6 +143,8 @@ extension Import {
                         oldScore.clearLump = result.clearLump
                         oldScore.djLevel = result.djLevel
                         oldScore.score = result.score
+                        oldScore.pgreat = result.pgreat
+                        oldScore.great = result.great
                         oldScore.scoreRate = result.scoreRate
                         oldScore.missCount = result.missCount
                         oldScore.plusMinus = result.plusMinus
@@ -214,35 +216,35 @@ extension Import {
                     if playStyle == Const.Value.PlayStyle.DOUBLE {
                         if score.difficultyId == Const.Value.Difficulty.NORMAL {
                             score.level = song.dpn
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpn)
-                            score.plusMinus = CommonMethod.calcuratePlusMinus(score: score.score ?? "", totalNotes: song.totalNotesDpn)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesDpn)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesDpn)
                         } else if score.difficultyId == Const.Value.Difficulty.HYPER {
                             score.level = song.dph
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDph)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesDph)
                         } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
                             score.level = song.dpa
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpa)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesDpa)
                         } else if score.difficultyId == Const.Value.Difficulty.LEGGENDARIA {
                             score.level = song.dpl
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesDpl)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesDpl)
                         }
                     } else {
                         if score.difficultyId == Const.Value.Difficulty.BEGINNER {
                             score.level = song.spb
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpb)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpb)
                         } else if score.difficultyId == Const.Value.Difficulty.NORMAL {
                             score.level = song.spn
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpn)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpn)
                         } else if score.difficultyId == Const.Value.Difficulty.HYPER {
                             score.level = song.sph
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSph)
-                            score.plusMinus = CommonMethod.calcuratePlusMinus(score: score.score ?? "", totalNotes: song.totalNotesSph)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSph)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesSph)
                         } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
                             score.level = song.spa
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpa)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpa)
                         } else if score.difficultyId == Const.Value.Difficulty.LEGGENDARIA {
                             score.level = song.spl
-                            score.scoreRate = calcurateScoreRate(score: score.score ?? "", totalNotes: song.totalNotesSpl)
+                            score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpl)
                         }
                     }
                     // 存在しない難易度は登録しない
@@ -317,26 +319,18 @@ extension Import {
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
+    /**
+     スコアレート計算
+     */
+    private func calcurateScoreRate(score: Int, totalNotes: Int) -> Double {
+        return CommonMethod.calcurateScoreRate(score: score, totalNotes: totalNotes)
+    }
     
-    /// スコアレート計算
-    private func calcurateScoreRate(score: String, totalNotes: Int) -> Double {
-        Log.debugStart(cls: String(describing: self), method: #function)
-        var ret = 0.0
-        
-        if score.isEmpty {
-            return ret
-        }
-        if totalNotes == 0 {
-            return ret
-        }
-        
-        let scoreDouble: Double = Double(score.components(separatedBy: "(")[0]) ?? 0.0
-        let theoreticalValue: Double = Double(totalNotes * 2)
-        if theoreticalValue != 0 {
-            ret = (scoreDouble / theoreticalValue) * 100.0
-        }
-        Log.debugEnd(cls: String(describing: self), method: #function)
-        return ret
+    /**
+     プラス・マイナス計算
+     */
+    private func calcuratePlusMinus(score: Int, totalNotes: Int) -> String {
+        return CommonMethod.calcuratePlusMinus(score: score, totalNotes: totalNotes)
     }
     
     
@@ -405,6 +399,8 @@ extension Import {
                             new.ghostClearLump = old.clearLump
                             new.ghostDjLevel = old.djLevel
                             new.ghostScore = old.score
+                            new.ghostPgreat = old.pgreat
+                            new.ghostGreat = old.great
                             new.ghostScoreRate = old.scoreRate
                             new.ghostMissCount = old.missCount
                             new.ghostSelectCount = old.selectCount

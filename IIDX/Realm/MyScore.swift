@@ -21,14 +21,18 @@ class MyScore: RealmSwift.Object {
     @objc dynamic var totalNotes: Int = 0
     @objc dynamic var clearLump: Int = 1    // 1 : No Play
     @objc dynamic var djLevel: Int = 1      // 1 : No Play
-    @objc dynamic var score: String = Const.Label.Score.ZERO
+    @objc dynamic var score: Int = 0
+    @objc dynamic var pgreat: Int = 0
+    @objc dynamic var great: Int = 0
     @objc dynamic var scoreRate: Double = 0
     @objc dynamic var missCount: Int = 9999
     @objc dynamic var selectCount: Int = 0
     @objc dynamic var plusMinus: String?
     @objc dynamic var ghostClearLump: Int = 1    // 1 : No Play
     @objc dynamic var ghostDjLevel: Int = 1      // 1 : No Play
-    @objc dynamic var ghostScore: String = Const.Label.Score.ZERO
+    @objc dynamic var ghostScore: Int = 0
+    @objc dynamic var ghostPgreat: Int = 0
+    @objc dynamic var ghostGreat: Int = 0
     @objc dynamic var ghostScoreRate: Double = 0
     @objc dynamic var ghostMissCount: Int = 9999
     @objc dynamic var ghostSelectCount: Int = 0
@@ -60,6 +64,8 @@ class MyScore: RealmSwift.Object {
         case clearLump
         case djLevel
         case score
+        case pgreat
+        case great
         case scoreRate
         case missCount
         case selectCount
@@ -67,6 +73,8 @@ class MyScore: RealmSwift.Object {
         case ghostClearLump
         case ghostDjLevel
         case ghostScore
+        case ghostPgreat
+        case ghostGreat
         case ghostScoreRate
         case ghostMissCount
         case ghostSelectCount

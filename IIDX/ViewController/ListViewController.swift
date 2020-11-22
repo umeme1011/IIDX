@@ -118,7 +118,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         switch arg {
         case Const.Value.ClearLump.FCOMBO:
-            image = UIImage(named: Const.Image.FCOMBO) ?? UIImage()
+            image = UIImage(named: Const.Image.FCOMBO_PIE) ?? UIImage()
         case Const.Value.ClearLump.EXHCLEAR:
             color = Const.Color.ClearLump.EXHCLEAR
         case Const.Value.ClearLump.HCLEAR:
@@ -189,14 +189,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func setScore(arg: String) -> String {
-        var ret: String = arg
+        var ret = arg
         
-        if ret == Const.Label.Score.ZERO {
+        if ret == "0" {
             ret = Const.Label.Score.HYPHEN
-        } else {
-            ret = ret.components(separatedBy: "(")[0]
         }
-        
         return ret
     }
     

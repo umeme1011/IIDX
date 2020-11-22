@@ -130,8 +130,8 @@ class Operation {
                         .filter("\(RivalScore.Types.iidxId.rawValue) = %@ and \(RivalScore.Types.title.rawValue) = %@ and \(RivalScore.Types.difficultyId.rawValue) = %@ and \(RivalScore.Types.level.rawValue) = %@ and \(RivalScore.Types.playStyle.rawValue) = %@"
                             , iidxId, score.title!, score.difficultyId, score.level, myUD.getPlayStyle())
                         .first ?? RivalScore()
-                    let mScore: Int = Int(score.score.components(separatedBy: "(")[0] ) ?? 0
-                    let rScore: Int = Int(rivalScore.score?.components(separatedBy: "(")[0] ?? "0") ?? 0
+                    let mScore: Int = score.score
+                    let rScore: Int = rivalScore.score
                     let mLump: Int = score.clearLump
                     let rLump: Int = rivalScore.clearLump
                     
@@ -217,6 +217,9 @@ class Operation {
             ret = result
         } else {
             var predicates: [NSPredicate] = [NSPredicate]()
+            // 前作ゴーストスコアが0の曲は検索対象外とする
+            let predicate = NSPredicate(format: "\(MyScore.Types.score.rawValue) != 0 and \(MyScore.Types.ghostScore.rawValue) != 0")
+            predicates.append(predicate)
             if ghostArray.contains("WIN") {
                 let predicate = NSPredicate(format: "\(MyScore.Types.score.rawValue) > \(MyScore.Types.ghostScore.rawValue)")
                 predicates.append(predicate)
