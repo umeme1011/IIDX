@@ -23,6 +23,10 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
     @IBOutlet weak var missCountTF: UITextField!
     @IBOutlet weak var tagTF: UITextField!
     @IBOutlet weak var tagCV: UICollectionView!
+    @IBOutlet weak var memoTV: UITextView!
+    @IBOutlet weak var nextView: UIView!
+    @IBOutlet weak var nextBtn: UIButton!
+    
     
     var score: MyScore!
     var clearLumpPV: UIPickerView = UIPickerView()
@@ -181,6 +185,27 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         tagCV.collectionViewLayout = layout
         
+        //***********************
+        // memo TextView
+        // 枠線デザイン
+        memoTV.layer.borderColor = UIColor(red:0.76, green:0.76, blue:0.76, alpha:1.0).cgColor
+        memoTV.layer.borderWidth = 1.0;
+        memoTV.layer.cornerRadius = 5.0;
+        // memo keyboad toolbar
+        let memoToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 40))
+        let memoCancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(tapMemoCancelBtn))
+        let memoSpacelItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let memoDoneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tapMemoDoneBtn))
+        memoToolbar.setItems([memoCancelItem, memoSpacelItem, memoDoneItem], animated: true)
+        memoTV.inputAccessoryView = memoToolbar
+        // 値設定
+        memoTV.text = score.memo
+        
+        // nextViewを非表示
+        nextView.isHidden = true
+        // nextボタンの文言変更
+        nextBtn.setTitle("Next ▶", for: .normal)
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
@@ -243,6 +268,8 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
             }
             tagStr.remove(at: tagStr.startIndex)
         }
+        // memo
+        let memo = memoTV.text
 
         // save DB
         try! scoreRealm.write {
@@ -252,6 +279,7 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
             score.scoreRate = scoreRate
             score.missCount = missCount
             score.tag = tagStr
+            score.memo = memo
             score.updateDate = Date()
             scoreRealm.add(score, update: .all)
         }
@@ -270,6 +298,51 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
 
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
+    }
+    
+    /**
+     Nextボタンタップ
+     */
+    @IBAction func tapNextBtn(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
+        if nextView.isHidden {
+            // nextViewを表示
+            nextView.isHidden = false
+            // nextボタンの文言変更
+            nextBtn.setTitle("◀ Prev", for: .normal)
+        } else {
+            // nextViewを非表示
+            nextView.isHidden = true
+            // nextボタンの文言変更
+            nextBtn.setTitle("Next ▶", for: .normal)
+        }
+        
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     右にスワイプで次のページ表示
+     */
+    @IBAction func swipeRight(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        // nextViewを表示
+        nextView.isHidden = false
+        // nextボタンの文言変更
+        nextBtn.setTitle("◀ Prev", for: .normal)
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     左にスワイプで前のページ表示
+     */
+    @IBAction func swipeLeft(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        // nextViewを非表示
+        nextView.isHidden = true
+        // nextボタンの文言変更
+        nextBtn.setTitle("Next ▶", for: .normal)
+        Log.debugEnd(cls: String(describing: self), method: #function)
     }
 }
 
@@ -474,6 +547,11 @@ extension EditDetailViewController: UIPickerViewDelegate, UIPickerViewDataSource
         tagCV.reloadData()
     }
     
+    /// Done button
+    @objc func tapMemoDoneBtn() {
+        memoTV.endEditing(true)
+    }
+    
     /// cancel button
     @objc func tapClCancelBtn() {
         clearLumpTF.endEditing(true)
@@ -497,5 +575,10 @@ extension EditDetailViewController: UIPickerViewDelegate, UIPickerViewDataSource
     /// cancel button
     @objc func tapTagCancelBtn() {
         tagTF.endEditing(true)
+    }
+
+    /// cancel button
+    @objc func tapMemoCancelBtn() {
+        memoTV.endEditing(true)
     }
 }
