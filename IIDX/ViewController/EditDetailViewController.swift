@@ -543,8 +543,10 @@ extension EditDetailViewController: UIPickerViewDelegate, UIPickerViewDataSource
     /// Done button
     @objc func tapTagDoneBtn() {
         tagTF.endEditing(true)
-        tagArray.append(tags[tagPV.selectedRow(inComponent: 0)].tag ?? "")
-        tagCV.reloadData()
+        if !tags.isEmpty {
+            tagArray.append(tags[tagPV.selectedRow(inComponent: 0)].tag ?? "")
+            tagCV.reloadData()
+        }
     }
     
     /// Done button

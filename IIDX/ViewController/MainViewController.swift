@@ -177,6 +177,7 @@ class MainViewController: UIViewController {
         // リスト画面リロード
         let operation: Operation = Operation.init(mainVC: self)
         let vc: ListViewController = self.children[0] as! ListViewController
+        vc.changeRowHeight()
         vc.scores = operation.doOperation()
         vc.listTV.reloadData()
     }

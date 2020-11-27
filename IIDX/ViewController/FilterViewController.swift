@@ -128,7 +128,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             if rivalFoldingFlgArray[i] {
                 cnt = rivalFilterArray[i].count
             }
-        } else if !tagFilters.isEmpty {
+        } else if (!tagFilters.isEmpty && !rivalFilterArray.isEmpty && section == 11)
+            || (!tagFilters.isEmpty && rivalFilterArray.isEmpty && section == 7) {
             if tagFoldingFlg {
                 cnt = tagFilters.count
             }
@@ -214,7 +215,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             }
         
         // タグフィルター
-        } else if !tagFilters.isEmpty {
+        } else if (!tagFilters.isEmpty && !rivalFilterArray.isEmpty && indexPath.section == 11)
+            || (!tagFilters.isEmpty && rivalFilterArray.isEmpty && indexPath.section == 7) {
             // 項目名
             cell.itemLbl.text = tagFilters[indexPath.row].tag
             // コード（未使用）
@@ -287,17 +289,22 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
         let view: UIView = UIView()
         let label: UILabel = UILabel()
         
+        // 通常フィルター
         if section < filters.count {
             label.text = filters[section].name
+        // ライバルフィルター
         } else if (section < (filters.count + rivalFilters.count)) && !rivalFilterArray.isEmpty {
             let i = section - filters.count
             label.text = rivalFilters[i].name
-        } else if !tagFilters.isEmpty {
+        // タグフィルター
+        } else if (!tagFilters.isEmpty && !rivalFilterArray.isEmpty && section == 11)
+            || (!tagFilters.isEmpty && rivalFilterArray.isEmpty && section == 7) {
             label.text = "TAG"
+        // 前作ゴーストフィルター
         } else if !ghostFilters.isEmpty {
             label.text = "GHOST SCORE"
         }
-        
+
         // Viewデザイン
         let screenWidth:CGFloat = filterView.frame.size.width
         view.layer.borderColor = UIColor.white.cgColor
@@ -364,7 +371,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
             myUD.setRivalFoldingFlgArray(array: rivalFoldingFlgArray)
         
         // タグフィルター
-        } else if !tagFilters.isEmpty {
+        } else if (!tagFilters.isEmpty && !rivalFilterArray.isEmpty && section == 11)
+            || (!tagFilters.isEmpty && rivalFilterArray.isEmpty && section == 7) {
             if tagFoldingFlg {
                 tagFoldingFlg = false
             } else {
@@ -441,7 +449,8 @@ class FilterViewController: UIViewController,UITableViewDelegate,UITableViewData
                 }
             
             // タグフィルター項目
-            } else if !tagFilters.isEmpty {
+            } else if (!tagFilters.isEmpty && !rivalFilterArray.isEmpty && indexPath.section == 11)
+                        || (!tagFilters.isEmpty && rivalFilterArray.isEmpty && indexPath.section == 7) {
                 // チェック切り替え
                 if cell.checkIV.image == UIImage(systemName: Const.Image.CHECK) {
                     tagCheckArray.remove(value: item)

@@ -67,6 +67,10 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         var detailScore: DetailScore!
         // 自分
         let myStatus: MyStatus = scoreRealm.objects(MyStatus.self).first ?? MyStatus()
+        // 初期状態の場合は何も表示しない
+        if myStatus.djName == nil {
+            return
+        }
         var dn: String = myStatus.djName ?? ""
         var dl: Int = score.djLevel
         var s: String = convertHyphenStr(s: score.score )

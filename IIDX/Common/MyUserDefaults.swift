@@ -366,8 +366,8 @@ class MyUserDefaults {
     }
     
     func getGhostDispFlg() -> Bool{
-        // 初期値：表示する
-        return ud.object(forKey: "ghostDispFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
+        // 初期値：表示しない
+        return ud.object(forKey: "ghostDispFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
     }
 
 }
