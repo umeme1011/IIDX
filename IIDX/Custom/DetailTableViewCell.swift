@@ -16,7 +16,8 @@ class DetailTableViewCell: UITableViewCell {
     @IBOutlet weak var clearLumpLbl: UILabel!
     @IBOutlet weak var missCntLbl: UILabel!
     @IBOutlet weak var clearLumpIV: UIImageView!
-
+    @IBOutlet weak var plusMinusLbl: UILabel!
+    
     override func awakeFromNib() {
 //        super.awakeFromNib()
     }

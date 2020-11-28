@@ -28,6 +28,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         var score: String
         var scoreRate: String
         var clearLump: Int
+        var plusMinus: String
         var missCount: Int
     }
     var scoreArray: [DetailScore] = [DetailScore]()
@@ -76,8 +77,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         var s: String = convertHyphenStr(s: score.score )
         var sr: String = makeScoreRateStr(scoreRate: score.scoreRate)
         var cl: Int = score.clearLump
+        var pm: String = score.plusMinus ?? ""
         var mc: Int = score.missCount
-        detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+        detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
         scoreArray.append(detailScore)
         
         // 自分（過去スコア）
@@ -89,8 +91,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             s = convertHyphenStr(s: oldScore.score)
             sr = makeScoreRateStr(scoreRate: oldScore.scoreRate)
             cl = oldScore.clearLump
+            pm = oldScore.plusMinus ?? ""
             mc = oldScore.missCount
-            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
             scoreArray.append(detailScore)
             
             // newスコアのDJNAMEに(new)をつける
@@ -104,8 +107,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             s = convertHyphenStr(s: score.ghostScore)
             sr = makeScoreRateStr(scoreRate: score.ghostScoreRate)
             cl = score.ghostClearLump
+            pm = score.ghostPlusMinus ?? ""
             mc = score.ghostMissCount
-            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
             scoreArray.append(detailScore)
         }
 
@@ -123,8 +127,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
                 s = convertHyphenStr(s: rivalScore.score)
                 sr = makeScoreRateStr(scoreRate: rivalScore.scoreRate)
                 cl = rivalScore.clearLump
+                pm = rivalScore.plusMinus ?? ""
                 mc = rivalScore.missCount
-                detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+                detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
                 scoreArray.append(detailScore)
             }
         }
@@ -252,6 +257,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             image = nil
         }
         cell.djLevelIV.image = image
+        
+        // プラス・マイナス
+        cell.plusMinusLbl.text = detailScore.plusMinus
         
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cell
