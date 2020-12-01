@@ -114,7 +114,15 @@ extension Import {
                     score.oldScoreId = 0
                     score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: result.totalNotes)
                     score.tag = result.tag
+                    score.ghostClearLump = result.ghostClearLump
+                    score.ghostDjLevel = result.ghostDjLevel
                     score.ghostScore = result.ghostScore
+                    score.ghostPgreat = result.ghostPgreat
+                    score.ghostGreat = result.ghostGreat
+                    score.ghostScoreRate = result.ghostScoreRate
+                    score.ghostMissCount = result.ghostMissCount
+                    score.ghostSelectCount = result.ghostSelectCount
+                    score.ghostPlusMinus = result.ghostPlusMinus
                     score.memo = result.memo
                     score.createDate = result.createDate
                     score.createUser = result.createUser
@@ -380,7 +388,7 @@ extension Import {
     private func copyGhostScore() {
         // スキーマバージョン5でMyScoreに前作ゴーストスコアカラムを追加したので
         // １回のみ27→28へスコアのコピーを行う
-        if !myUD.getGhostScoreCopyFlg() && myUD.getVersion() != Const.Version.START_VERSION_NO {
+        if !myUD.getGhostScoreCopyFlg2() && myUD.getVersion() != Const.Version.START_VERSION_NO {
             let preScoreRealm = CommonMethod.createPreScoreRealm()
             let scoreRealm = CommonMethod.createScoreRealm()
             // 前作スコアが存在しない＝28になってからインストールして27スコア未取り込み
@@ -408,7 +416,7 @@ extension Import {
                         }
                     }
                 }
-                myUD.setGhostScoreCopyFlg(flg: true)
+                myUD.setGhostScoreCopyFlg2(flg: true)
             }
         }
     }
