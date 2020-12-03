@@ -42,7 +42,7 @@ class Const {
         func getSeedDbVer() -> String {
             var ret = ""
             if versionNo == 27 {
-                ret = "27.9"
+                ret = "27.10"
             }
             if versionNo == Const.Version.CURRENT_VERSION_NO {
                 ret = Const.Realm.CURRENT_SEED_DB_VER

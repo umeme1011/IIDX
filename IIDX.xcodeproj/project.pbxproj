@@ -10,7 +10,6 @@
 		B96F567ADFFFA3CFE8518F7B /* Pods_IIDX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */; };
 		C31A3CCB254C6F2F00EDF1E3 /* LoadCodeCsv.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31A3CCA254C6F2F00EDF1E3 /* LoadCodeCsv.swift */; };
 		C31A3CD2254DC2B000EDF1E3 /* iidx_seed_28.1.realm in Resources */ = {isa = PBXBuildFile; fileRef = C31A3CD1254DC2B000EDF1E3 /* iidx_seed_28.1.realm */; };
-		C31A3CDA254DD5D400EDF1E3 /* iidx_seed_27.9.realm in Resources */ = {isa = PBXBuildFile; fileRef = C31A3CD9254DD5D400EDF1E3 /* iidx_seed_27.9.realm */; };
 		C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C338FF0A235236A300FBD47F /* EditSelect.storyboard */; };
 		C338FF0D2352370400FBD47F /* EditSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0C2352370400FBD47F /* EditSelectViewController.swift */; };
 		C338FF0F2353879400FBD47F /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */; };
@@ -20,6 +19,7 @@
 		C34E9C00232928CC00D62373 /* Version.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C34E9BFF232928CC00D62373 /* Version.storyboard */; };
 		C34E9C022329291E00D62373 /* VersionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34E9C012329291E00D62373 /* VersionViewController.swift */; };
 		C34E9C07232CBE6F00D62373 /* CorrectTitle.csv in Resources */ = {isa = PBXBuildFile; fileRef = C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */; };
+		C356BED12577DF8600A082C4 /* iidx_seed_27.10.realm in Resources */ = {isa = PBXBuildFile; fileRef = C356BED02577DF8600A082C4 /* iidx_seed_27.10.realm */; };
 		C369F92724FFE1840088B856 /* TargetPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C369F92624FFE1840088B856 /* TargetPage.storyboard */; };
 		C369F92924FFEBFB0088B856 /* TargetPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369F92824FFEBFB0088B856 /* TargetPageViewController.swift */; };
 		C369F92B250135B20088B856 /* TargetPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369F92A250135B20088B856 /* TargetPageTableViewCell.swift */; };
@@ -104,7 +104,6 @@
 		6F6B074A4B8470A8CC05FE43 /* Pods_IIDX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IIDX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C31A3CCA254C6F2F00EDF1E3 /* LoadCodeCsv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadCodeCsv.swift; sourceTree = "<group>"; };
 		C31A3CD1254DC2B000EDF1E3 /* iidx_seed_28.1.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_28.1.realm; sourceTree = "<group>"; };
-		C31A3CD9254DD5D400EDF1E3 /* iidx_seed_27.9.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.9.realm; sourceTree = "<group>"; };
 		C338FF0A235236A300FBD47F /* EditSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditSelect.storyboard; sourceTree = "<group>"; };
 		C338FF0C2352370400FBD47F /* EditSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSelectViewController.swift; sourceTree = "<group>"; };
 		C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -114,6 +113,7 @@
 		C34E9BFF232928CC00D62373 /* Version.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Version.storyboard; sourceTree = "<group>"; };
 		C34E9C012329291E00D62373 /* VersionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionViewController.swift; sourceTree = "<group>"; };
 		C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CorrectTitle.csv; sourceTree = "<group>"; };
+		C356BED02577DF8600A082C4 /* iidx_seed_27.10.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_27.10.realm; sourceTree = "<group>"; };
 		C369F92624FFE1840088B856 /* TargetPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TargetPage.storyboard; sourceTree = "<group>"; };
 		C369F92824FFEBFB0088B856 /* TargetPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPageViewController.swift; sourceTree = "<group>"; };
 		C369F92A250135B20088B856 /* TargetPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPageTableViewCell.swift; sourceTree = "<group>"; };
@@ -348,7 +348,7 @@
 		C3D7F4D823160E5700B5C895 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				C31A3CD9254DD5D400EDF1E3 /* iidx_seed_27.9.realm */,
+				C356BED02577DF8600A082C4 /* iidx_seed_27.10.realm */,
 				C31A3CD1254DC2B000EDF1E3 /* iidx_seed_28.1.realm */,
 				C3D7F4DB2316132500B5C895 /* Code.swift */,
 				C3FD10F023182C5000C7A86F /* LastImportDate.swift */,
@@ -511,10 +511,10 @@
 				C3D7F5102316678500B5C895 /* Account.storyboard in Resources */,
 				C3D0EF62231BA7FB001F1511 /* Sort.storyboard in Resources */,
 				C3D0EF892320238F001F1511 /* Assets.xcassets in Resources */,
-				C31A3CDA254DD5D400EDF1E3 /* iidx_seed_27.9.realm in Resources */,
 				C3AF62E72349DBD70022664D /* Mode.storyboard in Resources */,
 				C3C21EDD2314FD1F00B51CB1 /* Main.storyboard in Resources */,
 				C34E9C00232928CC00D62373 /* Version.storyboard in Resources */,
+				C356BED12577DF8600A082C4 /* iidx_seed_27.10.realm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,7 +777,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1;
+				CURRENT_PROJECT_VERSION = 2.1.2;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -785,7 +785,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -801,7 +801,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1;
+				CURRENT_PROJECT_VERSION = 2.1.2;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -809,7 +809,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

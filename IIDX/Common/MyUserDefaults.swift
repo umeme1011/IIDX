@@ -49,22 +49,6 @@ class MyUserDefaults {
     func getVersionCheckFlg() -> Bool {
         return ud.object(forKey: "versionCheckFlg") as? Bool ?? false
     }
-    
-    // 一時的な前作ゴーストコピー済みフラグ
-//    func setGhostScoreCopyFlg(flg : Bool) {
-//        ud.set(flg, forKey: "ghostScoreCopyFlg")
-//    }
-//
-//    func getGhostScoreCopyFlg() -> Bool {
-//        return ud.object(forKey: "ghostScoreCopyFlg") as? Bool ?? false
-//    }
-    func setGhostScoreCopyFlg2(flg : Bool) {
-        ud.set(flg, forKey: "ghostScoreCopyFlg2")
-    }
-    
-    func getGhostScoreCopyFlg2() -> Bool {
-        return ud.object(forKey: "ghostScoreCopyFlg2") as? Bool ?? false
-    }
 
     // アカウント情報
     func setCommonId(id : String) {
@@ -327,7 +311,13 @@ class MyUserDefaults {
     }
     
     func getTargetPageLevelCheckArray() -> [String] {
-        return ud.object(forKey: "levelCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? [String]()
+        
+        var levelArray = [String]()
+        for i in 1...12 {
+            levelArray.append(i.description)
+        }
+        // 初期値は全レベル選択
+        return ud.object(forKey: "levelCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? levelArray
     }
 
     // 取込対象ページのバージョンチェック
@@ -337,11 +327,16 @@ class MyUserDefaults {
     
     func getTargetPageVersionCheckArray() -> [String] {
         // 全バージョン取得
-        let seedRealm: Realm = CommonMethod.createSeedRealm();
-        let codes: Results<Code> = seedRealm.objects(Code.self).filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.VERSION).sorted(byKeyPath: Code.Types.code.rawValue)
-        var versionArray: [String] = [String]()
-        for code in codes {
-            versionArray.append(String(code.code))
+//        let seedRealm: Realm = CommonMethod.createSeedRealm();
+//        let codes: Results<Code> = seedRealm.objects(Code.self).filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.VERSION).sorted(byKeyPath: Code.Types.code.rawValue)
+//        var versionArray: [String] = [String]()
+//        for code in codes {
+//            versionArray.append(String(code.code))
+//        }
+
+        var versionArray = [String]()
+        for i in 1...getVersion() {
+            versionArray.append(i.description)
         }
         // 初期値はバージョン全選択
         return ud.object(forKey: "versionCheckArray\(getPlayStyle())\(String(getVersion()))") as? [String] ?? versionArray
@@ -353,7 +348,7 @@ class MyUserDefaults {
     }
     
     func getTargetPageLevelAllFlg() -> Bool {
-        return ud.object(forKey: "targetPageLevelAllFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? false
+        return ud.object(forKey: "targetPageLevelAllFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
     }
 
     // 取込対象ページのバージョン全選択チェック

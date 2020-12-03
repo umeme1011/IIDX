@@ -13,6 +13,10 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBOutlet weak var versionTV: UITableView!
     @IBOutlet weak var tagCopyView: UIView!
+    @IBOutlet weak var ghostCopyView: UIView!
+    @IBOutlet weak var indicatorView: UIView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    
     
     var versions: Results<Code>!
     var myUD: MyUserDefaults = MyUserDefaults()
@@ -27,7 +31,11 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         versionTV.delegate = self
         versionTV.dataSource = self
         
-        seedRealm = CommonMethod.createSeedRealm()
+        indicatorView.isHidden = true
+        indicator.hidesWhenStopped = true
+        
+//        seedRealm = CommonMethod.createSeedRealm()
+        seedRealm = CommonMethod.createCurrentSeedRealm()
         
         // バージョン一覧取得
         versions = seedRealm.objects(Code.self)
@@ -35,6 +43,14 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         // バージョンNo取得
         versionNo = myUD.getVersion()
+        
+        // 現行バージョン　かつ　前作ゴーストのスコア取込がされている場合のみコピーボタンを活性にする
+        let preScoreRealm = CommonMethod.createPreScoreRealm()
+        if versionNo == Const.Version.CURRENT_VERSION_NO && !preScoreRealm.isEmpty {
+            ghostCopyView.isHidden = true
+        } else {
+            ghostCopyView.isHidden = false
+        }
         
 //        // バージョン27の場合はタグ引き継ぎを非活性にする
 //        if versionNo == Const.Version.START_VERSION_NO {
@@ -195,6 +211,36 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         alert.addAction(okBtn)
         present(alert, animated: false, completion: nil)
 
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     前作ゴーストコピー
+     */
+    @IBAction func tapGhostCopy(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
+        // インジケータ表示
+        indicatorView.isHidden = false
+        indicator.startAnimating()
+
+        let dispatchQueue: DispatchQueue = DispatchQueue(label: "ghost copy Thread")
+        dispatchQueue.async() {
+            Log.debugStart(cls: String(describing: self), method: #function + "Thread")
+            
+            // 前作ゴーストをコピー
+            CommonMethod.copyGhostScore()
+            
+            DispatchQueue.main.async {
+                // インジケータ非表示
+                self.indicatorView.isHidden = true
+                self.indicator.stopAnimating()
+                // アラート表示
+                CommonMethod.dispAlert(message: "前作ゴーストをコピーしました。", vc: self)
+            }
+            Log.debugEnd(cls: String(describing: self), method: #function + "Thread")
+        }
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     

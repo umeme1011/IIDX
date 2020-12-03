@@ -25,6 +25,9 @@ class Init {
         var ret: String = ""    // アラートメッセージ返却用
         
         do {
+            // 不具合対応
+            correct27TargetVersion()
+            
             // 最初の一回のみ実施。ユーザの現在のバージョンを調べるため前作スコアテーブルの有無をチェック
             if !myUD.getVersionCheckFlg() {
                 let preScoreRealm = CommonMethod.createPreScoreRealm()
@@ -48,7 +51,7 @@ class Init {
             // Domumentパスログ出力
             Log.info(cls: String(describing: self), method: #function, msg: seedRealmPath)
 
-            // Document内に最新Ver以外のSeedDBが存在しない場合は登録または更新処理を行う
+            // Document内に最新Ver以外のSeedDBが存在する場合は登録または更新処理を行う
             if !fileManager.fileExists(atPath: seedRealmPath) {
                 
                 // Document内のファイル一覧を取得
@@ -203,11 +206,15 @@ class Init {
         }
         
         // アラート用メッセージ作成
-        ret = "楽曲データを更新しました！"
-        if !newSongTitleArray.isEmpty {
-            ret += "\n\n追加楽曲"
-            for title in newSongTitleArray {
-                ret += "\n\(title)"
+        // seedDB27.10用に・・27だったら新曲追加メッセージださない（POP TEAM EPICがでちゃうので）
+        let myUD: MyUserDefaults = MyUserDefaults.init()
+        if myUD.getVersion() != Const.Version.START_VERSION_NO {
+            ret = "楽曲データを更新しました！"
+            if !newSongTitleArray.isEmpty {
+                ret += "\n\n追加楽曲"
+                for title in newSongTitleArray {
+                    ret += "\n\(title)"
+                }
             }
         }
         return ret
@@ -544,5 +551,19 @@ class Init {
         scoreTo.tag = scoreFrom.tag
         scoreTo.createDate = scoreFrom.createDate
         return scoreTo
+    }
+    
+    /**
+     【不具合対応】
+     HVで全バージョン指定で取込時、28まで取り込もうとして取込エラーとなる不具合。
+     チェックリストに28が含まれていたら削除する処理を追加。
+     */
+    private func correct27TargetVersion() {
+        let myUD = MyUserDefaults.init()
+        if myUD.getVersion() == Const.Version.START_VERSION_NO {
+            var list = myUD.getTargetPageVersionCheckArray()
+            list.remove(value: "28")
+            myUD.setTargetPageVersionCheckArray(array: list)
+        }
     }
 }

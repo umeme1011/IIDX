@@ -340,4 +340,35 @@ class CommonMethod {
         Log.debugEnd(cls: String(describing: self), method: #function)
         return ret
     }
+    
+    /**
+     前作ゴーストをコピーする
+     */
+    static func copyGhostScore() {
+        let preScoreRealm = CommonMethod.createPreScoreRealm()
+        let scoreRealm = CommonMethod.createScoreRealm()
+        let scores = scoreRealm.objects(MyScore.self)
+        
+        try! scoreRealm.write {
+            for new in scores {
+                // 前作スコアが存在する場合はコピーする
+                if let old = preScoreRealm.objects(MyScore.self)
+                    .filter("\(MyScore.Types.title.rawValue) == %@", new.title!)
+                    .filter("\(MyScore.Types.difficultyId.rawValue) == %@", new.difficultyId)
+                    .filter("\(MyScore.Types.playStyle.rawValue) == %@", new.playStyle)
+                    .first {
+                    new.ghostClearLump = old.clearLump
+                    new.ghostDjLevel = old.djLevel
+                    new.ghostScore = old.score
+                    new.ghostPgreat = old.pgreat
+                    new.ghostGreat = old.great
+                    new.ghostScoreRate = old.scoreRate
+                    new.ghostMissCount = old.missCount
+                    new.ghostSelectCount = old.selectCount
+                    new.ghostPlusMinus = old.plusMinus
+                }
+            }
+        }
+    }
+
 }
