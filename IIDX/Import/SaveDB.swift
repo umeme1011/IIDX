@@ -225,20 +225,25 @@ extension Import {
                         } else if score.difficultyId == Const.Value.Difficulty.HYPER {
                             score.level = song.dph
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesDph)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesDph)
                         } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
                             score.level = song.dpa
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesDpa)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesDpa)
                         } else if score.difficultyId == Const.Value.Difficulty.LEGGENDARIA {
                             score.level = song.dpl
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesDpl)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesDpl)
                         }
                     } else {
                         if score.difficultyId == Const.Value.Difficulty.BEGINNER {
                             score.level = song.spb
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpb)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesSpb)
                         } else if score.difficultyId == Const.Value.Difficulty.NORMAL {
                             score.level = song.spn
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpn)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesSpn)
                         } else if score.difficultyId == Const.Value.Difficulty.HYPER {
                             score.level = song.sph
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSph)
@@ -246,9 +251,11 @@ extension Import {
                         } else if score.difficultyId == Const.Value.Difficulty.ANOTHER {
                             score.level = song.spa
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpa)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesSpa)
                         } else if score.difficultyId == Const.Value.Difficulty.LEGGENDARIA {
                             score.level = song.spl
                             score.scoreRate = calcurateScoreRate(score: score.score, totalNotes: song.totalNotesSpl)
+                            score.plusMinus = calcuratePlusMinus(score: score.score, totalNotes: song.totalNotesSpl)
                         }
                     }
                     // 存在しない難易度は登録しない
