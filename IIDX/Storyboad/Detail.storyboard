@@ -97,12 +97,9 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ACj-me-tdr">
                                         <rect key="frame" x="0.0" y="163" width="343" height="457"/>
                                         <subviews>
-                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="40" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l4G-5f-Rs6">
-                                                <rect key="frame" x="0.0" y="40" width="343" height="370"/>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="40" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l4G-5f-Rs6">
+                                                <rect key="frame" x="0.0" y="40" width="343" height="371"/>
                                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="370" id="I4Y-10-JIJ"/>
-                                                </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="92k-E6-52M" customClass="DetailTableViewCell" customModule="IIDX" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="28" width="343" height="40"/>
@@ -281,6 +278,7 @@ Q0xFQVIR4oCoTEFNUA
                                             <constraint firstItem="QEs-fo-Sjz" firstAttribute="top" secondItem="ACj-me-tdr" secondAttribute="top" constant="8" id="0cX-uV-upJ"/>
                                             <constraint firstItem="QEs-fo-Sjz" firstAttribute="leading" secondItem="4xX-dd-Ubk" secondAttribute="trailing" id="1tn-oh-m4G"/>
                                             <constraint firstAttribute="bottom" secondItem="RZp-vq-lcZ" secondAttribute="bottom" constant="8" id="LyT-H4-BAa"/>
+                                            <constraint firstItem="RZp-vq-lcZ" firstAttribute="top" secondItem="l4G-5f-Rs6" secondAttribute="bottom" constant="8" id="NWg-z6-9dQ"/>
                                             <constraint firstAttribute="trailing" secondItem="l4G-5f-Rs6" secondAttribute="trailing" id="NbI-dU-7r4"/>
                                             <constraint firstItem="l4G-5f-Rs6" firstAttribute="leading" secondItem="ACj-me-tdr" secondAttribute="leading" id="TA1-Wa-WAC"/>
                                             <constraint firstItem="RZp-vq-lcZ" firstAttribute="centerX" secondItem="ACj-me-tdr" secondAttribute="centerX" id="YhO-qF-ur6"/>

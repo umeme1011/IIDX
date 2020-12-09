@@ -58,7 +58,7 @@ class InformationViewController: UIViewController {
             self.myUD.initVersion()
             
             // クプロ画像を削除
-            let path = CommonMethod.fileInDocumentsDirectory(filename: Const.Image.Qpro.FILE_NAME)
+            let path = CommonMethod.fileInDocumentsDirectory(filename: Const.Image.Qpro().getQproFileName())
             do {
                 try FileManager.default.removeItem(atPath: path)
             } catch {

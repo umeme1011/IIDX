@@ -292,7 +292,12 @@ class Const {
             static let SETTING_NG = "setting_ng"
         }
         class Qpro {
+            let versionNo: Int = MyUserDefaults().getVersion()
             static let FILE_NAME = "myQpro.png"
+            func getQproFileName() -> String {
+                let name: String = "myQpro\(versionNo).png"
+                return name
+            }
         }
     }
     

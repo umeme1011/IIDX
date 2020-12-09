@@ -25,8 +25,7 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
         
         // クプロ表示
-        let image: UIImage = CommonMethod.loadImage(fileName: Const.Image.Qpro.FILE_NAME) ?? UIImage()
-        qproIV.image = image
+        dispQpro()
         
         // 文言切り替え
         if myUD.getPlayStyle() == Const.Value.PlayStyle.SINGLE {
@@ -106,5 +105,13 @@ class SettingViewController: UIViewController {
         default:
             versionLbl.text = ""
         }
+    }
+    
+    /**
+     クプロ表示
+     */
+    public func dispQpro() {
+        let image: UIImage = CommonMethod.loadImage(fileName: Const.Image.Qpro().getQproFileName()) ?? UIImage()
+        qproIV.image = image
     }
 }

@@ -30,7 +30,7 @@ extension Import {
                 let qproUrl: String = node1.css("img")[0]["src"] ?? ""
                 // クプロ画像をアプリ内に保存
                 let url: String = Const.Url.KONAMI + (qproUrl)
-                CommonMethod.saveImage(image: UIImage(url: url), fileName: Const.Image.Qpro.FILE_NAME)
+                CommonMethod.saveImage(image: UIImage(url: url), fileName: Const.Image.Qpro().getQproFileName())
             }
             for node1 in doc.css("div.dj-profile") {
                 for node2 in node1.css("tr") {

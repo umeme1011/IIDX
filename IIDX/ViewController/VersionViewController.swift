@@ -308,8 +308,11 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         listVC.listTV.reloadData()
         // メイン画面のUI処理
         vc.mainUI()
-        // 設定画面のバージョンラベルを変更
+        // 設定画面
         let parent = self.presentingViewController as! SettingViewController
+        // バージョンラベルを変更
         parent.changeVersionLbl()
+        // クプロ表示
+        parent.dispQpro()
     }
 }
