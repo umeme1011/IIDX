@@ -24,6 +24,7 @@
 		C369F92924FFEBFB0088B856 /* TargetPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369F92824FFEBFB0088B856 /* TargetPageViewController.swift */; };
 		C369F92B250135B20088B856 /* TargetPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369F92A250135B20088B856 /* TargetPageTableViewCell.swift */; };
 		C369F92D25013AF40088B856 /* TargetPageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C369F92C25013AF40088B856 /* TargetPageCollectionViewCell.swift */; };
+		C37E003C259249610039B815 /* DeleteTitle.csv in Resources */ = {isa = PBXBuildFile; fileRef = C37E003B259249610039B815 /* DeleteTitle.csv */; };
 		C3A6FE032551BC3E0081094E /* Disp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3A6FE022551BC3E0081094E /* Disp.storyboard */; };
 		C3A6FE062551BCF60081094E /* DispViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A6FE052551BCF60081094E /* DispViewController.swift */; };
 		C3AF62E72349DBD70022664D /* Mode.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3AF62E62349DBD70022664D /* Mode.storyboard */; };
@@ -118,6 +119,7 @@
 		C369F92824FFEBFB0088B856 /* TargetPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPageViewController.swift; sourceTree = "<group>"; };
 		C369F92A250135B20088B856 /* TargetPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPageTableViewCell.swift; sourceTree = "<group>"; };
 		C369F92C25013AF40088B856 /* TargetPageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPageCollectionViewCell.swift; sourceTree = "<group>"; };
+		C37E003B259249610039B815 /* DeleteTitle.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = DeleteTitle.csv; sourceTree = "<group>"; };
 		C3A6FE022551BC3E0081094E /* Disp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Disp.storyboard; sourceTree = "<group>"; };
 		C3A6FE052551BCF60081094E /* DispViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispViewController.swift; sourceTree = "<group>"; };
 		C3AF62E62349DBD70022664D /* Mode.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Mode.storyboard; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			children = (
 				C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */,
 				C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */,
+				C37E003B259249610039B815 /* DeleteTitle.csv */,
 			);
 			path = Csv;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				C3D7F50E2316676E00B5C895 /* TargetAccount.storyboard in Resources */,
 				C3F057D32334856C00F3831F /* Information.storyboard in Resources */,
 				C3D0EF9123221AF2001F1511 /* Detail.storyboard in Resources */,
+				C37E003C259249610039B815 /* DeleteTitle.csv in Resources */,
 				C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */,
 				C3D0EF7A231F457E001F1511 /* Statistics.storyboard in Resources */,
 				C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */,

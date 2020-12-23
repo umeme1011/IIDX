@@ -28,6 +28,9 @@ class Init {
             // 不具合対応
             correct27TargetVersion()
             
+            // wikiの曲名が変更された場合、古い曲名のレコードを削除する
+            deleteTitle()
+            
             // 最初の一回のみ実施。ユーザの現在のバージョンを調べるため前作スコアテーブルの有無をチェック
             if !myUD.getVersionCheckFlg() {
                 let preScoreRealm = CommonMethod.createPreScoreRealm()
@@ -564,6 +567,24 @@ class Init {
             var list = myUD.getTargetPageVersionCheckArray()
             list.remove(value: "28")
             myUD.setTargetPageVersionCheckArray(array: list)
+        }
+    }
+    
+    /**
+     wikiの曲名が変更された場合、古い曲名のレコードを削除する
+     */
+    private func deleteTitle() {
+        let scoreRealm = CommonMethod.createScoreRealm()
+        
+        // 削除対象の曲名をCSVファイルより取得
+        let titles = CommonMethod.loadCSV(filename: Const.Csv.DELETE_TITLE)
+        
+        // MyScoreから該当のレコードを削除
+        try! scoreRealm.write() {
+            for title in titles {
+                let myScore = scoreRealm.objects(MyScore.self).filter("\(MyScore.Types.title.rawValue) = %@", title);
+                scoreRealm.delete(myScore)
+            }
         }
     }
 }

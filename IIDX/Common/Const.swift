@@ -67,6 +67,7 @@ class Const {
         static let SEPARATER = "@@@"
         static let NO_NOTES_TITLE = "NoNotesTitle"
         static let CODE = "Code"
+        static let DELETE_TITLE = "DeleteTitle"
     }
     
     
