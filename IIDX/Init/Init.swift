@@ -181,7 +181,10 @@ class Init {
                     || new.totalNotesSph != old.totalNotesSph || new.totalNotesSpa != old.totalNotesSpa
                     || new.totalNotesSpl != old.totalNotesSpl || new.totalNotesDpn != old.totalNotesDpn
                     || new.totalNotesDph != old.totalNotesDph || new.totalNotesDpa != old.totalNotesDpa
-                    || new.totalNotesDpl != old.totalNotesDpl {
+                    || new.totalNotesDpl != old.totalNotesDpl
+                    || new.cnSpb != old.cnSpb || new.cnSpn != old.cnSpn || new.cnSph != old.cnSph || new.cnSpa != old.cnSpa
+                    || new.cnSpl != old.cnSpl || new.cnDpn != old.cnDpn || new.cnDph != old.cnDph || new.cnDpa != old.cnDpa
+                    || new.cnDpl != old.cnDpl {
 
                     // 更新あり
                     songArray.append(new)
