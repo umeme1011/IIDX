@@ -21,24 +21,28 @@ extension Import {
         }
         
         // マイステータス
-        try! scoreRealm.write {
-            // 全件削除
-            let obj = scoreRealm.objects(MyStatus.self)
-            scoreRealm.delete(obj)
-            // 登録
-            for s in myStatuses {
-                scoreRealm.add(s)
+        if !myStatuses.isEmpty {
+            try! scoreRealm.write {
+                // 全件削除
+                let obj = scoreRealm.objects(MyStatus.self)
+                scoreRealm.delete(obj)
+                // 登録
+                for s in myStatuses {
+                    scoreRealm.add(s)
+                }
             }
         }
 
         // ライバルリスト
-        try! scoreRealm.write {
-            // 全件削除
-            let obj = scoreRealm.objects(RivalStatus.self)
-            scoreRealm.delete(obj)
-            // 登録
-            for r in rivals {
-                scoreRealm.add(r)
+        if !rivals.isEmpty {
+            try! scoreRealm.write {
+                // 全件削除
+                let obj = scoreRealm.objects(RivalStatus.self)
+                scoreRealm.delete(obj)
+                // 登録
+                for r in rivals {
+                    scoreRealm.add(r)
+                }
             }
         }
         
