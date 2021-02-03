@@ -44,9 +44,9 @@ class LoginViewController: UIViewController, WKNavigationDelegate, WKUIDelegate 
         let myUD: MyUserDefaults = MyUserDefaults()
         let id = myUD.getCommonId()
         let password = myUD.getCommonPassword()
-        webView.evaluateJavaScript("document.getElementsByName('nm_login_id')[0].value=\"\(String(describing: id))\";"
+        webView.evaluateJavaScript("document.getElementById('id_userId').value=\"\(String(describing: id))\";"
             , completionHandler: nil)
-        webView.evaluateJavaScript("document.getElementsByName('nm_paswords')[0].value=\"\(String(describing: password))\";"
+        webView.evaluateJavaScript("document.getElementById('id_password').value=\"\(String(describing: password))\";"
             , completionHandler: nil)
         
         Log.debugEnd(cls: String(describing: self), method: #function)
