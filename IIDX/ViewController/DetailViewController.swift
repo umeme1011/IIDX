@@ -346,7 +346,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
     }
     
     /*
-     上にスワイプ
+     上にスワイプ（未使用）
      */
     @IBAction func swipeUp(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)

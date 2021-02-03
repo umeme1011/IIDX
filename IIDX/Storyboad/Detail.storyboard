@@ -705,7 +705,6 @@ Q0xFQVIR4oCoTEFNUA
                                     <constraint firstAttribute="bottom" secondItem="GGd-2G-CcY" secondAttribute="bottom" constant="30" id="xxw-cp-bDy"/>
                                 </constraints>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="4py-An-DDu" appends="YES" id="qtb-nr-Pqu"/>
                                     <outletCollection property="gestureRecognizers" destination="X6W-Hx-9NC" appends="YES" id="X9n-in-OcH"/>
                                     <outletCollection property="gestureRecognizers" destination="OE4-bX-eFr" appends="YES" id="U9T-i2-aOz"/>
                                 </connections>
@@ -744,11 +743,7 @@ Q0xFQVIR4oCoTEFNUA
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hGz-67-jvD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="up" id="4py-An-DDu">
-                    <connections>
-                        <action selector="swipeUp:" destination="jOp-BH-wND" id="68Y-wQ-4Yr"/>
-                    </connections>
-                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="4py-An-DDu"/>
                 <swipeGestureRecognizer direction="right" id="X6W-Hx-9NC">
                     <connections>
                         <action selector="swipeRight:" destination="jOp-BH-wND" id="GG8-NW-prr"/>
