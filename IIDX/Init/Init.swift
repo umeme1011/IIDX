@@ -377,6 +377,7 @@ class Init {
                 scoreSpb.difficultyId = Const.Value.Difficulty.BEGINNER
                 scoreSpb.level = song.spb
                 scoreSpb.totalNotes = song.totalNotesSpb
+                scoreSpb.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreSpb.score, totalNotes: song.totalNotesSpb)
                 scoreSpb = setScoreCommon(score: scoreSpb, song: song)
                 ret.append(scoreSpb)
             }
@@ -395,6 +396,7 @@ class Init {
                 scoreSpn.difficultyId = Const.Value.Difficulty.NORMAL
                 scoreSpn.level = song.spn
                 scoreSpn.totalNotes = song.totalNotesSpn
+                scoreSpn.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreSpn.score, totalNotes: song.totalNotesSpn)
                 scoreSpn = setScoreCommon(score: scoreSpn, song: song)
                 ret.append(scoreSpn)
             }
@@ -413,6 +415,7 @@ class Init {
                 scoreSph.difficultyId = Const.Value.Difficulty.HYPER
                 scoreSph.level = song.sph
                 scoreSph.totalNotes = song.totalNotesSph
+                scoreSph.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreSph.score, totalNotes: song.totalNotesSph)
                 scoreSph = setScoreCommon(score: scoreSph, song: song)
                 ret.append(scoreSph)
             }
@@ -431,6 +434,7 @@ class Init {
                 scoreSpa.difficultyId = Const.Value.Difficulty.ANOTHER
                 scoreSpa.level = song.spa
                 scoreSpa.totalNotes = song.totalNotesSpa
+                scoreSpa.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreSpa.score, totalNotes: song.totalNotesSpa)
                 scoreSpa = setScoreCommon(score: scoreSpa, song: song)
                 ret.append(scoreSpa)
             }
@@ -449,6 +453,7 @@ class Init {
                 scoreSpl.difficultyId = Const.Value.Difficulty.LEGGENDARIA
                 scoreSpl.level = song.spl
                 scoreSpl.totalNotes = song.totalNotesSpl
+                scoreSpl.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreSpl.score, totalNotes: song.totalNotesSpl)
                 scoreSpl = setScoreCommon(score: scoreSpl, song: song)
                 ret.append(scoreSpl)
             }
@@ -467,6 +472,7 @@ class Init {
                 scoreDpn.difficultyId = Const.Value.Difficulty.NORMAL
                 scoreDpn.level = song.dpn
                 scoreDpn.totalNotes = song.totalNotesDpn
+                scoreDpn.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreDpn.score, totalNotes: song.totalNotesDpn)
                 scoreDpn = setScoreCommon(score: scoreDpn, song: song)
                 ret.append(scoreDpn)
             }
@@ -485,6 +491,7 @@ class Init {
                 scoreDph.difficultyId = Const.Value.Difficulty.HYPER
                 scoreDph.level = song.dph
                 scoreDph.totalNotes = song.totalNotesDph
+                scoreDph.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreDph.score, totalNotes: song.totalNotesDph)
                 scoreDph = setScoreCommon(score: scoreDph, song: song)
                 ret.append(scoreDph)
             }
@@ -503,6 +510,7 @@ class Init {
                 scoreDpa.difficultyId = Const.Value.Difficulty.ANOTHER
                 scoreDpa.level = song.dpa
                 scoreDpa.totalNotes = song.totalNotesDpa
+                scoreDpa.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreDpa.score, totalNotes: song.totalNotesDpa)
                 scoreDpa = setScoreCommon(score: scoreDpa, song: song)
                 ret.append(scoreDpa)
             }
@@ -521,6 +529,7 @@ class Init {
                 scoreDpl.difficultyId = Const.Value.Difficulty.LEGGENDARIA
                 scoreDpl.level = song.dpl
                 scoreDpl.totalNotes = song.totalNotesDpl
+                scoreDpl.plusMinus = CommonMethod.calcuratePlusMinus(score: scoreDpl.score, totalNotes: song.totalNotesDpl)
                 scoreDpl = setScoreCommon(score: scoreDpl, song: song)
                 ret.append(scoreDpl)
             }
@@ -552,6 +561,9 @@ class Init {
         scoreTo.score = scoreFrom.score
         scoreTo.scoreRate = scoreFrom.scoreRate
         scoreTo.missCount = scoreFrom.missCount
+        scoreTo.pgreat = scoreFrom.pgreat
+        scoreTo.great = scoreFrom.great
+        scoreTo.lastPlayDate = scoreFrom.lastPlayDate
         scoreTo.selectCount = scoreFrom.selectCount
         scoreTo.oldScoreId = scoreFrom.oldScoreId
         scoreTo.tag = scoreFrom.tag
