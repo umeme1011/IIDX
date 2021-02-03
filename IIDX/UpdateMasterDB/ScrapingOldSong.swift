@@ -61,15 +61,33 @@ extension UpdateMasterDB {
             
             // set song model
             song.id = songId
-            song.spb = convertStringToInt(str: node1.css("td")[0].text ?? "")
-            song.spn = convertStringToInt(str: node1.css("td")[1].text ?? "")
-            song.sph = convertStringToInt(str: node1.css("td")[2].text ?? "")
-            song.spa = convertStringToInt(str: node1.css("td")[3].text ?? "")
-            song.spl = convertStringToInt(str: node1.css("td")[4].text ?? "")
-            song.dpn = convertStringToInt(str: node1.css("td")[5].text ?? "")
-            song.dph = convertStringToInt(str: node1.css("td")[6].text ?? "")
-            song.dpa = convertStringToInt(str: node1.css("td")[7].text ?? "")
-            song.dpl = convertStringToInt(str: node1.css("td")[8].text ?? "")
+            var ret = getLevelAndCn(str: node1.css("td")[0].text ?? "")
+            song.spb = ret.level
+            song.cnSpb = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[1].text ?? "")
+            song.spn = ret.level
+            song.cnSpn = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[2].text ?? "")
+            song.sph = ret.level
+            song.cnSph = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[3].text ?? "")
+            song.spa = ret.level
+            song.cnSpa = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[4].text ?? "")
+            song.spl = ret.level
+            song.cnSpl = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[5].text ?? "")
+            song.dpn = ret.level
+            song.cnDpn = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[6].text ?? "")
+            song.dph = ret.level
+            song.cnDph = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[7].text ?? "")
+            song.dpa = ret.level
+            song.cnDpa = ret.cn
+            ret = getLevelAndCn(str: node1.css("td")[8].text ?? "")
+            song.dpl = ret.level
+            song.cnDpl = ret.cn
             song.bpm = node1.css("td")[9].text ?? ""
             song.genre = node1.css("td")[10].text ?? ""
             song.title = node1.css("td")[11].text ?? ""
@@ -184,7 +202,59 @@ extension UpdateMasterDB {
         return ret
     }
     
-    
+    func getLevelAndCn(str: String) -> (level: Int, cn: String) {
+        var level = 0
+        var cn = ""
+        if str.isEmpty { return (level, cn) }
+        
+        var s = str
+        if let range = s.range(of: "[CN]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[CN]"
+        }
+        if let range = s.range(of: "[CN?]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[CN]"
+        }
+        if let range = s.range(of: "[BSS]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[BSS]"
+        }
+        if let range = s.range(of: "[BSS?]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[BSS]"
+        }
+        if let range = s.range(of: "[HCN]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[HCN]"
+        }
+        if let range = s.range(of: "[HCN?]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[HCN]"
+        }
+        if let range = s.range(of: "[HBSS]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[HBSS]"
+        }
+        if let range = s.range(of: "[HBSS?]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[HBSS]"
+        }
+        if let range = s.range(of: "(") {
+            s.replaceSubrange(range, with: "")
+        }
+        if let range = s.range(of: ")") {
+            s.replaceSubrange(range, with: "")
+        }
+
+        if s == "-" || s == "×" || s == "?" {
+            level = 0
+        } else {
+            level = Int(s) ?? 0
+        }
+        return (level, cn)
+    }
+
     func getIndexId(str: String, indexes: Results<Code>) -> Int {
         var ret = 0
         if str.isEmpty { return ret }

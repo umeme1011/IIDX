@@ -83,6 +83,7 @@
 		C3E0024B2511187D0022D8A9 /* NoNotesTitle.csv in Resources */ = {isa = PBXBuildFile; fileRef = C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */; };
 		C3E0024D251119830022D8A9 /* ScrapingNewSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0024C251119830022D8A9 /* ScrapingNewSong.swift */; };
 		C3E0024F25111A300022D8A9 /* SaveMasterDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0024E25111A300022D8A9 /* SaveMasterDB.swift */; };
+		C3EB098625A5DFCD00A5B2F5 /* Bpm.csv in Resources */ = {isa = PBXBuildFile; fileRef = C3EB098525A5DFCD00A5B2F5 /* Bpm.csv */; };
 		C3EFE1932357C08800CEE129 /* TagAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EFE1922357C08700CEE129 /* TagAddCollectionViewCell.swift */; };
 		C3EFE1952359060100CEE129 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EFE1942359060100CEE129 /* Tag.swift */; };
 		C3EFE1972359070C00CEE129 /* Tag.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EFE1962359070C00CEE129 /* Tag.storyboard */; };
@@ -180,6 +181,7 @@
 		C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NoNotesTitle.csv; sourceTree = "<group>"; };
 		C3E0024C251119830022D8A9 /* ScrapingNewSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapingNewSong.swift; sourceTree = "<group>"; };
 		C3E0024E25111A300022D8A9 /* SaveMasterDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMasterDB.swift; sourceTree = "<group>"; };
+		C3EB098525A5DFCD00A5B2F5 /* Bpm.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bpm.csv; sourceTree = "<group>"; };
 		C3EFE1922357C08700CEE129 /* TagAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAddCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3EFE1942359060100CEE129 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		C3EFE1962359070C00CEE129 /* Tag.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tag.storyboard; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 		C34E9C03232CB9A800D62373 /* Csv */ = {
 			isa = PBXGroup;
 			children = (
+				C3EB098525A5DFCD00A5B2F5 /* Bpm.csv */,
 				C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */,
 				C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */,
 				C37E003B259249610039B815 /* DeleteTitle.csv */,
@@ -504,6 +507,7 @@
 				C3D0EF9123221AF2001F1511 /* Detail.storyboard in Resources */,
 				C37E003C259249610039B815 /* DeleteTitle.csv in Resources */,
 				C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */,
+				C3EB098625A5DFCD00A5B2F5 /* Bpm.csv in Resources */,
 				C3D0EF7A231F457E001F1511 /* Statistics.storyboard in Resources */,
 				C3AF62EF234E7EBE0022664D /* EditDetail.storyboard in Resources */,
 				C3D7F4F6231634CB00B5C895 /* Login.storyboard in Resources */,

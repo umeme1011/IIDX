@@ -166,8 +166,10 @@ class CommonMethod {
             //csvBundleのパスを読み込み、UTF8に文字コード変換して、NSStringに格納
             let csvData = try String(contentsOfFile: csvBundle!,
                                      encoding: String.Encoding.utf8)
+            //改行コードが"\r\n"で行なわれている場合は"\n"に変更する
+            var lineChange = csvData.replacingOccurrences(of: "\r\n", with: "\n")
             //改行コードが"\r"で行なわれている場合は"\n"に変更する
-            let lineChange = csvData.replacingOccurrences(of: "\r", with: "\n")
+            lineChange = lineChange.replacingOccurrences(of: "\r", with: "\n")
             //"\n"の改行コードで区切って、配列csvArrayに格納する
             csvArray = lineChange.components(separatedBy: "\n")
         } catch {

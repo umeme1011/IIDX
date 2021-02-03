@@ -32,7 +32,7 @@ class Const {
     
     // Realm
     class Realm {
-        static let SCHEMA_VER = 6
+        static let SCHEMA_VER = 8
         static let CURRENT_SEED_DB_VER = "28.1"
         static let CURRENT_SEED_FILE_NAME = "iidx_seed_\(CURRENT_SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
@@ -68,6 +68,7 @@ class Const {
         static let NO_NOTES_TITLE = "NoNotesTitle"
         static let CODE = "Code"
         static let DELETE_TITLE = "DeleteTitle"
+        static let BPM = "Bpm"
     }
     
     
@@ -159,6 +160,11 @@ class Const {
             if versionNo == 28 {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
             }
+            return ret
+        }
+        func getTexTageUrl() -> String {
+            var ret: String = ""
+            ret = "https://textage.cc/score/\(versionNo)/"
             return ret
         }
     }
@@ -347,6 +353,26 @@ class Const {
             case HARD
             case EXHARD
             case FCOMBO
+        }
+        class ClearLumpDetail {
+            static let NOPLAY = "NO PLAY"
+            static let FAILED = "FAILED"
+            static let AEASY = "ASSIST EASY"
+            static let EASY = "EASY"
+            static let CLEAR = "CLEAR"
+            static let HARD = "HARD"
+            static let EXHARD = "EX HARD"
+            static let FCOMBO = "FULL COMBO"
+        }
+        class djLevel {
+            static let F = "F"
+            static let E = "E"
+            static let D = "D"
+            static let C = "C"
+            static let B = "B"
+            static let A = "A"
+            static let AA = "AA"
+            static let AAA = "AAA"
         }
         class Title {
             static let SP_ALL = "SP ALL"

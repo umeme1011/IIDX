@@ -780,6 +780,7 @@ extension Import {
                 score.missCount = convertMissCountForCsv(missCount: columns[9])
                 score.clearLump = getClearLumpForCsv(column: columns[10])
                 score.djLevel = getDjLevelForCsv(column: columns[11])
+                score.lastPlayDate = columns[40]
                 myScoreArray.append(score)
 
                 // NORMAL
@@ -793,6 +794,7 @@ extension Import {
                 score.missCount = convertMissCountForCsv(missCount: columns[16])
                 score.clearLump = getClearLumpForCsv(column: columns[17])
                 score.djLevel = getDjLevelForCsv(column: columns[18])
+                score.lastPlayDate = columns[40]
                 myScoreArray.append(score)
 
                 // HYPER
@@ -806,6 +808,7 @@ extension Import {
                 score.missCount = convertMissCountForCsv(missCount: columns[23])
                 score.clearLump = getClearLumpForCsv(column: columns[24])
                 score.djLevel = getDjLevelForCsv(column: columns[25])
+                score.lastPlayDate = columns[40]
                 myScoreArray.append(score)
 
                 // ANOTHER
@@ -819,6 +822,7 @@ extension Import {
                 score.missCount = convertMissCountForCsv(missCount: columns[30])
                 score.clearLump = getClearLumpForCsv(column: columns[31])
                 score.djLevel = getDjLevelForCsv(column: columns[32])
+                score.lastPlayDate = columns[40]
                 myScoreArray.append(score)
 
                 // LEGGENDARIA
@@ -832,6 +836,7 @@ extension Import {
                 score.missCount = convertMissCountForCsv(missCount: columns[37])
                 score.clearLump = getClearLumpForCsv(column: columns[38])
                 score.djLevel = getDjLevelForCsv(column: columns[39])
+                score.lastPlayDate = columns[40]
                 myScoreArray.append(score)
             }
         }

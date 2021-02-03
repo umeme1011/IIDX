@@ -28,6 +28,7 @@ class MyScore: RealmSwift.Object {
     @objc dynamic var missCount: Int = 9999
     @objc dynamic var selectCount: Int = 0
     @objc dynamic var plusMinus: String?
+    @objc dynamic var lastPlayDate: String? = ""
     @objc dynamic var ghostClearLump: Int = 1    // 1 : No Play
     @objc dynamic var ghostDjLevel: Int = 1      // 1 : No Play
     @objc dynamic var ghostScore: Int = 0
@@ -70,6 +71,7 @@ class MyScore: RealmSwift.Object {
         case missCount
         case selectCount
         case plusMinus
+        case lastPlayDate
         case ghostClearLump
         case ghostDjLevel
         case ghostScore
