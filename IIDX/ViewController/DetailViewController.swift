@@ -35,6 +35,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
     @IBOutlet weak var missLbl: UILabel!
     @IBOutlet weak var playCntLbl: UILabel!
     @IBOutlet weak var lastPalyDateLbl: UILabel!
+    @IBOutlet weak var maxScoreLbl: UILabel!
     
     
     var score: MyScore!
@@ -594,6 +595,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         }
         bpmLbl.text = bpm
         totalNotesLbl.text = totalNotes
+        // 理論値
+        maxScoreLbl.text = String(Int(totalNotes)! * 2)
+        
         if cn != "" {
             cnLbl.text = cn
         } else {
