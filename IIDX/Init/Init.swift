@@ -219,7 +219,7 @@ class Init {
             if !newSongTitleArray.isEmpty {
                 ret += "\n\n追加楽曲"
                 for title in newSongTitleArray {
-                    ret += "\n\(title)"
+                    ret += "\n\n\(title)"
                 }
             }
         }
