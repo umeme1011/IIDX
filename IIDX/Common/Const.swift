@@ -149,7 +149,7 @@ class Const {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C8%BF%F4%A5%EA%A5%B9%A5%C8"
             }
             if versionNo == 28 {
-                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C8%BF%F4%A5%EA%A5%B9%A5%C8"
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C4%BF%F4%A5%EA%A5%B9%A5%C8"
             }
             return ret
         }
