@@ -59,9 +59,7 @@ class LoginViewController: UIViewController, WKNavigationDelegate, WKUIDelegate 
 
         let url =  navigationAction.request.url
         
-        // 20210906 公式サイト仕様変更対応
-//        if url == URL(string:Const.Url.LOGIN_COMPLETE){
-        if url == URL(string:Const.Url.LOGIN_MYPAGE){
+        if url == URL(string:Const.Url.LOGIN_COMPLETE){
             // ログイン後のcookieを取得
             webView.configuration.websiteDataStore.httpCookieStore.getAllCookies() { (cookies) in
                 var cookieStr: String = ""

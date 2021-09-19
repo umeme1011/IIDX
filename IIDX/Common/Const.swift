@@ -93,9 +93,11 @@ class Const {
         let versionNo: Int = MyUserDefaults().getVersion()
         static let KONAMI = "https://p.eagate.573.jp"
         static let LOGIN = "\(KONAMI)/gate/p/login.html"
-        static let LOGIN_COMPLETE = "\(KONAMI)/gate/p/login_complete.html"
+        // 20210919 公式サイト仕様変更対応
+//        static let LOGIN_COMPLETE = "\(KONAMI)/gate/p/login_complete.html"
+        static let LOGIN_COMPLETE = "\(KONAMI)/gate/p/lcmpl.html"
         static let LOGIN_COMPLETE_HTTP = "http://p.eagate.573.jp/gate/p/login_complete.html"
-        static let LOGIN_MYPAGE = "\(KONAMI)/gate/p/mypage/"
+        static let LOGIN_MYPAGE = "\(KONAMI)/gate/p/mypage/index.html"
         
         func getStatusUrl() -> String {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/status.html"
