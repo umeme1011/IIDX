@@ -24,6 +24,9 @@ class LoadCodeCsv {
         var codeArray: [Code] = [Code]()
         let seedRealm: Realm = CommonMethod.createSeedRealm()
         
+//        // 新作対応時SeedDB作成用
+//        let seedRealm: Realm = CommonMethod.createCurrentSeedRealm()
+        
         // load csv file
         let codes: [String] = loadCSVForCode(filename: Const.Csv.CODE)
         

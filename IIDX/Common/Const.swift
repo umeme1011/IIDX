@@ -20,7 +20,7 @@ class Const {
     // Version
     class Version {
         static let START_VERSION_NO = 27
-        static let CURRENT_VERSION_NO = 28
+        static let CURRENT_VERSION_NO = 29
     }
     
     // Wiki
@@ -33,7 +33,7 @@ class Const {
     // Realm
     class Realm {
         static let SCHEMA_VER = 8
-        static let CURRENT_SEED_DB_VER = "28.1"
+        static let CURRENT_SEED_DB_VER = "29.0"
         static let CURRENT_SEED_FILE_NAME = "iidx_seed_\(CURRENT_SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"
@@ -44,6 +44,9 @@ class Const {
             if versionNo == 27 {
                 ret = "27.10"
             }
+            if versionNo == 28 {
+                ret = "28.1"
+            }
             if versionNo == Const.Version.CURRENT_VERSION_NO {
                 ret = Const.Realm.CURRENT_SEED_DB_VER
             }
@@ -51,13 +54,16 @@ class Const {
         }
         func getSeedFileName() -> String {
             var ret = ""
-            if versionNo == 27 {
+            if versionNo < Const.Version.CURRENT_VERSION_NO {
                 ret = "iidx_seed_\(getSeedDbVer())"
             }
             if versionNo == Const.Version.CURRENT_VERSION_NO {
                 ret = Const.Realm.CURRENT_SEED_FILE_NAME
             }
             return ret
+        }
+        func getCurrentSeedFileName() -> String {
+            return Const.Realm.CURRENT_SEED_FILE_NAME
         }
     }
     
@@ -142,6 +148,9 @@ class Const {
             if versionNo == 28 {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
             }
+            if versionNo == 29 {
+                ret = "https://bemaniwiki.com/index.php?beatmania%20IIDX%2029%20CastHour/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
 
             return ret
         }
@@ -153,6 +162,9 @@ class Const {
             if versionNo == 28 {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C4%BF%F4%A5%EA%A5%B9%A5%C8"
             }
+            if versionNo == 29 {
+                ret = "https://bemaniwiki.com/index.php?beatmania%20IIDX%2029%20CastHour/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C4%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
             return ret
         }
         func getWikiNewSongListUrl() -> String {
@@ -162,6 +174,9 @@ class Const {
             }
             if versionNo == 28 {
                 ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 29 {
+                ret = "https://bemaniwiki.com/index.php?beatmania%20IIDX%2029%20CastHour/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
             }
             return ret
         }

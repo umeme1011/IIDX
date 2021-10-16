@@ -31,43 +31,59 @@ class Init {
             // wikiの曲名が変更された場合、古い曲名のレコードを削除する
             deleteTitle()
             
-            // 最初の一回のみ実施。ユーザの現在のバージョンを調べるため前作スコアテーブルの有無をチェック
-            if !myUD.getVersionCheckFlg() {
-                let preScoreRealm = CommonMethod.createPreScoreRealm()
-                let scoreRealm = CommonMethod.createScoreRealm()
-                if !preScoreRealm.isEmpty && scoreRealm.isEmpty {
-                    // 前作スコアがある場合は27をセット
-                    myUD.setVersion(no: Const.Version.START_VERSION_NO)
-                    // ついでにアカウント情報を共通の方二セット
-                    myUD.setCommonId(id: myUD.getId())
-                    myUD.setCommonPassword(password: myUD.getPassword())
-                } else {
-                    // 前作スコアがない場合は新規と判断して28をセット
-                    myUD.setVersion(no: Const.Version.CURRENT_VERSION_NO)
-                }
-                myUD.setVersionCheckFlg(flg: true)
-            }
+//            // 最初の一回のみ実施。ユーザの現在のバージョンを調べるため前作スコアテーブルの有無をチェック
+//            if !myUD.getVersionCheckFlg() {
+//                let preScoreRealm = CommonMethod.createPreScoreRealm()
+//                let scoreRealm = CommonMethod.createScoreRealm()
+//                if !preScoreRealm.isEmpty && scoreRealm.isEmpty {
+//                    // 前作スコアがある場合は27をセット
+//                    myUD.setVersion(no: Const.Version.START_VERSION_NO)
+//                    // ついでにアカウント情報を共通の方にセット
+//                    myUD.setCommonId(id: myUD.getId())
+//                    myUD.setCommonPassword(password: myUD.getPassword())
+//                } else {
+//                    // 前作スコアがない場合は新規と判断して28をセット
+//                    myUD.setVersion(no: 28)
+//                }
+//                myUD.setVersionCheckFlg(flg: true)
+//            }
             
             let fileManager: FileManager = FileManager()
             let seedRealmPath: String = CommonMethod.getSeedRealmPath()
             
             // Domumentパスログ出力
             Log.info(cls: String(describing: self), method: #function, msg: seedRealmPath)
+            
+            // Document内に現行VersionSeedDBがない場合はコピー（新作対応初回起動時）
+            let seedCurrentRealmPath: String = CommonMethod.getCurrentSeedRealmPath()
+            if !fileManager.fileExists(atPath: seedCurrentRealmPath) {
+                let mainBundle = Bundle.main
+                let atPath = mainBundle.path(forResource: Const.Realm().getCurrentSeedFileName(), ofType: "realm")
+                try! FileManager().copyItem(atPath: atPath!, toPath: seedCurrentRealmPath)
+                _ = Realm.Configuration(fileURL: URL(fileURLWithPath: seedCurrentRealmPath), readOnly: true)
+            }
+            
+            let scoreRealm: Realm = CommonMethod.createScoreRealm()
+            let myScore = scoreRealm.objects(MyScore.self)
+            
+            // Document内に最新バージョンのSeedDBが存在しない場合　→　SeedDBアップデート
+            // Document内に設定バージョンのScoreDB.MyScoreデータが存在しない場合　→　新作対応後バージョン切り替え初回
+            // は登録または更新処理を行う
+            if !fileManager.fileExists(atPath: seedRealmPath) || myScore.count == 0 {
 
-            // Document内に最新Ver以外のSeedDBが存在する場合は登録または更新処理を行う
-            if !fileManager.fileExists(atPath: seedRealmPath) {
-                
                 // Document内のファイル一覧を取得
                 let documentDir: NSString
                     = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
                 let fileNames = try fileManager.contentsOfDirectory(atPath: documentDir as String)
 //                var existFlg: Bool = false
 
-                // 最新VerSeedDBをコピー
-                let mainBundle = Bundle.main
-                let atPath = mainBundle.path(forResource: Const.Realm().getSeedFileName(), ofType: "realm")
-                try! FileManager().copyItem(atPath: atPath!, toPath: seedRealmPath)
-                _ = Realm.Configuration(fileURL: URL(fileURLWithPath: seedRealmPath), readOnly: true)
+                if !fileManager.fileExists(atPath: seedRealmPath) {
+                    // 最新VerSeedDBをコピー
+                    let mainBundle = Bundle.main
+                    let atPath = mainBundle.path(forResource: Const.Realm().getSeedFileName(), ofType: "realm")
+                    try! FileManager().copyItem(atPath: atPath!, toPath: seedRealmPath)
+                    _ = Realm.Configuration(fileURL: URL(fileURLWithPath: seedRealmPath), readOnly: true)
+                }
 
                 // MyScore取得
                 let scoreRealm: Realm = CommonMethod.createScoreRealm()
@@ -217,9 +233,9 @@ class Init {
         if myUD.getVersion() != Const.Version.START_VERSION_NO {
             ret = "楽曲データを更新しました！"
             if !newSongTitleArray.isEmpty {
-                ret += "\n\n追加楽曲"
+                ret += "\n\n追加楽曲\n\n"
                 for title in newSongTitleArray {
-                    ret += "\n\n\(title)"
+                    ret += "\(title)\n"
                 }
             }
         }
@@ -347,7 +363,11 @@ class Init {
         // MyScoreの次のidを取得
         let scores: Results<MyScore> = scoreRealm.objects(MyScore.self)
             .sorted(byKeyPath: MyScore.Types.id.rawValue, ascending: true)
-        var id: Int = scores.last!.id + 1
+        
+        var id = 1
+        if scores.count != 0 {
+            id = scores.last!.id + 1
+        }
 
         var ret: [MyScore] = [MyScore]()
             

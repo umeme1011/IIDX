@@ -187,6 +187,12 @@ extension UpdateMasterDB {
         if let range = s.range(of: "[HBSS?]") {
             s.replaceSubrange(range, with: "")
         }
+        if let range = s.range(of: "[MSS]") {
+            s.replaceSubrange(range, with: "")
+        }
+        if let range = s.range(of: "[MSS?]") {
+            s.replaceSubrange(range, with: "")
+        }
         if let range = s.range(of: "(") {
             s.replaceSubrange(range, with: "")
         }
@@ -239,6 +245,14 @@ extension UpdateMasterDB {
         if let range = s.range(of: "[HBSS?]") {
             s.replaceSubrange(range, with: "")
             cn = cn + "[HBSS]"
+        }
+        if let range = s.range(of: "[MSS]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[MSS]"
+        }
+        if let range = s.range(of: "[MSS?]") {
+            s.replaceSubrange(range, with: "")
+            cn = cn + "[MSS]"
         }
         if let range = s.range(of: "(") {
             s.replaceSubrange(range, with: "")

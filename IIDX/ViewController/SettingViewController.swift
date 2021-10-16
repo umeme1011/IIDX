@@ -86,8 +86,10 @@ class SettingViewController: UIViewController {
      CodeCSV登録
      */
     @IBAction func tapLoadCsv(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
         let lcc = LoadCodeCsv.init()
         lcc.doLoadCodeCsv()
+        Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
     /**
@@ -102,6 +104,9 @@ class SettingViewController: UIViewController {
         case 28:
             versionLbl.text = ver + "28 \nBISTROVER"
             versionLbl.textColor = UIColor.blue
+        case 29:
+            versionLbl.text = ver + "29 \nCastHour"
+            versionLbl.textColor = UIColor.orange
         default:
             versionLbl.text = ""
         }

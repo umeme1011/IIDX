@@ -368,7 +368,23 @@ class CommonMethod {
                     new.ghostMissCount = old.missCount
                     new.ghostSelectCount = old.selectCount
                     new.ghostPlusMinus = old.plusMinus
+                    new.tag = old.tag
                 }
+            }
+        }
+    }
+    
+    /**
+     前作タグをコピーする
+     */
+    static func copyGhostTag() {
+        let preScoreRealm = CommonMethod.createPreScoreRealm()
+        let scoreRealm = CommonMethod.createScoreRealm()
+        let oldTags = preScoreRealm.objects(Tag.self)
+
+        try! scoreRealm.write {
+            for tag in oldTags{
+                scoreRealm.create(Tag.self, value: tag, update: .modified)
             }
         }
     }

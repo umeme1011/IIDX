@@ -8,7 +8,8 @@
 
 import RealmSwift
 
-class Tag: RealmSwift.Object {
+class Tag: RealmSwift.Object, NSCopying {
+    
     @objc dynamic var id: Int = 0
     @objc dynamic var tag: String?
     @objc dynamic var createDate = Date()
@@ -24,4 +25,17 @@ class Tag: RealmSwift.Object {
         case id
         case tag
     }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy: Tag = Tag()
+        copy.id = id
+        copy.tag = tag
+        copy.createDate = createDate
+        copy.createUser = createUser
+        copy.updateDate = updateDate
+        copy.updateUser = updateUser
+        
+        return copy as Any
+    }
+
 }

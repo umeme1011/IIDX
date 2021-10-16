@@ -596,7 +596,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         bpmLbl.text = bpm
         totalNotesLbl.text = totalNotes
         // 理論値
-        maxScoreLbl.text = String(Int(totalNotes) ?? 0 * 2)
+        maxScoreLbl.text = String(Int(totalNotes)! * 2)
         
         if cn != "" {
             cnLbl.text = cn

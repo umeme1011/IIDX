@@ -227,10 +227,13 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         let dispatchQueue: DispatchQueue = DispatchQueue(label: "ghost copy Thread")
         dispatchQueue.async() {
             Log.debugStart(cls: String(describing: self), method: #function + "Thread")
-            
+
             // 前作ゴーストをコピー
             CommonMethod.copyGhostScore()
             
+            // 前作タグをコピー
+            CommonMethod.copyGhostTag()
+
             DispatchQueue.main.async {
                 // インジケータ非表示
                 self.indicatorView.isHidden = true
