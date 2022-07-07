@@ -308,7 +308,7 @@
                                             <constraint firstAttribute="height" constant="30" id="DQn-hk-UFd"/>
                                             <constraint firstAttribute="width" constant="147" id="H3p-IW-bgb"/>
                                         </constraints>
-                                        <state key="normal" title="CLEAR LUMP"/>
+                                        <state key="normal" title="CLEAR LAMP"/>
                                         <connections>
                                             <action selector="tapCleaLumpBtn:" destination="xX0-CK-C6A" eventType="touchUpInside" id="m89-QS-3sy"/>
                                         </connections>
