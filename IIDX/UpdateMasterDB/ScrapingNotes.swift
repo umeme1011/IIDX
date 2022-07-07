@@ -48,7 +48,7 @@ extension UpdateMasterDB {
     func makeNewNotesDic(newSongDoc: HTMLDocument) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        for node1 in newSongDoc.css("table.style_table")[1].css("tbody")[0].css("tr") {
+        for node1 in newSongDoc.css("table.style_table")[2].css("tbody")[0].css("tr") {
             
             // goto next <tr>
             let html: String = node1.css("td")[0].toHTML ?? ""
@@ -86,6 +86,7 @@ extension UpdateMasterDB {
         for song in songArray {
             let t: String = correctTitle(str: song.title ?? "")
 //            var isSet: Bool = false
+            
             for (k, v) in notesDic {
                 let kt: String = correctTitle(str: k)
                 if kt == t {
