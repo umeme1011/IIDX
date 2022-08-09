@@ -6,7 +6,7 @@ target 'IIDX' do
   use_frameworks!
 
   # Pods for IIDX
-  pod 'RealmSwift', '~> 5.3.4'
+  pod 'RealmSwift'
   pod 'Kanna'
 
 end

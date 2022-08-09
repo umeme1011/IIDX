@@ -192,7 +192,7 @@ extension Import {
                     let data: NSData = CommonMethod.getRequest(dataUrl: "\(Const.Url.KONAMI)\(url)"
                         , cookieStr: CommonData.Import.cookieStr)
                     // 曲ページhtmlパース
-                    if let doc = try? HTML(html: String(data: data as Data, encoding: .windows31j) ?? "", encoding: .utf8) {
+                    if let doc = try? HTML(html: String(data: data as Data, encoding: .utf8) ?? "", encoding: .utf8) {
                         
                         // 選曲回数
                         for node in doc.css("div.music-playtime")[0].css("li") {
@@ -314,7 +314,7 @@ extension Import {
                     let data: NSData = CommonMethod.getRequest(dataUrl: "\(Const.Url.KONAMI)\(url)"
                         , cookieStr: CommonData.Import.cookieStr)
                     // 曲ページhtmlパース
-                    if let doc = try? HTML(html: String(data: data as Data, encoding: .windows31j) ?? "", encoding: .utf8) {
+                    if let doc = try? HTML(html: String(data: data as Data, encoding: .utf8) ?? "", encoding: .utf8) {
                         // ミスカウント
                         for node in doc.css("div.music-detail-rival") {
                             let misscnt: Int = Int(node.css("td")[14].text!) ?? 9999
@@ -404,7 +404,7 @@ extension Import {
                         let data: NSData = CommonMethod.getRequest(dataUrl: "\(Const.Url.KONAMI)\(url)"
                             , cookieStr: CommonData.Import.cookieStr)
                         // 曲ページhtmlパース
-                        if let doc = try? HTML(html: String(data: data as Data, encoding: .windows31j) ?? "", encoding: .utf8) {
+                        if let doc = try? HTML(html: String(data: data as Data, encoding: .utf8) ?? "", encoding: .utf8) {
                             
                             // 選曲回数
                             for node in doc.css("div.music-playtime")[0].css("li") {
@@ -616,7 +616,7 @@ extension Import {
                                 , cookieStr: CommonData.Import.cookieStr)
                             
                             // 曲ページhtmlパース
-                            if let doc = try? HTML(html: String(data: data as Data, encoding: .windows31j) ?? "", encoding: .utf8) {
+                            if let doc = try? HTML(html: String(data: data as Data, encoding: .utf8) ?? "", encoding: .utf8) {
                                 
                                 // ミスカウント
                                 for node in doc.css("div.music-detail-rival") {

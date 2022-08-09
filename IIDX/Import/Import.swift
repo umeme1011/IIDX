@@ -199,7 +199,7 @@ class Import {
             , cookieStr: CommonData.Import.cookieStr)
 
         // htmlパース
-        let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+        let htmlStr: String = String(data: data as Data, encoding: .utf8) ?? ""
         self.parseMyStatus(html: htmlStr)
             
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -217,7 +217,7 @@ class Import {
             , cookieStr: CommonData.Import.cookieStr)
 
         // htmlパース & DB保存
-        let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+        let htmlStr: String = String(data: data as Data, encoding: .utf8) ?? ""
         self.parseRivalList(html: htmlStr)
         
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -351,7 +351,7 @@ class Import {
 
                 // HTMLスクレイピング
                 let djName: String = djName
-                let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+                let htmlStr: String = String(data: data as Data, encoding: .utf8) ?? ""
                 continueFlg = self.parseMyScoreTargetLevel(html: htmlStr, iidxId: iidxId
                     , djName: djName, levelName: level.name ?? "", offset: offset)
                 
@@ -395,7 +395,7 @@ class Import {
 
                 // HTMLスクレイピング
                 let djName: String = rivalStatus.djName ?? ""
-                let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+                let htmlStr: String = String(data: data as Data, encoding: .utf8) ?? ""
                 continueFlg = self.parseRivalScoreTargetLevel(html: htmlStr, iidxId: iidxId
                     , djName: djName, levelName: level.name ?? "", offset: offset)
                 
@@ -430,7 +430,7 @@ class Import {
 
             // HTMLスクレイピング
             let djName: String = djName
-            let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+            let htmlStr: String = String(data: data as Data, encoding: .utf8) ?? ""
             self.parseMyScoreTargetVersion(html: htmlStr, iidxId: iidxId, djName: djName, versionName: version.name ?? "")
         }
         
@@ -466,7 +466,7 @@ class Import {
 
             // HTMLスクレイピング
             let djName: String = rivalStatus.djName ?? ""
-            let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+            let htmlStr: String = String(data: data as Data, encoding: .utf8) ?? ""
             self.parseRivalScoreTargetVersion(html: htmlStr, iidxId: iidxId, djName: djName, versionName: version.name ?? "")
         }
         
@@ -489,7 +489,7 @@ class Import {
         let data: NSData = CommonMethod.postRequest(dataUrl: Const.Url().getCsvUrl()
             , postStr: "style=\(playStyleStr)"
             , cookieStr: CommonData.Import.cookieStr)
-        let htmlStr: String = String(data: data as Data, encoding: .windows31j) ?? ""
+        let htmlStr: String = String(data: data as Data, encoding: .utf8) ?? ""
     
         self.parseMyScoreTargetCsv(html: htmlStr)
         
