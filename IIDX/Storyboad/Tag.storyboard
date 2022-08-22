@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iiS-4X-7nc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iiS-4X-7nc">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,7 +20,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0p5-AN-3Bv">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zul-ex-pWY">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zul-ex-pWY">
                                         <rect key="frame" x="330" y="7" width="37" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="37" id="oix-C9-wup"/>
@@ -28,7 +30,7 @@
                                             <action selector="tapDoneBtn:" destination="iiS-4X-7nc" eventType="touchUpInside" id="eKX-Hl-Fmz"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evc-dN-Cva">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evc-dN-Cva">
                                         <rect key="frame" x="8" y="7" width="34" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="34" id="msd-IZ-N8d"/>
@@ -69,7 +71,7 @@
                                             <action selector="tapAddBtn:" destination="iiS-4X-7nc" eventType="touchUpInside" id="WcA-vb-N4C"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I03-Cw-EOn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I03-Cw-EOn">
                                         <rect key="frame" x="52" y="7" width="86" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="86" id="ELg-z0-wbc"/>
@@ -94,7 +96,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ZDS-ow-RyH">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="35"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZDS-ow-RyH" id="Lnh-PN-e1G">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
@@ -104,7 +106,8 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="lep-rk-BSZ"/>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <constraints>
                             <constraint firstItem="VSP-39-Rte" firstAttribute="top" secondItem="0p5-AN-3Bv" secondAttribute="bottom" id="8oz-2b-hzx"/>
                             <constraint firstItem="0p5-AN-3Bv" firstAttribute="leading" secondItem="lep-rk-BSZ" secondAttribute="leading" id="9SH-1l-Rly"/>
@@ -117,7 +120,6 @@
                             <constraint firstItem="IDF-Mu-WRe" firstAttribute="bottom" secondItem="lep-rk-BSZ" secondAttribute="bottom" id="zLX-uV-s9J"/>
                             <constraint firstItem="lep-rk-BSZ" firstAttribute="bottom" secondItem="VSP-39-Rte" secondAttribute="bottom" constant="44" id="zbM-LC-dih"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="lep-rk-BSZ"/>
                     </view>
                     <connections>
                         <outlet property="tagTV" destination="VSP-39-Rte" id="s82-4P-8HQ"/>
@@ -128,4 +130,9 @@
             <point key="canvasLocation" x="138.40000000000001" y="126.38680659670166"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

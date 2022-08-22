@@ -389,4 +389,116 @@ class CommonMethod {
         }
     }
 
+    /**
+     クリアランプ色設定
+     */
+    static func setClearLump(arg: Int) -> (image: UIImage?, color: UIColor?) {
+        var image: UIImage!
+        var color: UIColor!
+        
+        switch arg {
+        case Const.Value.ClearLump.FCOMBO:
+            image = UIImage(named: Const.Image.FCOMBO_PIE) ?? UIImage()
+        case Const.Value.ClearLump.EXHCLEAR:
+            color = Const.Color.ClearLump.EXHCLEAR
+        case Const.Value.ClearLump.HCLEAR:
+            color = Const.Color.ClearLump.HCLEAR
+        case Const.Value.ClearLump.CLEAR:
+            color = Const.Color.ClearLump.CLEAR
+        case Const.Value.ClearLump.ECLEAR:
+            color = Const.Color.ClearLump.ECLEAR
+        case Const.Value.ClearLump.ACLEAR:
+            color = Const.Color.ClearLump.ACLEAR
+        case Const.Value.ClearLump.FAILED:
+            color = Const.Color.ClearLump.FAILED
+        case Const.Value.ClearLump.NOPLAY:
+            color = Const.Color.ClearLump.NOPLAY
+        default:
+            color = Const.Color.ClearLump.NOPLAY
+        }
+
+        return (image, color)
+    }
+    
+    /**
+     DJレベル画像設定
+     */
+    static func setDjLevel(arg: Int) -> UIImage? {
+        var image: UIImage!
+        
+        switch arg {
+        case Const.Value.DjLevel.F:
+            image = UIImage(named: Const.Image.DjLevel.F)
+        case Const.Value.DjLevel.E:
+            image = UIImage(named: Const.Image.DjLevel.E)
+        case Const.Value.DjLevel.D:
+            image = UIImage(named: Const.Image.DjLevel.D)
+        case Const.Value.DjLevel.C:
+            image = UIImage(named: Const.Image.DjLevel.C)
+        case Const.Value.DjLevel.B:
+            image = UIImage(named: Const.Image.DjLevel.B)
+        case Const.Value.DjLevel.A:
+            image = UIImage(named: Const.Image.DjLevel.A)
+        case Const.Value.DjLevel.AA:
+            image = UIImage(named: Const.Image.DjLevel.AA)
+        case Const.Value.DjLevel.AAA:
+            image = UIImage(named: Const.Image.DjLevel.AAA)
+        default:
+            image = UIImage()
+        }
+
+        return image
+    }
+    
+    /**
+     難易度色設定
+     */
+    static func setLevel(arg: Int) -> UIColor? {
+        var color: UIColor!
+        
+        switch arg {
+        case Const.Value.Difficulty.BEGINNER:
+            color = UIColor.systemGreen
+        case Const.Value.Difficulty.NORMAL:
+            color = UIColor.systemBlue
+        case Const.Value.Difficulty.HYPER:
+            color = UIColor.systemOrange
+        case Const.Value.Difficulty.ANOTHER:
+            color = UIColor.systemRed
+        case Const.Value.Difficulty.LEGGENDARIA:
+            color = UIColor.systemPurple
+        default:
+            color = UIColor.darkGray
+        }
+
+        return color
+    }
+    
+    /**
+     スコアが０の場合はハイフン表示
+     */
+    static func setScore(arg: String) -> String {
+        var ret = arg
+        
+        if ret == "0" {
+            ret = Const.Label.Score.HYPHEN
+        }
+        return ret
+    }
+    
+    /**
+     スコアレート設定
+     */
+    static func setScoreRate(arg: Double) -> String {
+        var ret: String = ""
+        
+        if arg == 0 {
+            ret = Const.Label.Score.HYPHEN
+        } else {
+            ret = String(format: "%.2f", arg) + "%"
+        }
+
+        return ret
+    }
+
 }

@@ -18,6 +18,40 @@ class Operation {
         self.mainVC = mainVC
     }
     
+    // test
+    init() {
+        
+    }
+    
+    // test
+    func doCalendar(date: Date) -> Results<MyScore> {
+        var result: Results<MyScore>!
+        
+
+        // Date -> String変換
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        // ロケール設定（端末の暦設定に引きづられないようにする）
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        let dateStr = dateFormatter.string(from: Date())
+
+        // スコアを最終プレイ日時で絞り込む
+        let realm: Realm = CommonMethod.createScoreRealm()
+        result = realm.objects(MyScore.self).filter("playStyle = %@", myUD.getPlayStyle())
+        result = result.filter("\(MyScore.Types.lastPlayDate.rawValue) BEGINSWITH %@", "2021-11")   // test
+        // 未プレイは表示しない
+        result = result.filter("\(MyScore.Types.score.rawValue) != 0")
+        
+        // 最終プレイ日時、INDEXでソート
+        var sorts: [SortDescriptor] = [SortDescriptor]()
+        sorts.append(SortDescriptor(keyPath:MyScore.Types.lastPlayDate.rawValue, ascending: true))
+        sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: true))
+        result = result.sorted(by: sorts)
+
+        return result
+    }
+    
+    
     func doOperation() -> Results<MyScore> {
         Log.debugStart(cls: String(describing: self), method: #function)
         var result: Results<MyScore>!
