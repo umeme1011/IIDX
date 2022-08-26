@@ -22,6 +22,15 @@ class OldScore : RealmSwift.Object {
     @objc dynamic var scoreRate: Double = 0
     @objc dynamic var missCount: Int = 9999
     @objc dynamic var plusMinus: String?
+    @objc dynamic var updateClearLump: Int = 0
+    @objc dynamic var updateDjLevel: Int = 0
+    @objc dynamic var updateScore: Int = 0
+    @objc dynamic var updatePgreat: Int = 0
+    @objc dynamic var updateGreat: Int = 0
+    @objc dynamic var updateScoreRate: Double = 0
+    @objc dynamic var updateMissCount: Int = 9999
+    @objc dynamic var updatePlusMinus: String?
+    @objc dynamic var playDate = Date()
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String?
     @objc dynamic var updateDate = Date()
@@ -45,5 +54,14 @@ class OldScore : RealmSwift.Object {
         case scoreRate
         case missCount
         case plusMinus
+        case updateClearLump
+        case updateDjLevel
+        case updateScore
+        case updatePgreat
+        case updateGreat
+        case updateScoreRate
+        case updateMissCount
+        case updatePlusMinus
+        case playDate
     }
 }

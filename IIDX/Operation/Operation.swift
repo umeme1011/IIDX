@@ -23,29 +23,27 @@ class Operation {
         
     }
     
-    // test
-    func doCalendar(date: Date) -> Results<MyScore> {
-        var result: Results<MyScore>!
+    func doCalendar(firstDay: Date, lastDay: Date) -> Results<OldScore> {
+        var result: Results<OldScore>!
         
 
-        // Date -> String変換
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        // ロケール設定（端末の暦設定に引きづられないようにする）
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        let dateStr = dateFormatter.string(from: Date())
+//        // Date -> String変換
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+//        // ロケール設定（端末の暦設定に引きづられないようにする）
+//        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+//        let dateStr = dateFormatter.string(from: date)
 
-        // スコアを最終プレイ日時で絞り込む
+        // oldScoreをプレイ日時で絞り込む
         let realm: Realm = CommonMethod.createScoreRealm()
-        result = realm.objects(MyScore.self).filter("playStyle = %@", myUD.getPlayStyle())
-        result = result.filter("\(MyScore.Types.lastPlayDate.rawValue) BEGINSWITH %@", "2021-11")   // test
-        // 未プレイは表示しない
-        result = result.filter("\(MyScore.Types.score.rawValue) != 0")
+        result = realm.objects(OldScore.self).filter("playStyle = %@", myUD.getPlayStyle())
+//        result = result.filter("\(OldScore.Types.playDate.rawValue) BEGINSWITH %@", dateStr.prefix(7))
+        result = result.filter("\(OldScore.Types.playDate.rawValue) BETWEEN {%@, %@}", firstDay, lastDay) 
         
         // 最終プレイ日時、INDEXでソート
         var sorts: [SortDescriptor] = [SortDescriptor]()
-        sorts.append(SortDescriptor(keyPath:MyScore.Types.lastPlayDate.rawValue, ascending: true))
-        sorts.append(SortDescriptor(keyPath:MyScore.Types.title.rawValue, ascending: true))
+        sorts.append(SortDescriptor(keyPath:OldScore.Types.playDate.rawValue, ascending: true))
+        sorts.append(SortDescriptor(keyPath:OldScore.Types.title.rawValue, ascending: true))
         result = result.sorted(by: sorts)
 
         return result

@@ -73,11 +73,11 @@ extension Import {
             .filter("\(LastImportDate.Types.playStyle.rawValue) = %@", playStyle).first ?? LastImportDate()
         let lastImportDateId = lastImportDate.id
         
-        // OldScoreTBL選択プレイスタイル全件削除
-        try! scoreRealm.write {
-            let obj = scoreRealm.objects(OldScore.self)
-            scoreRealm.delete(obj)
-        }
+//        // OldScoreTBL選択プレイスタイル全件削除
+//        try! scoreRealm.write {
+//            let obj = scoreRealm.objects(OldScore.self)
+//            scoreRealm.delete(obj)
+//        }
         // OldScore ID取得
         var oldScoreId: Int = 1
         if let oldScore: OldScore = scoreRealm.objects(OldScore.self)
@@ -134,10 +134,10 @@ extension Import {
                     score.updateUser = Const.Realm.SYSTEM
                     
                     // スコア更新あり（初回取り込み時はスルー）
-                    if ((score.clearLump != result.clearLump)
-                        || (score.djLevel != result.djLevel)
-                        || (score.score != result.score))
-                        || (score.missCount != result.missCount)
+                    if ((score.clearLump > result.clearLump)
+                        || (score.djLevel > result.djLevel)
+                        || (score.score > result.score))
+                        || (score.missCount < result.missCount)
                         || (score.plusMinus != result.plusMinus)
 //                        && !firstLoadFlg
                         && score.clearLump != Const.Value.ClearLump.NOPLAY
@@ -160,6 +160,22 @@ extension Import {
                         oldScore.scoreRate = result.scoreRate
                         oldScore.missCount = result.missCount
                         oldScore.plusMinus = result.plusMinus
+                        oldScore.updateClearLump = score.clearLump
+                        oldScore.updateDjLevel = score.djLevel
+                        oldScore.updateScore = score.score
+                        oldScore.updatePgreat = score.pgreat
+                        oldScore.updateGreat = score.great
+                        oldScore.updateScoreRate = score.scoreRate
+                        oldScore.updateMissCount = score.missCount
+                        oldScore.updatePlusMinus = score.plusMinus
+//                         DateをString変換
+//                        let dateFormatter = DateFormatter()
+//                        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+//                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+//                        let nowStr = dateFormatter.string(from: now)
+//                        oldScore.playDate = nowStr
+                        oldScore.playDate = now
+                        
                         oldScore.createDate = now
                         oldScore.createUser = Const.Realm.SYSTEM
                         oldScore.createDate = now

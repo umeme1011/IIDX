@@ -97,6 +97,11 @@
 		C3F057D32334856C00F3831F /* Information.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3F057D22334856C00F3831F /* Information.storyboard */; };
 		C3F057D5233485B100F3831F /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F057D4233485B100F3831F /* InformationViewController.swift */; };
 		C3F057EB233AF5F200F3831F /* Html.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F057EA233AF5F200F3831F /* Html.swift */; };
+		C3F7CAA828B66F3C00664829 /* DateItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F7CAA728B66F3C00664829 /* DateItems.swift */; };
+		C3F7CAAA28B66FE100664829 /* CalendarUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F7CAA928B66FE100664829 /* CalendarUseCase.swift */; };
+		C3F7CAAC28B6703A00664829 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F7CAAB28B6703A00664829 /* UIColor+.swift */; };
+		C3F7CAAE28B6708000664829 /* CalendarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F7CAAD28B6708000664829 /* CalendarController.swift */; };
+		C3F7CAB028B670B000664829 /* CalendarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F7CAAF28B670B000664829 /* CalendarPresenter.swift */; };
 		C3FD10DF2317779A00C7A86F /* RivalStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FD10DE2317779A00C7A86F /* RivalStatus.swift */; };
 		C3FD10E1231777A700C7A86F /* MyStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FD10E0231777A700C7A86F /* MyStatus.swift */; };
 		C3FD10E9231780CE00C7A86F /* MyRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FD10E8231780CE00C7A86F /* MyRealm.swift */; };
@@ -200,6 +205,11 @@
 		C3F057D22334856C00F3831F /* Information.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Information.storyboard; sourceTree = "<group>"; };
 		C3F057D4233485B100F3831F /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		C3F057EA233AF5F200F3831F /* Html.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Html.swift; sourceTree = "<group>"; };
+		C3F7CAA728B66F3C00664829 /* DateItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateItems.swift; sourceTree = "<group>"; };
+		C3F7CAA928B66FE100664829 /* CalendarUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUseCase.swift; sourceTree = "<group>"; };
+		C3F7CAAB28B6703A00664829 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		C3F7CAAD28B6708000664829 /* CalendarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarController.swift; sourceTree = "<group>"; };
+		C3F7CAAF28B670B000664829 /* CalendarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPresenter.swift; sourceTree = "<group>"; };
 		C3FD10DE2317779A00C7A86F /* RivalStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RivalStatus.swift; sourceTree = "<group>"; };
 		C3FD10E0231777A700C7A86F /* MyStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStatus.swift; sourceTree = "<group>"; };
 		C3FD10E8231780CE00C7A86F /* MyRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRealm.swift; sourceTree = "<group>"; };
@@ -292,6 +302,7 @@
 		C3C21ED62314FD1F00B51CB1 /* IIDX */ = {
 			isa = PBXGroup;
 			children = (
+				C3F7CAA628B66F1500664829 /* Calendar */,
 				C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */,
 				C3D0EF882320238F001F1511 /* Assets.xcassets */,
 				C3D7F4E323161ED700B5C895 /* Common */,
@@ -458,6 +469,18 @@
 			path = UpdateMasterDB;
 			sourceTree = "<group>";
 		};
+		C3F7CAA628B66F1500664829 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				C3F7CAA728B66F3C00664829 /* DateItems.swift */,
+				C3F7CAA928B66FE100664829 /* CalendarUseCase.swift */,
+				C3F7CAAB28B6703A00664829 /* UIColor+.swift */,
+				C3F7CAAD28B6708000664829 /* CalendarController.swift */,
+				C3F7CAAF28B670B000664829 /* CalendarPresenter.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -604,7 +627,9 @@
 			files = (
 				C3D7F4E02316192300B5C895 /* Song.swift in Sources */,
 				C3E00249251117E90022D8A9 /* ScrapingNotes.swift in Sources */,
+				C3F7CAAA28B66FE100664829 /* CalendarUseCase.swift in Sources */,
 				C3D7F4E223161E6700B5C895 /* Init.swift in Sources */,
+				C3F7CAB028B670B000664829 /* CalendarPresenter.swift in Sources */,
 				C3FD10ED23181EF500C7A86F /* Scraping.swift in Sources */,
 				C33ED880252F5B150073C1E9 /* Extention.swift in Sources */,
 				C3D0EF7C231F45A8001F1511 /* StatisticsCLViewController.swift in Sources */,
@@ -625,6 +650,7 @@
 				C338FF0D2352370400FBD47F /* EditSelectViewController.swift in Sources */,
 				C3D7F514231667C200B5C895 /* AccountViewController.swift in Sources */,
 				C34E9C022329291E00D62373 /* VersionViewController.swift in Sources */,
+				C3F7CAAE28B6708000664829 /* CalendarController.swift in Sources */,
 				C3D7F4D02315A3F400B5C895 /* MainViewController.swift in Sources */,
 				C3FD10E9231780CE00C7A86F /* MyRealm.swift in Sources */,
 				C3D0EF8F23220142001F1511 /* RivalScore.swift in Sources */,
@@ -644,6 +670,7 @@
 				C3D0EF64231BA815001F1511 /* SortViewController.swift in Sources */,
 				C3D0EF81231F4C9E001F1511 /* StatisticsTableViewCell.swift in Sources */,
 				C3D7F4FD2316512300B5C895 /* Import.swift in Sources */,
+				C3F7CAA828B66F3C00664829 /* DateItems.swift in Sources */,
 				C3D7F4DA23160EC100B5C895 /* MyScore.swift in Sources */,
 				C3EFE1992359073C00CEE129 /* TagViewController.swift in Sources */,
 				C3EFE1932357C08800CEE129 /* TagAddCollectionViewCell.swift in Sources */,
@@ -659,6 +686,7 @@
 				C3AF62E92349DC010022664D /* ModeViewController.swift in Sources */,
 				C3D7F4E523161EE400B5C895 /* Const.swift in Sources */,
 				C3D7F516231764FE00B5C895 /* TargetAccountTableViewCell.swift in Sources */,
+				C3F7CAAC28B6703A00664829 /* UIColor+.swift in Sources */,
 				C3EFE1952359060100CEE129 /* Tag.swift in Sources */,
 				C3D7F4F02316314500B5C895 /* LoginViewController.swift in Sources */,
 				C369F92D25013AF40088B856 /* TargetPageCollectionViewCell.swift in Sources */,

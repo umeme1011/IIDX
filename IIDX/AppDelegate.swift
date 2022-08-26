@@ -19,6 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         print(MyUserDefaults().getVersion())
+
+        // ios15でセクションの上部にスペースが入る対応
+        if #available(iOS 15, *) {
+            UITableView.appearance().sectionHeaderTopPadding = 0
+        }
         
         // Realmマイグレーション
         var config = Realm.Configuration()
