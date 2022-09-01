@@ -24,6 +24,7 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     @IBAction func prevBtn(_ sender: UIButton) { prevMonth() }
     @IBAction func nextBtn(_ sender: UIButton) { nextMonth() }
     @IBOutlet weak var monthLbl: UILabel!
+    @IBAction func todayBtn(_ sender: UIButton) { todayMonth() }
     
     
     let myUD: MyUserDefaults = MyUserDefaults()
@@ -171,60 +172,87 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         return scoreDic[keyArray[section]]?.count ?? 0
     }
 
-    /// セルを返す test
+    /// セルを返す
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         
         let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
-            as! ListTableViewCell
+            as! CalendarTableViewCell
         
         // スコア取得
         let scoreArray: [OldScore] = scoreDic[keyArray[indexPath.section]]!
         
-        // Clear Lump
-        let ret = CommonMethod.setClearLump(arg: scoreArray[indexPath.row].clearLump)
-        cell.clearLumpIV.image = ret.image
-        cell.clearLumpIV.backgroundColor = ret.color
-        // DjLevel
-        let image = CommonMethod.setDjLevel(arg: scoreArray[indexPath.row].djLevel)
-        cell.djLevelIV.image = image
         // レベル
         cell.levelLbl.text = String(scoreArray[indexPath.row].level)
         let color = CommonMethod.setLevel(arg: scoreArray[indexPath.row].difficultyId)
         cell.levelLbl.textColor = color
         // タイトル
-        cell.titleLbl.text = scores[indexPath.row].title
+        cell.titleLbl.text = scoreArray[indexPath.row].title
+
+        // *** 更新後スコア
+        // Clear Lump
+        let updateClearLump = CommonMethod.setClearLump(arg: scoreArray[indexPath.row].updateClearLump)
+        cell.updateClearLampIV.image = updateClearLump.image
+        cell.updateClearLampIV.backgroundColor = updateClearLump.color
+        // DjLevel
+        let updateDjLevel = CommonMethod.setDjLevel(arg: scoreArray[indexPath.row].updateDjLevel)
+        cell.updateDjLevelIV.image = updateDjLevel
         // スコア
-        let score: String = CommonMethod.setScore(arg: String(describing: scoreArray[indexPath.row].score))
-        cell.scoreLbl.text = "score: \(score)"
+        let score: String = CommonMethod.setScore(arg: String(describing: scoreArray[indexPath.row].updateScore))
+        cell.updateScoreLbl.text = "score: \(score)"
         // ミスカウント
-        var missCount: String = String(describing: scoreArray[indexPath.row].missCount)
-        if scores[indexPath.row].missCount == 9999 {
+        var missCount: String = String(describing: scoreArray[indexPath.row].updateMissCount)
+        if scoreArray[indexPath.row].missCount == 9999 {
             missCount = Const.Label.Score.HYPHEN
         }
-        cell.missLbl.text = "miss: \(missCount)"
+        cell.updateMissLbl.text = "miss: \(missCount)"
         // スコアレート
-        let scoreRate: String = CommonMethod.setScoreRate(arg: scoreArray[indexPath.row].scoreRate)
-        cell.scoreRateLbl.text = "rate: \(scoreRate)"
+        let scoreRate: String = CommonMethod.setScoreRate(arg: scoreArray[indexPath.row].updateScoreRate)
+        cell.updateScoreRateLbl.text = "rate: \(scoreRate)"
         // プラス・マイナス
-        cell.plusMinusLbl.text = scoreArray[indexPath.row].plusMinus
+        cell.updatePlusMinusLbl.text = scoreArray[indexPath.row].updatePlusMinus
         
-//        // 前作ゴースト
-//        // スコア
-//        let ghostScore = CommonMethod.setScore(arg: String(describing: scoreArray[indexPath.row].ghostScore))
-//        cell.ghostScoreLbl.text = "score: \(ghostScore)"
-//        // スコアレート
-//        let ghostScoreRate = CommonMethod.setScoreRate(arg: scoreArray[indexPath.row].ghostScoreRate)
-//        cell.ghostScoreRateLbl.text = "rate: \(ghostScoreRate)"
-//        // ミスカウント
-//        var ghostMissCount: String = String(describing: scoreArray[indexPath.row].ghostMissCount)
-//        if scores[indexPath.row].ghostMissCount == 9999 {
-//            ghostMissCount = Const.Label.Score.HYPHEN
-//        }
-//        cell.ghostMissLbl.text = "miss: \(ghostMissCount)"
-//        // プラス・マイナス
-//        cell.ghostPlusMinusLbl.text = scoreArray[indexPath.row].ghostPlusMinus
+        // *** 更新前スコア
+        // Clear Lump
+        let clearLamp = CommonMethod.setClearLump(arg: scoreArray[indexPath.row].clearLump)
+        cell.clearLampIV.image = clearLamp.image
+        cell.clearLampIV.backgroundColor = clearLamp.color
+        // DjLevel
+        if scoreArray[indexPath.row].updateDjLevel > scoreArray[indexPath.row].djLevel {
+            let djLevel = CommonMethod.setDjLevel(arg: scoreArray[indexPath.row].djLevel)
+            cell.djLevelIV.image = djLevel
+            cell.djLevelIV.isHidden = false
+        }
 
+        // *** 差分
+        // スコア
+        let scoreDiff = scoreArray[indexPath.row].updateScore - scoreArray[indexPath.row].score
+        if scoreDiff != 0 {
+            cell.scoreDiffLbl.isHidden = false
+            if scoreDiff > 0 {
+                cell.scoreDiffLbl.text = "+\(scoreDiff)"
+                cell.scoreDiffLbl.backgroundColor = .systemRed
+            } else {
+                cell.scoreDiffLbl.text = "\(scoreDiff)"
+                cell.scoreDiffLbl.backgroundColor = .systemBlue
+            }
+        } else {
+            cell.scoreDiffLbl.isHidden = true
+        }
+        // ミスカウント
+        let missDiff = scoreArray[indexPath.row].updateMissCount - scoreArray[indexPath.row].missCount
+        if missDiff != 0 {
+            cell.missDiffLbl.isHidden = false
+            if missDiff > 0 {
+                cell.missDiffLbl.text = "+\(missDiff)"
+                cell.missDiffLbl.backgroundColor = .systemRed
+            } else {
+                cell.missDiffLbl.text = "\(missDiff)"
+                cell.missDiffLbl.backgroundColor = .systemBlue
+            }
+        } else {
+            cell.missDiffLbl.isHidden = true
+        }
         
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cell
@@ -300,6 +328,19 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         scroll(dateStr: String(dateStr.prefix(10)))
 
     }
+    
+    
+    @IBAction func swipeRight(_ sender: Any) {
+        prevMonth()
+    }
+    
+    @IBAction func swipeLeft(_ sender: Any) {
+        nextMonth()
+    }
+    
+    @IBAction func tapClose(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 
@@ -315,6 +356,38 @@ extension CalendarViewController {
         monthCounter -= 1
         commonSettingMoveMonth()
     }
+    
+    private func todayMonth() {
+        let thisDate = DateItems.ThisMonth.Request()
+        requestForCalendar?.requestNumberOfWeeks(request: thisDate)
+        requestForCalendar?.requestDateManager(request: thisDate)
+        monthLbl.text = "\(String(thisDate.year))年\(String(thisDate.month))月"
+        isToday = thisYear == thisDate.year && thisMonth == thisDate.month ? true : false
+        
+//        let perfectVisibleCells = calendarCV.visibleCells.filter {
+//            calendarCV.bounds.contains($0.frame)
+//        }
+//
+//        for cell in perfectVisibleCells {
+//            let label = cell.contentView.viewWithTag(1) as! UILabel
+//            if label.text == String(thisDate.day) {
+//                cell.selectedBackgroundView?.isHidden = false
+//            }
+//        }
+        
+        calendarCV.reloadData()
+        
+        moveYear = thisDate.year
+        moveMonth = thisDate.month
+        
+        monthCounter = 0
+
+        // スコア取得
+        getScore(firstDay: thisDate.firstDay, lastDay: thisDate.lastDay)
+        
+        self.collectionView(calendarCV, didSelectItemAt: IndexPath(row:30, section:1))
+    }
+    
     
     private func commonSettingMoveMonth() {
         daysArray = nil
@@ -350,17 +423,21 @@ extension CalendarViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         let label = cell.contentView.viewWithTag(1) as! UILabel
         label.backgroundColor = .clear
-        dayOfWeekColor(label, indexPath.row, daysPerWeek)
+//        dayOfWeekColor(label, indexPath.row, daysPerWeek)
         showDate(indexPath.section, indexPath.row, cell, label)
         
         // イベントが有る日に印を付ける
-        let label2 = cell.contentView.viewWithTag(2) as! UILabel
+        let view = cell.contentView.viewWithTag(2)!
         let dateStr = getDateStr(day: label.text ?? "")
         if keyArray.firstIndex(of: dateStr) != nil {
-            label2.isHidden = false
+            view.isHidden = false
+            label.textColor = .white
         } else {
-            label2.isHidden = true
+            view.isHidden = true
+            label.textColor = .darkGray
         }
+        
+        markToday(label)
         
         return cell
     }
@@ -371,6 +448,7 @@ extension CalendarViewController: UICollectionViewDataSource {
         if indexPath.section == 1 {
             if let cell = collectionView.cellForItem(at: indexPath) {
                 let label = cell.contentView.viewWithTag(1) as! UILabel
+                // スコアをスクロール
                 let dateStr = getDateStr(day: label.text ?? "")
                 scroll(dateStr: dateStr)
             }
@@ -409,18 +487,21 @@ extension CalendarViewController: UICollectionViewDataSource {
             cell.selectedBackgroundView = nil
         default:
             label.text = daysArray[row]
+            // 選択セルの枠を表示
             let selectedView = UIView()
-            selectedView.backgroundColor = .mercury()
+            selectedView.layer.borderWidth = 1
+            selectedView.layer.borderColor = UIColor.darkGray.cgColor
             cell.selectedBackgroundView = selectedView
-            markToday(label)
         }
     }
     
     private func markToday(_ label: UILabel) {
         if isToday, today.description == label.text {
-            label.backgroundColor = .myLightRed()
+            label.textColor = .systemRed
         }
     }
+    
+    
     
 }
 

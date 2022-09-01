@@ -40,6 +40,7 @@
 		C3C21ED82314FD1F00B51CB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */; };
 		C3C21EDD2314FD1F00B51CB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EDB2314FD1F00B51CB1 /* Main.storyboard */; };
 		C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3C21EE02314FD2000B51CB1 /* LaunchScreen.storyboard */; };
+		C3C8C23B28B90556009E3B2E /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8C23A28B90556009E3B2E /* CalendarTableViewCell.swift */; };
 		C3D0EF62231BA7FB001F1511 /* Sort.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3D0EF61231BA7FB001F1511 /* Sort.storyboard */; };
 		C3D0EF64231BA815001F1511 /* SortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D0EF63231BA815001F1511 /* SortViewController.swift */; };
 		C3D0EF66231BAA42001F1511 /* OperationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D0EF65231BAA42001F1511 /* OperationTableViewCell.swift */; };
@@ -148,6 +149,7 @@
 		C3C21EDC2314FD1F00B51CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C3C21EE12314FD2000B51CB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3C21EE32314FD2000B51CB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3C8C23A28B90556009E3B2E /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		C3D0EF61231BA7FB001F1511 /* Sort.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sort.storyboard; sourceTree = "<group>"; };
 		C3D0EF63231BA815001F1511 /* SortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortViewController.swift; sourceTree = "<group>"; };
 		C3D0EF65231BAA42001F1511 /* OperationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationTableViewCell.swift; sourceTree = "<group>"; };
@@ -302,18 +304,18 @@
 		C3C21ED62314FD1F00B51CB1 /* IIDX */ = {
 			isa = PBXGroup;
 			children = (
-				C3F7CAA628B66F1500664829 /* Calendar */,
 				C3C21ED72314FD1F00B51CB1 /* AppDelegate.swift */,
 				C3D0EF882320238F001F1511 /* Assets.xcassets */,
+				C3F7CAA628B66F1500664829 /* Calendar */,
 				C3D7F4E323161ED700B5C895 /* Common */,
 				C34E9C03232CB9A800D62373 /* Csv */,
 				C3D7F4D52315AE4500B5C895 /* Custom */,
 				C3D7F4FB2316511500B5C895 /* Import */,
 				C3C21EE32314FD2000B51CB1 /* Info.plist */,
-				C3D7F4F22316327500B5C895 /* Storyboad */,
 				C3D0EF60231BA70B001F1511 /* Init */,
 				C3D0EF6A231C7791001F1511 /* Operation */,
 				C3D7F4D823160E5700B5C895 /* Realm */,
+				C3D7F4F22316327500B5C895 /* Storyboad */,
 				C3E0024325110F750022D8A9 /* UpdateMasterDB */,
 				C3D0EF5F231BA6D9001F1511 /* ViewController */,
 			);
@@ -369,16 +371,17 @@
 		C3D7F4D52315AE4500B5C895 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				C3D7F4D62315AEA500B5C895 /* ListTableViewCell.swift */,
-				C3D7F515231764FE00B5C895 /* TargetAccountTableViewCell.swift */,
-				C3D0EF65231BAA42001F1511 /* OperationTableViewCell.swift */,
-				C3D0EF80231F4C9E001F1511 /* StatisticsTableViewCell.swift */,
+				C3C8C23A28B90556009E3B2E /* CalendarTableViewCell.swift */,
 				C3D0EF9423222A39001F1511 /* DetailTableViewCell.swift */,
 				C3AF62F2234E87B40022664D /* EditListTableViewCell.swift */,
-				C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */,
+				C3D7F4D62315AEA500B5C895 /* ListTableViewCell.swift */,
+				C3D0EF65231BAA42001F1511 /* OperationTableViewCell.swift */,
+				C3D0EF80231F4C9E001F1511 /* StatisticsTableViewCell.swift */,
 				C3EFE1922357C08700CEE129 /* TagAddCollectionViewCell.swift */,
-				C369F92A250135B20088B856 /* TargetPageTableViewCell.swift */,
+				C338FF0E2353879400FBD47F /* TagCollectionViewCell.swift */,
+				C3D7F515231764FE00B5C895 /* TargetAccountTableViewCell.swift */,
 				C369F92C25013AF40088B856 /* TargetPageCollectionViewCell.swift */,
+				C369F92A250135B20088B856 /* TargetPageTableViewCell.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				C3FD10DF2317779A00C7A86F /* RivalStatus.swift in Sources */,
 				C3C21ED82314FD1F00B51CB1 /* AppDelegate.swift in Sources */,
 				C3FD10F123182C5000C7A86F /* LastImportDate.swift in Sources */,
+				C3C8C23B28B90556009E3B2E /* CalendarTableViewCell.swift in Sources */,
 				C3AF62F3234E87B40022664D /* EditListTableViewCell.swift in Sources */,
 				C3D7F50A231665DD00B5C895 /* SettingViewController.swift in Sources */,
 				C3E0024525110F9B0022D8A9 /* UpdateMasterDB.swift in Sources */,

@@ -64,7 +64,9 @@ extension Import {
             return
         }
         
-        let now: Date = Date()
+        var now: Date = Date()
+        let calendar = Calendar(identifier: .gregorian)
+        now = calendar.date(byAdding: .hour, value: 9, to: now) ?? Date()
         
         // LastImportDateTBL更新
         self.saveLastImportDate(realm: scoreRealm)
@@ -145,43 +147,56 @@ extension Import {
                         score.lastImportDateId = lastImportDateId
                         score.oldScoreId = oldScoreId
                         
-                        // oldscoreTBL登録
-                        let oldScore: OldScore = OldScore()
-                        oldScore.id = oldScoreId
-                        oldScore.playStyle = playStyle
-                        oldScore.title = result.title
-                        oldScore.difficultyId = result.difficultyId
-                        oldScore.level = result.level
-                        oldScore.clearLump = result.clearLump
-                        oldScore.djLevel = result.djLevel
-                        oldScore.score = result.score
-                        oldScore.pgreat = result.pgreat
-                        oldScore.great = result.great
-                        oldScore.scoreRate = result.scoreRate
-                        oldScore.missCount = result.missCount
-                        oldScore.plusMinus = result.plusMinus
-                        oldScore.updateClearLump = score.clearLump
-                        oldScore.updateDjLevel = score.djLevel
-                        oldScore.updateScore = score.score
-                        oldScore.updatePgreat = score.pgreat
-                        oldScore.updateGreat = score.great
-                        oldScore.updateScoreRate = score.scoreRate
-                        oldScore.updateMissCount = score.missCount
-                        oldScore.updatePlusMinus = score.plusMinus
-//                         DateをString変換
-//                        let dateFormatter = DateFormatter()
-//                        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-//                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-//                        let nowStr = dateFormatter.string(from: now)
-//                        oldScore.playDate = nowStr
-                        oldScore.playDate = now
+                        var from: Date = calendar.startOfDay(for: now)
+                        from = calendar.date(byAdding: .hour, value: 9, to: from) ?? Date()
+                        var to: Date = calendar.date(byAdding: .hour, value: 23, to: from) ?? Date()
+                        to = calendar.date(byAdding: .minute, value: 59, to: to) ?? Date()
+                        to = calendar.date(byAdding: .second, value: 59, to: to) ?? Date()
                         
-                        oldScore.createDate = now
-                        oldScore.createUser = Const.Realm.SYSTEM
-                        oldScore.createDate = now
-                        oldScore.updateUser = Const.Realm.SYSTEM
-                        scoreRealm.add(oldScore)
-                        oldScoreId += 1
+                        // 同日プレイで同曲の更新があった場合は更新する
+                        if let oldScoreResult: OldScore
+                            = scoreRealm.objects(OldScore.self).filter("\(OldScore.Types.title.rawValue) = %@ and  \(OldScore.Types.difficultyId.rawValue) = %@ and \(OldScore.Types.playStyle.rawValue) = %@ and  \(OldScore.Types.playDate.rawValue) BETWEEN {%@, %@} and (\(OldScore.Types.updateScore.rawValue) < %@ or \(OldScore.Types.updateClearLump.rawValue) < %@ or \(OldScore.Types.updateMissCount.rawValue) > %@)", score.title!, score.difficultyId, playStyle, from, to, score.score, score.clearLump, score.missCount).first {
+                            
+                            // TODO 途中
+                            oldScoreResult.updateScore = score.score
+                            oldScoreResult.updateDate = now
+                            
+                            // 更新
+                            scoreRealm.add(oldScoreResult, update: .all)
+
+                        } else {
+                            // oldscoreTBL登録
+                            let oldScore: OldScore = OldScore()
+                            oldScore.id = oldScoreId
+                            oldScore.playStyle = playStyle
+                            oldScore.title = result.title
+                            oldScore.difficultyId = result.difficultyId
+                            oldScore.level = result.level
+                            oldScore.clearLump = result.clearLump
+                            oldScore.djLevel = result.djLevel
+                            oldScore.score = result.score
+                            oldScore.pgreat = result.pgreat
+                            oldScore.great = result.great
+                            oldScore.scoreRate = result.scoreRate
+                            oldScore.missCount = result.missCount
+                            oldScore.plusMinus = result.plusMinus
+                            oldScore.updateClearLump = score.clearLump
+                            oldScore.updateDjLevel = score.djLevel
+                            oldScore.updateScore = score.score
+                            oldScore.updatePgreat = score.pgreat
+                            oldScore.updateGreat = score.great
+                            oldScore.updateScoreRate = score.scoreRate
+                            oldScore.updateMissCount = score.missCount
+                            oldScore.updatePlusMinus = score.plusMinus
+                            oldScore.playDate = now
+                            
+                            oldScore.createDate = now
+                            oldScore.createUser = Const.Realm.SYSTEM
+                            oldScore.createDate = now
+                            oldScore.updateUser = Const.Realm.SYSTEM
+                            scoreRealm.add(oldScore)
+                            oldScoreId += 1
+                        }
                     }
                     // 更新
                     scoreRealm.add(score, update: .all)
