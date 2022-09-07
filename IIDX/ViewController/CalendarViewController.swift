@@ -25,7 +25,7 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     @IBAction func nextBtn(_ sender: UIButton) { nextMonth() }
     @IBOutlet weak var monthLbl: UILabel!
     @IBAction func todayBtn(_ sender: UIButton) { todayMonth() }
-    
+    @IBOutlet weak var noDataMsgLbl: UILabel!
     
     let myUD: MyUserDefaults = MyUserDefaults()
 
@@ -126,7 +126,9 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         let view: UIView = UIView()
         let label: UILabel = UILabel()
         
-        label.text = keyArray[section]
+        
+        let cnt = scoreDic[keyArray[section]]?.count
+        label.text = "\(keyArray[section])  \(cnt ?? 0)件"
 
         // Viewデザイン
         let screenWidth:CGFloat = listTV.frame.size.width
@@ -144,12 +146,6 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         
         // セクションのビューに対応する番号を設定する
         view.tag = section
-        
-        // セクションのビューにタップジェスチャーを設定する
-//        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapHeader(gestureRecognizer:))))
-        
-        //        // セクションのビューにロングタップジェスチャーを設定する
-        //        myView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(self.longTapHeader(gestureRecognizer:))))
         
         Log.debugEnd(cls: String(describing: self), method: #function)
         return view
@@ -202,7 +198,7 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         cell.updateScoreLbl.text = "score: \(score)"
         // ミスカウント
         var missCount: String = String(describing: scoreArray[indexPath.row].updateMissCount)
-        if scoreArray[indexPath.row].missCount == 9999 {
+        if scoreArray[indexPath.row].updateMissCount == 9999 {
             missCount = Const.Label.Score.HYPHEN
         }
         cell.updateMissLbl.text = "miss: \(missCount)"
@@ -240,18 +236,28 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
             cell.scoreDiffLbl.isHidden = true
         }
         // ミスカウント
-        let missDiff = scoreArray[indexPath.row].updateMissCount - scoreArray[indexPath.row].missCount
-        if missDiff != 0 {
-            cell.missDiffLbl.isHidden = false
-            if missDiff > 0 {
-                cell.missDiffLbl.text = "+\(missDiff)"
-                cell.missDiffLbl.backgroundColor = .systemRed
-            } else {
-                cell.missDiffLbl.text = "\(missDiff)"
-                cell.missDiffLbl.backgroundColor = .systemBlue
-            }
-        } else {
+        var missCnt = scoreArray[indexPath.row].missCount
+        let updateMissCnt = scoreArray[indexPath.row].updateMissCount
+        if updateMissCnt == 9999 {
+            // ミスカウント未取り込み時差分は非表示
             cell.missDiffLbl.isHidden = true
+        } else {
+            if missCnt == 9999 {
+                missCnt = 0
+            }
+            let missDiff = updateMissCnt - missCnt
+            if missDiff != 0 {
+                cell.missDiffLbl.isHidden = false
+                if missDiff > 0 {
+                    cell.missDiffLbl.text = "+\(missDiff)"
+                    cell.missDiffLbl.backgroundColor = .systemRed
+                } else {
+                    cell.missDiffLbl.text = "\(missDiff)"
+                    cell.missDiffLbl.backgroundColor = .systemBlue
+                }
+            } else {
+                cell.missDiffLbl.isHidden = true
+            }
         }
         
         Log.debugEnd(cls: String(describing: self), method: #function)
@@ -297,36 +303,39 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         keyArray.removeAll()
         
         // 日付ごとにスコアを分類
-        var scoreArray: [OldScore] = [OldScore]()
-        var tmpPlayDate = ""
-        for score in scores {
-            let playDate: String = String(convertDate(date: score.playDate).prefix(10))
-            if playDate == tmpPlayDate {
-                scoreArray.append(score)
-            } else {
-                if !scoreArray.isEmpty {
-                    scoreDic[tmpPlayDate] = scoreArray
-                    scoreArray.removeAll()
+        if !scores.isEmpty {
+            var scoreArray: [OldScore] = [OldScore]()
+            var tmpPlayDate = ""
+            for score in scores {
+                let playDate: String = String(convertDate(date: score.playDate).prefix(10))
+                if playDate == tmpPlayDate {
+                    scoreArray.append(score)
+                } else {
+                    if !scoreArray.isEmpty {
+                        scoreDic[tmpPlayDate] = scoreArray
+                        scoreArray.removeAll()
+                    }
+                    scoreArray.append(score)
                 }
-                scoreArray.append(score)
+                tmpPlayDate = playDate
             }
-            tmpPlayDate = playDate
-        }
-        scoreDic[tmpPlayDate] = scoreArray
+            scoreDic[tmpPlayDate] = scoreArray
 
-        // ソートできない・・
-//        scoreDic.sorted(by: { $0.key < $1.key})
-        // キー（日付）配列
-        keyArray = [String](scoreDic.keys)
-        // キーをソート
-        keyArray.sort()
-        
+            // キー（日付）配列
+            keyArray = [String](scoreDic.keys)
+            // キーをソート
+            keyArray.sort()
+            
+//            // 今日分のスコアがある場合、今日の日付までスクロール
+//            scroll(dateStr: String(dateStr.prefix(10)))
+            
+            noDataMsgLbl.isHidden = true
+            
+        } else {
+            noDataMsgLbl.isHidden = false
+        }
         // リロード
         listTV.reloadData()
-        
-        // 今日分のスコアがある場合、今日の日付までスクロール
-        scroll(dateStr: String(dateStr.prefix(10)))
-
     }
     
     
