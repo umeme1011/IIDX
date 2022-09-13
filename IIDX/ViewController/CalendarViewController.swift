@@ -25,12 +25,17 @@ class CalendarViewController: UIViewController, ViewLogic {
     @IBOutlet weak var monthLbl: UILabel!
     @IBAction func todayBtn(_ sender: UIButton) { todayMonth() }
     @IBOutlet weak var noDataMsgLbl: UILabel!
+    @IBAction func tapFoldingBtn(_ sender: UIButton) { foldingCalendar() }
+    @IBOutlet weak var listTVConstraint: NSLayoutConstraint!
+    @IBOutlet weak var listTVFoldingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var foldingBtn: UIButton!
     
     let myUD: MyUserDefaults = MyUserDefaults()
     var scores: Results<OldScore>!
     var scoreDic: Dictionary = Dictionary<String, [OldScore]>()
     var keyArray: [String] = [String]()
     var scoreToDtail: OldScore!
+    var foldingFlg: Bool!
     
     // カレンダー用
     var numberOfWeeks: Int = 0
@@ -74,6 +79,8 @@ class CalendarViewController: UIViewController, ViewLogic {
         
         self.listTV.delegate = self
         self.listTV.dataSource = self
+        
+        foldingFlg = false
         
         // スコア取得
         getScore(firstDay: date.firstDay, lastDay: date.lastDay)
@@ -391,6 +398,38 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
             listTV.scrollToRow(at: indexPath, at: .top, animated: true)
         }
     }
+    
+    /**
+     右から左へスワイプ
+     */
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let artistCopy = UIContextualAction(style: .normal,
+                                            title: "Artist",
+                                            handler: { (action: UIContextualAction, view: UIView, success :(Bool) -> Void) in
+            // タイトルをクリップボードにコピー
+            let artist: String = self.scores[indexPath.row].artist ?? ""
+            UIPasteboard.general.string = artist
+            // アラートを表示
+            CommonMethod.dispAlert(message: "\(artist)\n\nをコピーしました。", vc: self)
+            success(true)
+        })
+        artistCopy.backgroundColor = UIColor.systemRed
+
+        let titleCopy = UIContextualAction(style: .normal,
+                                            title: "Title",
+                                            handler: { (action: UIContextualAction, view: UIView, success :(Bool) -> Void) in
+            // タイトルをクリップボードにコピー
+            let title: String = self.scores[indexPath.row].title ?? ""
+            UIPasteboard.general.string = title
+            // アラートを表示
+            CommonMethod.dispAlert(message: "\(title)\n\nをコピーしました。", vc: self)
+            success(true)
+        })
+        titleCopy.backgroundColor = UIColor.systemBlue
+
+        return UISwipeActionsConfiguration(actions: [artistCopy, titleCopy])
+    }
 }
 
 
@@ -449,6 +488,22 @@ extension CalendarViewController {
         getScore(firstDay: moveDate.firstDay, lastDay: moveDate.lastDay)
     }
     
+    /**
+     カレンダー折りたたみボタン
+     */
+    private func foldingCalendar() {
+        if foldingFlg {
+            listTVFoldingConstraint.isActive = false
+            listTVConstraint.isActive = true
+            foldingFlg = false
+            foldingBtn.setTitle("▲", for: .normal)
+        } else {
+            listTVConstraint.isActive = false
+            listTVFoldingConstraint.isActive = true
+            foldingFlg = true
+            foldingBtn.setTitle("▼", for: .normal)
+        }
+    }
 }
 
 
