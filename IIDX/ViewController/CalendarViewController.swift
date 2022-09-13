@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FSCalendar
 import RealmSwift
 
 //MARK:- Protocol
@@ -16,7 +15,7 @@ protocol ViewLogic {
     var daysArray: [String]! { get set }
 }
 
-class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance, UITableViewDelegate, UITableViewDataSource, ViewLogic{
+class CalendarViewController: UIViewController, ViewLogic {
     
     @IBOutlet weak var listTV: UITableView!
     @IBOutlet weak var calendarCV: UICollectionView!
@@ -28,16 +27,15 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     @IBOutlet weak var noDataMsgLbl: UILabel!
     
     let myUD: MyUserDefaults = MyUserDefaults()
-
     var scores: Results<OldScore>!
     var scoreDic: Dictionary = Dictionary<String, [OldScore]>()
     var keyArray: [String] = [String]()
+    var scoreToDtail: OldScore!
     
-    //MARK: Properties
+    // カレンダー用
     var numberOfWeeks: Int = 0
     var daysArray: [String]!
     private var requestForCalendar: RequestForCalendar?
-    
     private let date = DateItems.ThisMonth.Request()
     private let daysPerWeek = 7
     private var thisYear: Int = 0
@@ -49,21 +47,27 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
     private var moveYear: Int = 0
     private var moveMonth: Int = 0
     
-    //MARK: Initialize
+    /**
+     カレンダー用
+     */
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         dependencyInjection()
     }
     
+    /**
+     カレンダー用
+     */
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         dependencyInjection()
     }
     
     override func viewDidLoad() {
+        Log.debugStart(cls: String(describing: self), method: #function)
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        // カレンダー用
         configure()
         settingLabel()
         getToday()
@@ -73,10 +77,13 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         
         // スコア取得
         getScore(firstDay: date.firstDay, lastDay: date.lastDay)
+        Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
     
-    //MARK: Setting
+    /**
+     カレンダー設定
+     */
     private func dependencyInjection() {
         let viewController = self
         let calendarController = CalendarController()
@@ -105,9 +112,84 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         today = date.day
     }
     
+    /**
+     スコア取得
+     */
+    private func getScore(firstDay: Date, lastDay: Date) {
+        
+        // スコア取得
+        let operation = Operation.init()
+        scores = operation.doCalendar(firstDay: firstDay, lastDay: lastDay)
+        
+        // スコアDic、日付配列初期化
+        scoreDic.removeAll()
+        keyArray.removeAll()
+        
+        // 日付ごとにスコアを分類
+        if !scores.isEmpty {
+            var scoreArray: [OldScore] = [OldScore]()
+            var tmpPlayDate = ""
+            for score in scores {
+                let playDate: String = String(convertDate(date: score.playDate).prefix(10))
+                if playDate == tmpPlayDate {
+                    scoreArray.append(score)
+                } else {
+                    if !scoreArray.isEmpty {
+                        scoreDic[tmpPlayDate] = scoreArray
+                        scoreArray.removeAll()
+                    }
+                    scoreArray.append(score)
+                }
+                tmpPlayDate = playDate
+            }
+            scoreDic[tmpPlayDate] = scoreArray
+
+            // キー（日付）配列
+            keyArray = [String](scoreDic.keys)
+            // キーをソート
+            keyArray.sort()
+            
+//            // 今日分のスコアがある場合、今日の日付までスクロール
+//            scroll(dateStr: String(dateStr.prefix(10)))
+            
+            noDataMsgLbl.isHidden = true
+            
+        } else {
+            noDataMsgLbl.isHidden = false
+        }
+        // リロード
+        listTV.reloadData()
+    }
     
+    /**
+     Date -> String 変換
+     */
+    private func convertDate(date: Date) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+//        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.timeZone = TimeZone(identifier:  "UTC")
+//        dateFormatter.timeZone = TimeZone(identifier:  "Asia/Tokyo")
+        return dateFormatter.string(from: date)
+    }
     
+
+    @IBAction func swipeRight(_ sender: Any) {
+        prevMonth()
+    }
     
+    @IBAction func swipeLeft(_ sender: Any) {
+        nextMonth()
+    }
+    
+    @IBAction func tapClose(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
     
     /*
      セクションの数を返す
@@ -160,15 +242,18 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
         return 30
     }
 
-    
-    /// セルの数を返す test
+    /**
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return scoreDic[keyArray[section]]?.count ?? 0
     }
 
-    /// セルを返す
+    /**
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -260,11 +345,43 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
             }
         }
         
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cell
     }
 
-
+    /**
+     セルをタップ
+     */
+    func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        
+        // タップしたセルを取得
+        if let cell: UITableViewCell = listTV.cellForRow(at: indexPath) {
+            // 選択状態を解除
+            cell.isSelected = false
+        }
+        // 詳細画面へ遷移
+        let scoreArray: [OldScore] = scoreDic[keyArray[indexPath.section]]!
+        scoreToDtail = scoreArray[indexPath.row]
+        performSegue(withIdentifier: Const.Segue.TO_CALENDAR_DETAIL, sender: nil)
+        
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     データ渡し
+     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        // 詳細画面にデータを渡す
+        if segue.identifier == Const.Segue.TO_CALENDAR_DETAIL {
+            let vc: CalendarDetailViewController = segue.destination as! CalendarDetailViewController
+            vc.score = scoreToDtail
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
     /**
      指定の日付までスクロールする
      */
@@ -274,121 +391,40 @@ class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDa
             listTV.scrollToRow(at: indexPath, at: .top, animated: true)
         }
     }
-    
-    /**
-     Date -> String 変換
-     */
-    private func convertDate(date: Date) -> String{
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.calendar = Calendar(identifier: .gregorian)
-//        dateFormatter.locale = Locale(identifier: "ja_JP")
-        dateFormatter.timeZone = TimeZone(identifier:  "UTC")
-//        dateFormatter.timeZone = TimeZone(identifier:  "Asia/Tokyo")
-        return dateFormatter.string(from: date)
-    }
-    
-    private func getScore(firstDay: Date, lastDay: Date) {
-        
-        let date = Date()
-        // Date -> String変換
-        let dateStr = convertDate(date: date)
-        // スコア取得
-        let operation = Operation.init()
-        scores = operation.doCalendar(firstDay: firstDay, lastDay: lastDay)
-        
-        // スコアDic、日付配列初期化
-        scoreDic.removeAll()
-        keyArray.removeAll()
-        
-        // 日付ごとにスコアを分類
-        if !scores.isEmpty {
-            var scoreArray: [OldScore] = [OldScore]()
-            var tmpPlayDate = ""
-            for score in scores {
-                let playDate: String = String(convertDate(date: score.playDate).prefix(10))
-                if playDate == tmpPlayDate {
-                    scoreArray.append(score)
-                } else {
-                    if !scoreArray.isEmpty {
-                        scoreDic[tmpPlayDate] = scoreArray
-                        scoreArray.removeAll()
-                    }
-                    scoreArray.append(score)
-                }
-                tmpPlayDate = playDate
-            }
-            scoreDic[tmpPlayDate] = scoreArray
-
-            // キー（日付）配列
-            keyArray = [String](scoreDic.keys)
-            // キーをソート
-            keyArray.sort()
-            
-//            // 今日分のスコアがある場合、今日の日付までスクロール
-//            scroll(dateStr: String(dateStr.prefix(10)))
-            
-            noDataMsgLbl.isHidden = true
-            
-        } else {
-            noDataMsgLbl.isHidden = false
-        }
-        // リロード
-        listTV.reloadData()
-    }
-    
-    
-    @IBAction func swipeRight(_ sender: Any) {
-        prevMonth()
-    }
-    
-    @IBAction func swipeLeft(_ sender: Any) {
-        nextMonth()
-    }
-    
-    @IBAction func tapClose(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-    }
 }
 
 
-//MARK:- Setting Button Items
 extension CalendarViewController {
     
+    /**
+     翌月タップ
+     */
     private func nextMonth() {
         monthCounter += 1
         commonSettingMoveMonth()
     }
     
+    /**
+     前月タップ
+     */
     private func prevMonth() {
         monthCounter -= 1
         commonSettingMoveMonth()
     }
     
+    /**
+     今月タップ
+     */
     private func todayMonth() {
         let thisDate = DateItems.ThisMonth.Request()
         requestForCalendar?.requestNumberOfWeeks(request: thisDate)
         requestForCalendar?.requestDateManager(request: thisDate)
         monthLbl.text = "\(String(thisDate.year))年\(String(thisDate.month))月"
         isToday = thisYear == thisDate.year && thisMonth == thisDate.month ? true : false
-        
-//        let perfectVisibleCells = calendarCV.visibleCells.filter {
-//            calendarCV.bounds.contains($0.frame)
-//        }
-//
-//        for cell in perfectVisibleCells {
-//            let label = cell.contentView.viewWithTag(1) as! UILabel
-//            if label.text == String(thisDate.day) {
-//                cell.selectedBackgroundView?.isHidden = false
-//            }
-//        }
-        
+
         calendarCV.reloadData()
-        
         moveYear = thisDate.year
         moveMonth = thisDate.month
-        
         monthCounter = 0
 
         // スコア取得
@@ -396,7 +432,6 @@ extension CalendarViewController {
         
         self.collectionView(calendarCV, didSelectItemAt: IndexPath(row:30, section:1))
     }
-    
     
     private func commonSettingMoveMonth() {
         daysArray = nil
@@ -417,17 +452,24 @@ extension CalendarViewController {
 }
 
 
-//MARK:- UICollectionViewDataSource
 extension CalendarViewController: UICollectionViewDataSource {
-    
+    /**
+     セクションの数を返す
+     */
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
+    /**
+     セルの数を返す
+     */
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return section == 0 ? 7 : (numberOfWeeks * daysPerWeek)
     }
     
+    /**
+     セルを返す
+     */
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         let label = cell.contentView.viewWithTag(1) as! UILabel
@@ -451,7 +493,9 @@ extension CalendarViewController: UICollectionViewDataSource {
         return cell
     }
     
-    // セルがタップされたとき
+    /**
+     セルをタップ
+     */
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if indexPath.section == 1 {
@@ -465,6 +509,9 @@ extension CalendarViewController: UICollectionViewDataSource {
             
     }
     
+    /**
+     年月日文字列整形
+     */
     private func getDateStr(day: String) -> String {
         let tmpDay = Int(day)
         let day: String = String(format: "%02d", tmpDay ?? "")
@@ -481,6 +528,9 @@ extension CalendarViewController: UICollectionViewDataSource {
         return dateStr
     }
     
+    /**
+     曜日で色を変える（未使用）
+     */
     private func dayOfWeekColor(_ label: UILabel, _ row: Int, _ daysPerWeek: Int) {
         switch row % daysPerWeek {
         case 0: label.textColor = .red
@@ -489,6 +539,9 @@ extension CalendarViewController: UICollectionViewDataSource {
         }
     }
 
+    /**
+     セル選択時のデザイン
+     */
     private func showDate(_ section: Int, _ row: Int, _ cell: UICollectionViewCell, _ label: UILabel) {
         switch section {
         case 0:
@@ -504,18 +557,17 @@ extension CalendarViewController: UICollectionViewDataSource {
         }
     }
     
+    /**
+     今日の日付のデザイン
+     */
     private func markToday(_ label: UILabel) {
         if isToday, today.description == label.text {
             label.textColor = .systemRed
         }
     }
-    
-    
-    
 }
 
 
-//MARK:- UICollectionViewDelegateFlowLayout
 extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

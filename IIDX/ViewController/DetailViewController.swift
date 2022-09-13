@@ -112,7 +112,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         var dn: String = myStatus.djName ?? ""
         var dl: Int = score.djLevel
         var s: String = convertHyphenStr(s: score.score )
-        var sr: String = makeScoreRateStr(scoreRate: score.scoreRate)
+        var sr: String = CommonMethod.getScoreRateStr(scoreRate: score.scoreRate)
         var cl: Int = score.clearLump
         var pm: String = score.plusMinus ?? ""
         var mc: Int = score.missCount
@@ -126,7 +126,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.OLD_SCORE
             dl = oldScore.djLevel
             s = convertHyphenStr(s: oldScore.score)
-            sr = makeScoreRateStr(scoreRate: oldScore.scoreRate)
+            sr = CommonMethod.getScoreRateStr(scoreRate: oldScore.scoreRate)
             cl = oldScore.clearLump
             pm = oldScore.plusMinus ?? ""
             mc = oldScore.missCount
@@ -142,7 +142,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.GHOST_SCORE
             dl = score.ghostDjLevel
             s = convertHyphenStr(s: score.ghostScore)
-            sr = makeScoreRateStr(scoreRate: score.ghostScoreRate)
+            sr = CommonMethod.getScoreRateStr(scoreRate: score.ghostScoreRate)
             cl = score.ghostClearLump
             pm = score.ghostPlusMinus ?? ""
             mc = score.ghostMissCount
@@ -162,7 +162,7 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
                 dn = rival.djName ?? ""
                 dl = rivalScore.djLevel
                 s = convertHyphenStr(s: rivalScore.score)
-                sr = makeScoreRateStr(scoreRate: rivalScore.scoreRate)
+                sr = CommonMethod.getScoreRateStr(scoreRate: rivalScore.scoreRate)
                 cl = rivalScore.clearLump
                 pm = rivalScore.plusMinus ?? ""
                 mc = rivalScore.missCount
@@ -484,19 +484,6 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         return ret
     }
     
-    /*
-     スコアレート文字列作成
-     */
-    private func makeScoreRateStr(scoreRate: Double) -> String {
-        Log.debugStart(cls: String(describing: self), method: #function)
-        var ret: String = ""
-        if scoreRate != 0 {
-            ret = "(\(String(format: "%.2f", scoreRate))%)"
-        }
-        Log.debugEnd(cls: String(describing: self), method: #function)
-        return ret
-    }
-    
     /**
      次のページの表示内容設定
      */
@@ -604,67 +591,22 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
             cnLbl.text = "なし"
         }
         
+        //****************
         // スコアデータ詳細
+        //****************
         // クリアランプ
-        var clearLump = ""
-        switch score.clearLump {
-        case Const.Value.ClearLump.NOPLAY:
-            clearLump = Const.Label.ClearLumpDetail.NOPLAY
-        case Const.Value.ClearLump.FAILED:
-            clearLump = Const.Label.ClearLumpDetail.FAILED
-        case Const.Value.ClearLump.ACLEAR:
-            clearLump = Const.Label.ClearLumpDetail.AEASY
-        case Const.Value.ClearLump.ECLEAR:
-            clearLump = Const.Label.ClearLumpDetail.EASY
-        case Const.Value.ClearLump.CLEAR:
-            clearLump = Const.Label.ClearLumpDetail.CLEAR
-        case Const.Value.ClearLump.HCLEAR:
-            clearLump = Const.Label.ClearLumpDetail.HARD
-        case Const.Value.ClearLump.EXHCLEAR:
-            clearLump = Const.Label.ClearLumpDetail.EXHARD
-        case Const.Value.ClearLump.FCOMBO:
-            clearLump = Const.Label.ClearLumpDetail.FCOMBO
-        default:
-            print("処理なし")
-        }
-        clearLampLbl.text = clearLump
-
+        clearLampLbl.text = CommonMethod.getClearLampStr(cd: score.clearLump)
         // DJレベル
-        var djLevel = ""
-        switch score.djLevel {
-        case Const.Value.DjLevel.F:
-            djLevel = Const.Label.djLevel.F
-        case Const.Value.DjLevel.E:
-            djLevel = Const.Label.djLevel.E
-        case Const.Value.DjLevel.D:
-            djLevel = Const.Label.djLevel.D
-        case Const.Value.DjLevel.C:
-            djLevel = Const.Label.djLevel.C
-        case Const.Value.DjLevel.B:
-            djLevel = Const.Label.djLevel.B
-        case Const.Value.DjLevel.C:
-            djLevel = Const.Label.djLevel.C
-        case Const.Value.DjLevel.B:
-            djLevel = Const.Label.djLevel.B
-        case Const.Value.DjLevel.A:
-            djLevel = Const.Label.djLevel.A
-        case Const.Value.DjLevel.AA:
-            djLevel = Const.Label.djLevel.AA
-        case Const.Value.DjLevel.AAA:
-            djLevel = Const.Label.djLevel.AAA
-        default:
-            print("処理なし")
-        }
+        var djLevel = CommonMethod.getDjLevelStr(cd: score.djLevel)
         if djLevel != "" {
             djLevel = djLevel + " (" + (score.plusMinus ?? "") + ")"
         } else {
             djLevel = ""
         }
         djLevelLbl.text = djLevel
-        
         // スコア（レート）
         if score.score != 0 {
-            scoreLbl.text = String(score.score) + " " + makeScoreRateStr(scoreRate: score.scoreRate)
+            scoreLbl.text = String(score.score) + " " + CommonMethod.getScoreRateStr(scoreRate: score.scoreRate)
         } else {
             scoreLbl.text = ""
         }

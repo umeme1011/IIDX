@@ -26,23 +26,15 @@ class Operation {
     func doCalendar(firstDay: Date, lastDay: Date) -> Results<OldScore> {
         var result: Results<OldScore>!
         
-
-//        // Date -> String変換
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
-//        // ロケール設定（端末の暦設定に引きづられないようにする）
-//        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-//        let dateStr = dateFormatter.string(from: date)
-
         // oldScoreをプレイ日時で絞り込む
         let realm: Realm = CommonMethod.createScoreRealm()
         result = realm.objects(OldScore.self).filter("playStyle = %@", myUD.getPlayStyle())
-//        result = result.filter("\(OldScore.Types.playDate.rawValue) BEGINSWITH %@", dateStr.prefix(7))
-        result = result.filter("\(OldScore.Types.playDate.rawValue) BETWEEN {%@, %@}", firstDay, lastDay) 
+        result = result.filter("\(OldScore.Types.playDate.rawValue) BETWEEN {%@, %@}", firstDay, lastDay)
         
-        // 最終プレイ日時、INDEXでソート
+        // ソート
         var sorts: [SortDescriptor] = [SortDescriptor]()
         sorts.append(SortDescriptor(keyPath:OldScore.Types.playDate.rawValue, ascending: true))
+        sorts.append(SortDescriptor(keyPath:OldScore.Types.level.rawValue, ascending: true))
         sorts.append(SortDescriptor(keyPath:OldScore.Types.title.rawValue, ascending: true))
         result = result.sorted(by: sorts)
 

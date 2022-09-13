@@ -500,5 +500,76 @@ class CommonMethod {
 
         return ret
     }
-
+    
+    /**
+     クリアランプ表示文字列取得
+     */
+    static func getClearLampStr(cd: Int) -> String {
+        var clearLump = ""
+        switch cd {
+        case Const.Value.ClearLump.NOPLAY:
+            clearLump = Const.Label.ClearLumpDetail.NOPLAY
+        case Const.Value.ClearLump.FAILED:
+            clearLump = Const.Label.ClearLumpDetail.FAILED
+        case Const.Value.ClearLump.ACLEAR:
+            clearLump = Const.Label.ClearLumpDetail.AEASY
+        case Const.Value.ClearLump.ECLEAR:
+            clearLump = Const.Label.ClearLumpDetail.EASY
+        case Const.Value.ClearLump.CLEAR:
+            clearLump = Const.Label.ClearLumpDetail.CLEAR
+        case Const.Value.ClearLump.HCLEAR:
+            clearLump = Const.Label.ClearLumpDetail.HARD
+        case Const.Value.ClearLump.EXHCLEAR:
+            clearLump = Const.Label.ClearLumpDetail.EXHARD
+        case Const.Value.ClearLump.FCOMBO:
+            clearLump = Const.Label.ClearLumpDetail.FCOMBO
+        default:
+            print("処理なし")
+        }
+        return clearLump
+    }
+    
+    /**
+     DJレベル表示文字列取得
+     */
+    static func getDjLevelStr(cd: Int) -> String {
+        var djLevel = ""
+        switch cd {
+        case Const.Value.DjLevel.F:
+            djLevel = Const.Label.djLevel.F
+        case Const.Value.DjLevel.E:
+            djLevel = Const.Label.djLevel.E
+        case Const.Value.DjLevel.D:
+            djLevel = Const.Label.djLevel.D
+        case Const.Value.DjLevel.C:
+            djLevel = Const.Label.djLevel.C
+        case Const.Value.DjLevel.B:
+            djLevel = Const.Label.djLevel.B
+        case Const.Value.DjLevel.C:
+            djLevel = Const.Label.djLevel.C
+        case Const.Value.DjLevel.B:
+            djLevel = Const.Label.djLevel.B
+        case Const.Value.DjLevel.A:
+            djLevel = Const.Label.djLevel.A
+        case Const.Value.DjLevel.AA:
+            djLevel = Const.Label.djLevel.AA
+        case Const.Value.DjLevel.AAA:
+            djLevel = Const.Label.djLevel.AAA
+        default:
+            print("処理なし")
+        }
+        return djLevel
+    }
+    
+    /**
+     スコアレート表示文字列取得
+     */
+    static func getScoreRateStr(scoreRate: Double) -> String{
+        var ret: String = ""
+        if scoreRate != 0 {
+            ret = "(\(String(format: "%.2f", scoreRate))%)"
+        }
+        return ret
+    }
 }
+

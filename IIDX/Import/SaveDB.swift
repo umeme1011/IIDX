@@ -147,6 +147,7 @@ extension Import {
                         score.lastImportDateId = lastImportDateId
                         score.oldScoreId = oldScoreId
                         
+                        // 同日の0:00〜23:59:59を検索
                         var from: Date = calendar.startOfDay(for: now)
                         from = calendar.date(byAdding: .hour, value: 9, to: from) ?? Date()
                         var to: Date = calendar.date(byAdding: .hour, value: 23, to: from) ?? Date()
@@ -158,7 +159,14 @@ extension Import {
                             = scoreRealm.objects(OldScore.self).filter("\(OldScore.Types.title.rawValue) = %@ and  \(OldScore.Types.difficultyId.rawValue) = %@ and \(OldScore.Types.playStyle.rawValue) = %@ and  \(OldScore.Types.playDate.rawValue) BETWEEN {%@, %@} and (\(OldScore.Types.updateScore.rawValue) < %@ or \(OldScore.Types.updateClearLump.rawValue) < %@ or \(OldScore.Types.updateMissCount.rawValue) > %@)", score.title!, score.difficultyId, playStyle, from, to, score.score, score.clearLump, score.missCount).first {
                             
                             // TODO 途中
+                            oldScoreResult.updateClearLump = score.clearLump
+                            oldScoreResult.updateDjLevel = score.djLevel
                             oldScoreResult.updateScore = score.score
+                            oldScoreResult.updatePgreat = score.pgreat
+                            oldScoreResult.updateGreat = score.great
+                            oldScoreResult.updateScoreRate = score.scoreRate
+                            oldScoreResult.updateMissCount = score.missCount
+                            oldScoreResult.updatePlusMinus = score.plusMinus
                             oldScoreResult.updateDate = now
                             
                             // 更新
@@ -169,9 +177,12 @@ extension Import {
                             let oldScore: OldScore = OldScore()
                             oldScore.id = oldScoreId
                             oldScore.playStyle = playStyle
-                            oldScore.title = result.title
+                            oldScore.versionId = result.versionId
                             oldScore.difficultyId = result.difficultyId
                             oldScore.level = result.level
+                            oldScore.title = result.title
+                            oldScore.genre = result.genre
+                            oldScore.artist = result.artist
                             oldScore.clearLump = result.clearLump
                             oldScore.djLevel = result.djLevel
                             oldScore.score = result.score

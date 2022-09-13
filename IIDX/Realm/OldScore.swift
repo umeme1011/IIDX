@@ -11,9 +11,12 @@ import RealmSwift
 class OldScore : RealmSwift.Object {
     @objc dynamic var id: Int = 0
     @objc dynamic var playStyle: Int = 0
-    @objc dynamic var title: String?
+    @objc dynamic var versionId: Int = 0
     @objc dynamic var difficultyId: Int = 0
     @objc dynamic var level: Int = 0
+    @objc dynamic var title: String?
+    @objc dynamic var genre: String?
+    @objc dynamic var artist: String?
     @objc dynamic var clearLump: Int = 0
     @objc dynamic var djLevel: Int = 0
     @objc dynamic var score: Int = 0
@@ -43,9 +46,12 @@ class OldScore : RealmSwift.Object {
     enum Types: String {
         case id
         case playStyle
-        case title
+        case versionId
         case difficultyId
         case level
+        case title
+        case genre
+        case artist
         case clearLump
         case djLevel
         case score

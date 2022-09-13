@@ -70,9 +70,13 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
         difficultyLbl.text = "☆\(score.level) \(ret.name!)"
 
         // タイトル
-        var newLineTitle: String = CommonMethod.newLineString(str: score.title ?? "", separater: "(")
-        newLineTitle = CommonMethod.newLineString(str: newLineTitle, separater: "～")
-        titleLbl.text = newLineTitle
+        if score.title == "ASIAN VIRTUAL REALITIES (MELTING TOGETHER IN DAZZLING DARKNESS)" {   // 長過ぎるので改行なし
+            titleLbl.text = score.title
+        } else {
+            var newLineTitle: String = CommonMethod.newLineString(str: score.title ?? "", separater: "(")
+            newLineTitle = CommonMethod.newLineString(str: newLineTitle, separater: "～")
+            titleLbl.text = newLineTitle
+        }
         
         // ジャンル
         genreLbl.text = score.genre
