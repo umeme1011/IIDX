@@ -1,30 +1,26 @@
 PODS:
-  - FSCalendar (2.8.4)
-  - Kanna (5.2.2)
-  - Realm (10.28.4):
-    - Realm/Headers (= 10.28.4)
-  - Realm/Headers (10.28.4)
-  - RealmSwift (10.28.4):
-    - Realm (= 10.28.4)
+  - Kanna (5.2.7)
+  - Realm (10.29.0):
+    - Realm/Headers (= 10.29.0)
+  - Realm/Headers (10.29.0)
+  - RealmSwift (10.29.0):
+    - Realm (= 10.29.0)
 
 DEPENDENCIES:
-  - FSCalendar
   - Kanna
   - RealmSwift
 
 SPEC REPOS:
   trunk:
-    - FSCalendar
     - Kanna
     - Realm
     - RealmSwift
 
 SPEC CHECKSUMS:
-  FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
-  Kanna: 2c4eddaaa4bfb9a1ed19e53c0b3d42ef02838046
-  Realm: 8ab5176275b4123e84383b33385d47f09507acac
-  RealmSwift: 0851105ca8c6d5722678c98e4d4e53637d1704c8
+  Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
+  Realm: 5596770daeff1ad76c8eb10d5947dc10472da779
+  RealmSwift: 35d8d318b7e5a8dbc7096c2a243184e4d19abcc0
 
-PODFILE CHECKSUM: 871b5f49a825dd0d7e8dc6f92e8e54d37ed1fd4a
+PODFILE CHECKSUM: 3a4f64a34b1aa47d012e3db05a7c8f3c1c392a01
 
 COCOAPODS: 1.11.3

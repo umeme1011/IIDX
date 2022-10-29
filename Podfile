@@ -8,6 +8,5 @@ target 'IIDX' do
   # Pods for IIDX
   pod 'RealmSwift'
   pod 'Kanna'
-  pod 'FSCalendar'
 
 end

@@ -29,6 +29,7 @@ class Operation {
         // oldScoreをプレイ日時で絞り込む
         let realm: Realm = CommonMethod.createScoreRealm()
         result = realm.objects(OldScore.self).filter("playStyle = %@", myUD.getPlayStyle())
+        result = realm.objects(OldScore.self).filter("updateScore != 0")
         result = result.filter("\(OldScore.Types.playDate.rawValue) BETWEEN {%@, %@}", firstDay, lastDay)
         
         // ソート

@@ -3,6 +3,7 @@
 １）
 https://docs.google.com/spreadsheets/d/1QwpJI5dEqbuOQWLsULK585vJWC-L_iR8DJa9-ys_ia0/edit
 に新作バージョンのコードを追加
+ダウンロードしたCSVファイルをCsvフォルダにコピー
 
 ２）
 Const.swift
@@ -13,22 +14,22 @@ wikiのURLを設定する。
 Setting.storyboad
 LoadCSVメニューのHiddenチェックを外す
 
+init.swift
+L58-64 L81-85 をコメントアウト
+
 ４）
 アプリ起動。LoadCSVをTapしてiidx_seed_XX.realmを作成する
 
 ５）
-作成したiidx_seed_XX.realmをCSVフォルダの下にコピー
-※「iidx」にチェックを入れる
-
-６）
-アプリ起動→アプリのDocumentsにiidx_seed_XX.realmファイルがコピーされるはず
-
-７）
 設定からバージョンを新作に切り替え→マスタDB更新
 wikiからデータとりこまれる
+※バージョン一覧表示しているテーブルの高さを増やす必要あるかも
 
-８）
+６）
 データ取り込まれたiidx_seed_XX.realmをRealmフォルダに配置
 →初期データとなる
 
+init.swiftのコメントアウトをもとに戻すの忘れずに。
 
+７）
+SettingViewControllerのバージョンラベルを追加

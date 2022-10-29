@@ -48,8 +48,14 @@ extension UpdateMasterDB {
     func makeNewNotesDic(newSongDoc: HTMLDocument) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
+        let myUD: MyUserDefaults = MyUserDefaults.init()
+        var num = 1
+        if myUD.getVersion() == 29 {
+            num = 2
+        }
+        
         // 2022.8.11 テーブルが一つ増えてたけど、またなくなってもとに戻す
-        for node1 in newSongDoc.css("table.style_table")[1].css("tbody")[0].css("tr") {
+        for node1 in newSongDoc.css("table.style_table")[num].css("tbody")[0].css("tr") {
             
             // goto next <tr>
             let html: String = node1.css("td")[0].toHTML ?? ""

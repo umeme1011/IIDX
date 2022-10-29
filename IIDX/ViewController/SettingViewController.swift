@@ -107,6 +107,9 @@ class SettingViewController: UIViewController {
         case 29:
             versionLbl.text = ver + "29 \nCastHour"
             versionLbl.textColor = UIColor.orange
+        case 30:
+            versionLbl.text = ver + "30 \nRESIDENT"
+            versionLbl.textColor = UIColor(red: 102/255, green: 204/255, blue: 187/255, alpha: 1)
         default:
             versionLbl.text = ""
         }
