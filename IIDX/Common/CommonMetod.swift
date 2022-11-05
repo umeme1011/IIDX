@@ -369,6 +369,7 @@ class CommonMethod {
                     new.ghostSelectCount = old.selectCount
                     new.ghostPlusMinus = old.plusMinus
                     new.tag = old.tag
+                    new.memo = old.memo
                 }
             }
         }

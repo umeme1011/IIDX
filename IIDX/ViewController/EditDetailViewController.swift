@@ -330,10 +330,10 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
      */
     @IBAction func swipeRight(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
-        // nextViewを表示
-        nextView.isHidden = false
+        // nextViewを非表示
+        nextView.isHidden = true
         // nextボタンの文言変更
-        nextBtn.setTitle("◀ Prev", for: .normal)
+        nextBtn.setTitle("Next ▶", for: .normal)
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
@@ -342,10 +342,10 @@ class EditDetailViewController: UIViewController, UICollectionViewDelegateFlowLa
      */
     @IBAction func swipeLeft(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
-        // nextViewを非表示
-        nextView.isHidden = true
+        // nextViewを表示
+        nextView.isHidden = false
         // nextボタンの文言変更
-        nextBtn.setTitle("Next ▶", for: .normal)
+        nextBtn.setTitle("◀ Prev", for: .normal)
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 }

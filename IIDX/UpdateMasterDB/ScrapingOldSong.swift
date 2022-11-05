@@ -295,7 +295,11 @@ extension UpdateMasterDB {
         if song.title == "Friction[!]Function" {
             return song
         }
-        
+
+        if song.title == "[ ]DENTITY" {
+            return song
+        }
+
         if song.genre?.contains("[") ?? false {
             song.genre = song.genre?.components(separatedBy: "[")[0]
         }
