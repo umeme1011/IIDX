@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         print(MyUserDefaults().getVersion())
+        
+        // Google Mobile Ads SDKの初期化
+        GADMobileAds.sharedInstance().start(completionHandler: nil) //←広告用に追加
 
         // ios15でセクションの上部にスペースが入る対応
         if #available(iOS 15, *) {

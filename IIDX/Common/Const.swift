@@ -449,4 +449,10 @@ class Const {
         static let SCRAPING_003 = "クリアランプ解析エラー"
         static let SCRAPING_004 = "DJレベル解析エラー"
     }
+    
+    // 広告
+    class AdMob {
+        static let BANNER_ID_DEBUG = "ca-app-pub-3940256099942544/6300978111"
+        static let BANNER_ID_RELEASE = "ca-app-pub-8865634789105204/7898062895"
+    }
 }

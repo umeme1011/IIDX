@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController,GADBannerViewDelegate {
 
     @IBOutlet weak var progressView: UIView!
     @IBOutlet weak var progressLbl: UILabel!
@@ -22,6 +25,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var balloonIV: UIImageView!
     @IBOutlet weak var balloonLbl: UILabel!
     @IBOutlet weak var numLbl: UILabel!
+    @IBOutlet weak var bannerView: GADBannerView!
     
     let myUD: MyUserDefaults = MyUserDefaults()
     var firstLoadFlg: Bool!
@@ -31,6 +35,15 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         Log.debugStart(cls: String(describing: self), method: #function)
+        
+        // 広告
+        bannerView.delegate = self
+        // テスト用
+        bannerView.adUnitID = Const.AdMob.BANNER_ID_DEBUG
+        // 本番用
+//        bannerView.adUnitID = Const.AdMob.BANNER_ID_RELEASE
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
 
         // 進捗View非表示
         progressView.alpha = 0.0
@@ -48,6 +61,31 @@ class MainViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        //ATT対応
+        if #available(iOS 14, *) {
+            switch ATTrackingManager.trackingAuthorizationStatus {
+            case .authorized:
+                print("Allow Tracking")
+                print("IDFA: \(ASIdentifierManager.shared().advertisingIdentifier)")
+            case .denied:
+                print("拒否")
+            case .restricted:
+                print("制限")
+            case .notDetermined:
+                showRequestTrackingAuthorizationAlert()
+            @unknown default:
+                fatalError()
+            }
+        } else {// iOS14未満
+            if ASIdentifierManager.shared().isAdvertisingTrackingEnabled {
+                print("Allow Tracking")
+                print("IDFA: \(ASIdentifierManager.shared().advertisingIdentifier)")
+            } else {
+                print("制限")
+            }
+        }
+        
         if alertMsg != "" {
             // 取り込み完了アラート表示
             let vc: UIViewController = CommonMethod.getTopViewController() ?? UIViewController()
@@ -180,5 +218,52 @@ class MainViewController: UIViewController {
         vc.changeRowHeight()
         vc.scores = operation.doOperation()
         vc.listTV.reloadData()
+    }
+    
+    //広告にアニメーションをつける
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+      bannerView.alpha = 0
+      UIView.animate(withDuration: 1, animations: {
+        bannerView.alpha = 1
+      })
+    }
+        
+    //その他広告表示で必要そうな関数　無くても広告は表示される
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+      print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+      print("bannerViewDidRecordImpression")
+    }
+
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+      print("bannerViewWillPresentScreen")
+    }
+
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+      print("bannerViewWillDIsmissScreen")
+    }
+
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+      print("bannerViewDidDismissScreen")
+    }
+    
+    ///Alert表示
+    private func showRequestTrackingAuthorizationAlert() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                switch status {
+                case .authorized:
+                    print("🎉")
+                    //IDFA取得
+                    print("IDFA: \(ASIdentifierManager.shared().advertisingIdentifier)")
+                case .denied, .restricted, .notDetermined:
+                    print("😥")
+                @unknown default:
+                    fatalError()
+                }
+            })
+        }
     }
 }
