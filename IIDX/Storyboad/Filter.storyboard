@@ -122,7 +122,7 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ueL-oI-mtp" firstAttribute="trailing" secondItem="JoB-Mo-XZQ" secondAttribute="trailing" id="1z9-dd-GIJ"/>
-                            <constraint firstItem="ueL-oI-mtp" firstAttribute="bottom" secondItem="JoB-Mo-XZQ" secondAttribute="bottom" id="JGp-bf-ERE"/>
+                            <constraint firstAttribute="bottom" secondItem="ueL-oI-mtp" secondAttribute="bottom" id="JWb-Sc-rfA"/>
                             <constraint firstItem="ueL-oI-mtp" firstAttribute="top" secondItem="YsT-fe-WcA" secondAttribute="top" id="RhJ-OL-7GQ"/>
                         </constraints>
                     </view>

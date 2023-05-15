@@ -407,8 +407,10 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
         let artistCopy = UIContextualAction(style: .normal,
                                             title: "Artist",
                                             handler: { (action: UIContextualAction, view: UIView, success :(Bool) -> Void) in
-            // タイトルをクリップボードにコピー
-            let artist: String = self.scores[indexPath.row].artist ?? ""
+            // アーティストをクリップボードにコピー
+            let tmpScores: [OldScore] = self.scoreDic[self.keyArray[indexPath.section]]!
+            let artist: String = tmpScores[indexPath.row].artist ?? ""
+
             UIPasteboard.general.string = artist
             // アラートを表示
             CommonMethod.dispAlert(message: "\(artist)\n\nをコピーしました。", vc: self)
@@ -420,7 +422,9 @@ extension CalendarViewController: UITableViewDelegate, UITableViewDataSource {
                                             title: "Title",
                                             handler: { (action: UIContextualAction, view: UIView, success :(Bool) -> Void) in
             // タイトルをクリップボードにコピー
-            let title: String = self.scores[indexPath.row].title ?? ""
+            let tmpScores: [OldScore] = self.scoreDic[self.keyArray[indexPath.section]]!
+            let title: String = tmpScores[indexPath.row].title ?? ""
+            
             UIPasteboard.general.string = title
             // アラートを表示
             CommonMethod.dispAlert(message: "\(title)\n\nをコピーしました。", vc: self)

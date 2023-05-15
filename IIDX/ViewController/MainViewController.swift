@@ -39,9 +39,9 @@ class MainViewController: UIViewController,GADBannerViewDelegate {
         // 広告
         bannerView.delegate = self
         // テスト用
-        bannerView.adUnitID = Const.AdMob.BANNER_ID_DEBUG
+//        bannerView.adUnitID = Const.AdMob.BANNER_ID_DEBUG
         // 本番用
-//        bannerView.adUnitID = Const.AdMob.BANNER_ID_RELEASE
+        bannerView.adUnitID = Const.AdMob.BANNER_ID_RELEASE
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
 

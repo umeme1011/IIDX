@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(MyUserDefaults().getVersion())
         
         // Google Mobile Ads SDKの初期化
-        GADMobileAds.sharedInstance().start(completionHandler: nil) //←広告用に追加
+        GADMobileAds.sharedInstance().start(completionHandler: nil) 
 
         // ios15でセクションの上部にスペースが入る対応
         if #available(iOS 15, *) {

@@ -16,12 +16,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#import <Foundation/Foundation.h>
-
 #import <Realm/RLMConstants.h>
 #import <Realm/RLMThreadSafeReference.h>
 
-NS_ASSUME_NONNULL_BEGIN
+RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @protocol RLMValue;
 @class RLMRealm, RLMResults, RLMSortDescriptor, RLMNotificationToken, RLMCollectionChange, RLMSectionedResults;
@@ -259,7 +257,7 @@ the block is not called at all. See the `RLMCollectionChange` documentation for
 information on how the changes are reported and an example of updating a
 `UITableView`.
 
- The error parameter is present only for backwards compatiblity and will always
+ The error parameter is present only for backwards compatibility and will always
  be `nil`.
 
 At the time when the block is called, the collection object will be fully
@@ -321,7 +319,7 @@ the block is not called at all. See the `RLMCollectionChange` documentation for
 information on how the changes are reported and an example of updating a
 `UITableView`.
 
- The error parameter is present only for backwards compatiblity and will always
+ The error parameter is present only for backwards compatibility and will always
  be `nil`.
 
 At the time when the block is called, the collection object will be fully
@@ -364,7 +362,7 @@ the block is not called at all. See the `RLMCollectionChange` documentation for
 information on how the changes are reported and an example of updating a
 `UITableView`.
 
- The error parameter is present only for backwards compatiblity and will always
+ The error parameter is present only for backwards compatibility and will always
  be `nil`.
 
 At the time when the block is called, the collection object will be fully
@@ -532,6 +530,7 @@ __attribute__((warn_unused_result));
 
  `RLMSortDescriptor` instances are immutable.
  */
+RLM_SWIFT_SENDABLE RLM_FINAL
 @interface RLMSortDescriptor : NSObject
 
 #pragma mark - Properties
@@ -611,4 +610,4 @@ __attribute__((warn_unused_result));
 - (NSArray<NSIndexPath *> *)modificationsInSection:(NSUInteger)section;
 @end
 
-NS_ASSUME_NONNULL_END
+RLM_HEADER_AUDIT_END(nullability, sendability)

@@ -20,13 +20,13 @@
 
 #import "RLMApp.h"
 #import "RLMRealm_Private.hpp"
+#import "RLMError_Private.hpp"
 #import "RLMSyncConfiguration_Private.hpp"
 #import "RLMUser_Private.hpp"
 #import "RLMSyncManager_Private.hpp"
 #import "RLMSyncUtil_Private.hpp"
 
 #import <realm/object-store/sync/app.hpp>
-#import <realm/object-store/sync/async_open_task.hpp>
 #import <realm/object-store/sync/sync_session.hpp>
 
 using namespace realm;
@@ -40,7 +40,7 @@ using namespace realm;
 
 @interface RLMProgressNotificationToken() {
     uint64_t _token;
-    std::weak_ptr<SyncSession> _session;
+    std::shared_ptr<SyncSession> _session;
 }
 @end
 
@@ -51,21 +51,14 @@ using namespace realm;
     // `-[RLMRealm commitWriteTransactionWithoutNotifying:]`.
 }
 
-- (void)invalidate {
-    if (auto session = _session.lock()) {
-        session->unregister_progress_notifier(_token);
+- (bool)invalidate {
+    if (_session) {
+        _session->unregister_progress_notifier(_token);
         _session.reset();
         _token = 0;
+        return true;
     }
-}
-
-- (void)dealloc {
-    if (_token != 0) {
-        NSLog(@"RLMProgressNotificationToken released without unregistering a notification. "
-              @"You must hold on to the RLMProgressNotificationToken and call "
-              @"-[RLMProgressNotificationToken invalidate] when you no longer wish to receive "
-              @"progress update notifications.");
-    }
+    return false;
 }
 
 - (nullable instancetype)initWithTokenValue:(uint64_t)token
@@ -91,11 +84,7 @@ using namespace realm;
 @implementation RLMSyncSession
 
 + (dispatch_queue_t)notificationsQueue {
-    static dispatch_queue_t queue;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("io.realm.sync.sessionsNotificationQueue", DISPATCH_QUEUE_SERIAL);
-    });
+    static auto queue = dispatch_queue_create("io.realm.sync.sessionsNotificationQueue", DISPATCH_QUEUE_SERIAL);
     return queue;
 }
 
@@ -161,7 +150,7 @@ static RLMSyncConnectionState convertConnectionState(SyncSession::ConnectionStat
 
 - (void)suspend {
     if (auto session = _session.lock()) {
-        session->log_out();
+        session->force_close();
     }
 }
 
@@ -171,15 +160,34 @@ static RLMSyncConnectionState convertConnectionState(SyncSession::ConnectionStat
     }
 }
 
+- (void)pause {
+    // NEXT-MAJOR: this is what suspend should be
+    if (auto session = _session.lock()) {
+        session->pause();
+    }
+}
+
+- (void)unpause {
+    // NEXT-MAJOR: this is what resume should be
+    if (auto session = _session.lock()) {
+        session->resume();
+    }
+}
+
+static util::UniqueFunction<void(Status)> wrapCompletion(dispatch_queue_t queue,
+                                                         void (^callback)(NSError *)) {
+    queue = queue ?: dispatch_get_main_queue();
+    return [=](Status status) {
+        NSError *error = makeError(status);
+        dispatch_async(queue, ^{
+            callback(error);
+        });
+    };
+}
+
 - (BOOL)waitForUploadCompletionOnQueue:(dispatch_queue_t)queue callback:(void(^)(NSError *))callback {
     if (auto session = _session.lock()) {
-        queue = queue ?: dispatch_get_main_queue();
-        session->wait_for_upload_completion([=](std::error_code err) {
-            NSError *error = (err == std::error_code{}) ? nil : make_sync_error(err);
-            dispatch_async(queue, ^{
-                callback(error);
-            });
-        });
+        session->wait_for_upload_completion(wrapCompletion(queue, callback));
         return YES;
     }
     return NO;
@@ -187,13 +195,7 @@ static RLMSyncConnectionState convertConnectionState(SyncSession::ConnectionStat
 
 - (BOOL)waitForDownloadCompletionOnQueue:(dispatch_queue_t)queue callback:(void(^)(NSError *))callback {
     if (auto session = _session.lock()) {
-        queue = queue ?: dispatch_get_main_queue();
-        session->wait_for_download_completion([=](std::error_code err) {
-            NSError *error = (err == std::error_code{}) ? nil : make_sync_error(err);
-            dispatch_async(queue, ^{
-                callback(error);
-            });
-        });
+        session->wait_for_download_completion(wrapCompletion(queue, callback));
         return YES;
     }
     return NO;
@@ -213,7 +215,7 @@ static RLMSyncConnectionState convertConnectionState(SyncSession::ConnectionStat
                 block((NSUInteger)transferred, (NSUInteger)transferrable);
             });
         }, notifier_direction, is_streaming);
-        return [[RLMProgressNotificationToken alloc] initWithTokenValue:token session:std::move(session)];
+        return [[RLMProgressNotificationToken alloc] initWithTokenValue:token session:session];
     }
     return nil;
 }
@@ -268,61 +270,4 @@ static RLMSyncConnectionState convertConnectionState(SyncSession::ConnectionStat
     return nil;
 }
 
-@end
-
-@implementation RLMAsyncOpenTask {
-    bool _cancel;
-    NSMutableArray<RLMProgressNotificationBlock> *_blocks;
-}
-
-- (void)addProgressNotificationOnQueue:(dispatch_queue_t)queue block:(RLMProgressNotificationBlock)block {
-    auto wrappedBlock = ^(NSUInteger transferred_bytes, NSUInteger transferrable_bytes) {
-        dispatch_async(queue, ^{
-            @autoreleasepool {
-                block(transferred_bytes, transferrable_bytes);
-            }
-        });
-    };
-
-    @synchronized (self) {
-        if (_task) {
-            _task->register_download_progress_notifier(wrappedBlock);
-        }
-        else if (!_cancel) {
-            if (!_blocks) {
-                _blocks = [NSMutableArray new];
-            }
-            [_blocks addObject:wrappedBlock];
-        }
-    }
-}
-
-- (void)addProgressNotificationBlock:(RLMProgressNotificationBlock)block {
-    [self addProgressNotificationOnQueue:dispatch_get_main_queue() block:block];
-}
-
-- (void)cancel {
-    @synchronized (self) {
-        if (_task) {
-            _task->cancel();
-        }
-        else {
-            _cancel = true;
-            _blocks = nil;
-        }
-    }
-}
-
-- (void)setTask:(std::shared_ptr<realm::AsyncOpenTask>)task {
-    @synchronized (self) {
-        _task = task;
-        if (_cancel) {
-            _task->cancel();
-        }
-        for (RLMProgressNotificationBlock block in _blocks) {
-            _task->register_download_progress_notifier(block);
-        }
-        _blocks = nil;
-    }
-}
 @end

@@ -12,8 +12,11 @@ namespace sync {
 
 using InternStrings = std::vector<StringBufferRange>;
 
-struct BadChangesetError : ExceptionWithBacktrace<std::runtime_error> {
-    using ExceptionWithBacktrace<std::runtime_error>::ExceptionWithBacktrace;
+struct BadChangesetError : Exception {
+    BadChangesetError(const std::string& msg)
+        : Exception(ErrorCodes::BadChangeset, util::format("%1. Please contact support.", msg))
+    {
+    }
 };
 
 struct Changeset {
@@ -58,7 +61,6 @@ struct Changeset {
     struct IteratorImpl;
     using iterator = IteratorImpl<false>;
     using const_iterator = IteratorImpl<true>;
-    using value_type = Instruction;
     iterator begin() noexcept;
     iterator end() noexcept;
     const_iterator begin() const noexcept;
@@ -177,6 +179,10 @@ struct Changeset {
     /// FIXME: This is a hack that we need to figure out a better way of fixing. This can maybe
     /// be part of refactoring the ChangesetIndex
     size_t transform_sequence = 0;
+
+    /// If the changeset was compacted during download, the size of the original
+    /// changeset. Only applies to changesets sent by the server.
+    std::size_t original_changeset_size = 0;
 
     /// Compare for exact equality, including that interned strings have the
     /// same integer values, and there is the same number of interned strings,

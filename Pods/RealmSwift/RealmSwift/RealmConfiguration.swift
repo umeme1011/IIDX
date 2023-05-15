@@ -16,8 +16,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-import Foundation
-import Realm
 import Realm.Private
 
 extension Realm {
@@ -31,7 +29,7 @@ extension Realm {
      of this, you will normally want to cache and reuse a single configuration value for each distinct configuration
      rather than creating a new value each time you open a Realm.
      */
-    @frozen public struct Configuration {
+    @frozen public struct Configuration: Sendable {
 
         // MARK: Default Configuration
 
@@ -76,6 +74,7 @@ extension Realm {
          - parameter seedFilePath:       The path to the realm file that will be copied to the fileURL when opened
                                          for the first time.
         */
+        @preconcurrency
         public init(fileURL: URL? = URL(fileURLWithPath: RLMRealmPathForFile("default.realm"), isDirectory: false),
                     inMemoryIdentifier: String? = nil,
                     syncConfiguration: SyncConfiguration? = nil,
@@ -84,7 +83,7 @@ extension Realm {
                     schemaVersion: UInt64 = 0,
                     migrationBlock: MigrationBlock? = nil,
                     deleteRealmIfMigrationNeeded: Bool = false,
-                    shouldCompactOnLaunch: ((Int, Int) -> Bool)? = nil,
+                    shouldCompactOnLaunch: (@Sendable (Int, Int) -> Bool)? = nil,
                     objectTypes: [ObjectBase.Type]? = nil,
                     seedFilePath: URL? = nil) {
                 self.fileURL = fileURL
@@ -124,16 +123,10 @@ extension Realm {
 
         /// The local URL of the Realm file. Mutually exclusive with `inMemoryIdentifier`.
         public var fileURL: URL? {
-            get {
-                return _path.map { URL(fileURLWithPath: $0) }
-            }
-            set {
+            didSet {
                 _inMemoryIdentifier = nil
-                _path = newValue?.path
             }
         }
-
-        private var _path: String?
 
         /// A string used to identify a particular in-memory Realm. Mutually exclusive with `fileURL` and
         /// `syncConfiguration`.
@@ -142,7 +135,7 @@ extension Realm {
                 return _inMemoryIdentifier
             }
             set {
-                _path = nil
+                fileURL = nil
                 _syncConfiguration = nil
                 _inMemoryIdentifier = newValue
             }
@@ -163,7 +156,7 @@ extension Realm {
          mode requires disabling Realm's reader/writer coordination, so committing a write
          transaction from another process will result in crashes.
 
-         Syncronized Realms must always be writeable (as otherwise no synchronization could happen),
+         Synchronized Realms must always be writeable (as otherwise no synchronization could happen),
          and this instead merely disallows performing write transactions on the Realm. In addition,
          it will skip some automatic writes made to the Realm, such as to initialize the Realm's
          schema. Setting `readOnly = YES` is not strictly required for Realms which the sync user
@@ -178,6 +171,7 @@ extension Realm {
         public var schemaVersion: UInt64 = 0
 
         /// The block which migrates the Realm to the current version.
+        @preconcurrency
         public var migrationBlock: MigrationBlock?
 
         /**
@@ -211,7 +205,8 @@ extension Realm {
          Return `true ` to indicate that an attempt to compact the file should be made.
          The compaction will be skipped if another process is accessing it.
          */
-        public var shouldCompactOnLaunch: ((Int, Int) -> Bool)?
+        @preconcurrency
+        public var shouldCompactOnLaunch: (@Sendable (Int, Int) -> Bool)?
 
         /// The classes managed by the Realm.
         public var objectTypes: [ObjectBase.Type]? {
@@ -243,7 +238,7 @@ extension Realm {
          number of versions will instead throw an exception. This can be used with a
          low value during development to help identify places that may be problematic,
          or in production use to cause the app to crash rather than produce a Realm
-         file which is too large to be oened.
+         file which is too large to be opened.
          */
         public var maximumNumberOfActiveVersions: UInt?
 
@@ -279,7 +274,7 @@ extension Realm {
         // MARK: Flexible Sync
 
         /// Callback for adding subscriptions to the initialization of the Realm
-        internal var initialSubscriptions: ((SyncSubscriptionSet) -> Void)?
+        internal var initialSubscriptions: (@Sendable (SyncSubscriptionSet) -> Void)?
 
         /// If `true` Indicates that the `initialSubscriptions` will run on every app startup.
         internal var rerunOnOpen: Bool = false
@@ -302,7 +297,8 @@ extension Realm {
             configuration.encryptionKey = self.encryptionKey
             configuration.readOnly = self.readOnly
             configuration.schemaVersion = self.schemaVersion
-            configuration.migrationBlock = self.migrationBlock.map { accessorMigrationBlock($0) }
+            configuration.migrationBlock = self.migrationBlock
+            configuration.migrationObjectClass = MigrationObject.self
             configuration.deleteRealmIfMigrationNeeded = self.deleteRealmIfMigrationNeeded
             configuration.shouldCompactOnLaunch = self.shouldCompactOnLaunch.map(ObjectiveCSupport.convert(object:))
             configuration.setCustomSchemaWithoutCopying(self.customSchema)
@@ -314,6 +310,7 @@ extension Realm {
                 rlmConfig.syncUser = eventConfiguration.syncUser
                 rlmConfig.metadata = eventConfiguration.metadata
                 rlmConfig.logger = eventConfiguration.logger
+                rlmConfig.errorHandler = eventConfiguration.errorHandler
                 configuration.eventConfiguration = rlmConfig
             }
 
@@ -327,17 +324,13 @@ extension Realm {
 
         internal static func fromRLMRealmConfiguration(_ rlmConfiguration: RLMRealmConfiguration) -> Configuration {
             var configuration = Configuration()
-            configuration._path = rlmConfiguration.fileURL?.path
+            configuration.fileURL = rlmConfiguration.fileURL
             configuration._inMemoryIdentifier = rlmConfiguration.inMemoryIdentifier
             configuration._syncConfiguration = rlmConfiguration.syncConfiguration.map(SyncConfiguration.init(config:))
             configuration.encryptionKey = rlmConfiguration.encryptionKey
             configuration.readOnly = rlmConfiguration.readOnly
             configuration.schemaVersion = rlmConfiguration.schemaVersion
-            configuration.migrationBlock = rlmConfiguration.migrationBlock.map { rlmMigration in
-                return { migration, schemaVersion in
-                    rlmMigration(migration.rlmMigration, schemaVersion)
-                }
-            }
+            configuration.migrationBlock = rlmConfiguration.migrationBlock
             configuration.deleteRealmIfMigrationNeeded = rlmConfiguration.deleteRealmIfMigrationNeeded
             configuration.shouldCompactOnLaunch = rlmConfiguration.shouldCompactOnLaunch.map(ObjectiveCSupport.convert)
             configuration.customSchema = rlmConfiguration.customSchema
@@ -346,7 +339,8 @@ extension Realm {
             if let eventConfiguration = rlmConfiguration.eventConfiguration {
                 configuration.eventConfiguration = EventConfiguration(metadata: eventConfiguration.metadata,
                                                                       syncUser: eventConfiguration.syncUser,
-                                                                      partitionPrefix: eventConfiguration.partitionPrefix)
+                                                                      partitionPrefix: eventConfiguration.partitionPrefix,
+                                                                      errorHandler: eventConfiguration.errorHandler)
             }
 
             configuration.initialSubscriptions = ObjectiveCSupport.convert(block: rlmConfiguration.initialSubscriptions)

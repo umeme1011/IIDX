@@ -23,7 +23,7 @@
                                         <rect key="frame" x="16" y="95.5" width="138" height="350"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oka-M9-Vdq">
-                                                <rect key="frame" x="0.0" y="0.0" width="108" height="30.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="108" height="37"/>
                                                 <state key="normal" title="取込対象ページ">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -32,7 +32,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EwM-tg-DND">
-                                                <rect key="frame" x="0.0" y="45.5" width="138" height="31"/>
+                                                <rect key="frame" x="0.0" y="52" width="138" height="37.5"/>
                                                 <state key="normal" title="取込対象アカウント">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -41,7 +41,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1z-N6-jl0">
-                                                <rect key="frame" x="0.0" y="91.5" width="62" height="30.5"/>
+                                                <rect key="frame" x="0.0" y="104.5" width="62" height="37"/>
                                                 <state key="normal" title="表示設定">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -49,8 +49,8 @@
                                                     <segue destination="Wey-dn-jzC" kind="presentation" identifier="toDisp" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="WfY-mk-qS5"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-bt-NV5">
-                                                <rect key="frame" x="0.0" y="137" width="108" height="30.5"/>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ze9-bt-NV5">
+                                                <rect key="frame" x="0.0" y="149" width="108" height="0.0"/>
                                                 <state key="normal" title="アカウント設定">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -59,7 +59,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cK1-Yj-p5w">
-                                                <rect key="frame" x="0.0" y="182.5" width="62" height="30.5"/>
+                                                <rect key="frame" x="0.0" y="156.5" width="62" height="37"/>
                                                 <state key="normal" title="タグ編集">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -68,7 +68,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSF-aT-yFB">
-                                                <rect key="frame" x="0.0" y="228" width="97" height="31"/>
+                                                <rect key="frame" x="0.0" y="208.5" width="97" height="37"/>
                                                 <state key="normal" title="マスタDB更新">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -77,7 +77,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0c-bl-KhX">
-                                                <rect key="frame" x="0.0" y="274" width="108" height="30.5"/>
+                                                <rect key="frame" x="0.0" y="260.5" width="108" height="37.5"/>
                                                 <state key="normal" title="バージョン設定">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -86,7 +86,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U08-H8-Si2">
-                                                <rect key="frame" x="0.0" y="319.5" width="77" height="30.5"/>
+                                                <rect key="frame" x="0.0" y="313" width="77" height="37"/>
                                                 <state key="normal" title="アプリ情報">
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -147,9 +147,9 @@ HEROIC VERSE</string>
                         <viewLayoutGuide key="safeArea" id="tbZ-hT-JJZ"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ERi-UZ-pQq" secondAttribute="bottom" id="4M6-08-GCm"/>
                             <constraint firstItem="ERi-UZ-pQq" firstAttribute="top" secondItem="Ma6-k6-uNQ" secondAttribute="top" id="5FB-J8-GOG"/>
                             <constraint firstItem="ERi-UZ-pQq" firstAttribute="leading" secondItem="tbZ-hT-JJZ" secondAttribute="leading" id="AAq-kV-gy4"/>
-                            <constraint firstItem="ERi-UZ-pQq" firstAttribute="bottom" secondItem="tbZ-hT-JJZ" secondAttribute="bottom" id="dRa-s2-5fl"/>
                         </constraints>
                     </view>
                     <connections>

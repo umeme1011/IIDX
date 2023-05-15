@@ -41,13 +41,13 @@ class LoginViewController: UIViewController, WKNavigationDelegate, WKUIDelegate 
         Log.debugStart(cls: String(describing: self), method: #function)
 
         // ログイン画面にIDとパスワードをセット
-        let myUD: MyUserDefaults = MyUserDefaults()
-        let id = myUD.getCommonId()
-        let password = myUD.getCommonPassword()
-        webView.evaluateJavaScript("document.getElementById('id_userId').value=\"\(String(describing: id))\";"
-            , completionHandler: nil)
-        webView.evaluateJavaScript("document.getElementById('id_password').value=\"\(String(describing: password))\";"
-            , completionHandler: nil)
+//        let myUD: MyUserDefaults = MyUserDefaults()
+//        let id = myUD.getCommonId()
+//        let password = myUD.getCommonPassword()
+//        webView.evaluateJavaScript("document.getElementById('id_userId').value=\"\(String(describing: id))\";"
+//            , completionHandler: nil)
+//        webView.evaluateJavaScript("document.getElementById('id_password').value=\"\(String(describing: password))\";"
+//            , completionHandler: nil)
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }

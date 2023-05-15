@@ -18,7 +18,7 @@
 
 #import <Realm/RLMCollection.h>
 
-NS_ASSUME_NONNULL_BEGIN
+RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @class RLMObject;
 
@@ -223,7 +223,7 @@ NS_ASSUME_NONNULL_BEGIN
  information on how the changes are reported and an example of updating a
  `UITableView`.
 
- The error parameter is present only for backwards compatiblity and will always
+ The error parameter is present only for backwards compatibility and will always
  be `nil`.
 
  At the time when the block is called, the `RLMResults` object will be fully
@@ -285,7 +285,7 @@ __attribute__((warn_unused_result));
  information on how the changes are reported and an example of updating a
  `UITableView`.
 
- The error parameter is present only for backwards compatiblity and will always
+ The error parameter is present only for backwards compatibility and will always
  be `nil`.
 
  At the time when the block is called, the `RLMResults` object will be fully
@@ -328,7 +328,7 @@ __attribute__((warn_unused_result));
  information on how the changes are reported and an example of updating a
  `UITableView`.
 
- The error parameter is present only for backwards compatiblity and will always
+ The error parameter is present only for backwards compatibility and will always
  be `nil`.
 
  At the time when the block is called, the `RLMResults` object will be fully
@@ -374,7 +374,7 @@ __attribute__((warn_unused_result));
  information on how the changes are reported and an example of updating a
  `UITableView`.
 
- The error parameter is present only for backwards compatiblity and will always
+ The error parameter is present only for backwards compatibility and will always
  be `nil`.
 
  At the time when the block is called, the `RLMResults` object will be fully
@@ -564,4 +564,4 @@ __attribute__((warn_unused_result));
 @interface RLMLinkingObjects<RLMObjectType: RLMObject *> : RLMResults
 @end
 
-NS_ASSUME_NONNULL_END
+RLM_HEADER_AUDIT_END(nullability, sendability)

@@ -16,7 +16,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-#import <Foundation/Foundation.h>
+#import <Realm/RLMConstants.h>
 
 @class RLMObjectId;
 
@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger, RLMSyncSubscriptionState) {
     RLMSyncSubscriptionStateSuperseded
 };
 
-NS_ASSUME_NONNULL_BEGIN
+RLM_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 /**
  `RLMSyncSubscription` is  used to define a Flexible Sync subscription obtained from querying a
@@ -122,12 +122,18 @@ NS_ASSUME_NONNULL_BEGIN
  and will return after committing the subscription transactions.
 
  @param block The block containing actions to perform to the subscription set.
- @param onComplete The block called upon synchronization of subscriptions to the server. Otherwise
-                   an `Error`describing what went wrong will be returned by the block
+ @param onComplete A block which is called upon synchronization of
+                   subscriptions to the server. The block will be passed `nil`
+                   if the update succeeded, and an error describing the problem
+                   otherwise.
  */
-- (void)update:(__attribute__((noescape)) void(^)(void))block onComplete:(void(^)(NSError * _Nullable))onComplete;
+- (void)update:(__attribute__((noescape)) void(^)(void))block
+    onComplete:(nullable void(^RLM_SWIFT_SENDABLE)(NSError *_Nullable))onComplete
+    __attribute__((swift_async(not_swift_private, 2)))
+    __attribute__((swift_attr("@_unsafeInheritExecutor")));
 /// :nodoc:
-- (void)write:(__attribute__((noescape)) void(^)(void))block onComplete:(void(^)(NSError * _Nullable))onComplete __attribute__((unavailable("Renamed to -update:onComplete.")));
+- (void)write:(__attribute__((noescape)) void(^)(void))block
+   onComplete:(void(^)(NSError * _Nullable))onComplete __attribute__((unavailable("Renamed to -update:onComplete.")));
 
 #pragma mark - Find subscription
 
@@ -337,4 +343,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+RLM_HEADER_AUDIT_END(nullability, sendability)
