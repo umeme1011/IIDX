@@ -79,7 +79,14 @@ extension UpdateMasterDB {
             song.cnDpl = ret.cn
             song.bpm = node1.css("td")[9].text ?? ""
             song.genre = node1.css("td")[10].text ?? ""
+            
             song.title = node1.css("td")[11].text ?? ""
+            
+            // タイトルに注釈リンクありで正常に取り込めなかったため個別対応
+            if (song.title!.contains("サヨナラ・ヘヴン-Celtic Chip Dance Mix-")) {
+                song.title = "サヨナラ・ヘヴン-Celtic Chip Dance Mix-"
+            }
+            
             song.artist = node1.css("td")[12].text ?? ""
             song.versionId = versionId
             song.indexId = getIndexId(str: song.title ?? "", indexes: indexes)
