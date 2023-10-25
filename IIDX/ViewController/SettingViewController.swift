@@ -110,6 +110,9 @@ class SettingViewController: UIViewController {
         case 30:
             versionLbl.text = ver + "30 \nRESIDENT"
             versionLbl.textColor = UIColor(red: 102/255, green: 204/255, blue: 187/255, alpha: 1)
+        case 31:
+            versionLbl.text = ver + "31 \nEPOLIS"
+            versionLbl.textColor = UIColor.systemYellow
         default:
             versionLbl.text = ""
         }

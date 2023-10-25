@@ -4,6 +4,7 @@
 https://docs.google.com/spreadsheets/d/1QwpJI5dEqbuOQWLsULK585vJWC-L_iR8DJa9-ys_ia0/edit
 に新作バージョンのコードを追加
 ダウンロードしたCSVファイルをCsvフォルダにコピー
+※/Users/umeme/Documents/iphone_app/CSV　にファイルをコピーしてプロジェクトに追加
 
 ２）
 Const.swift
@@ -15,7 +16,12 @@ Setting.storyboad
 LoadCSVメニューのHiddenチェックを外す
 
 init.swift
-L58-64 L81-85 をコメントアウト
+以下をコメントアウト
+L58-64
+// Document内に現行VersionSeedDBがない場合はコピー（新作対応初回起動時）            
+            
+L81-85
+// 最新VerSeedDBをコピー
 
 ４）
 アプリ起動。LoadCSVをTapしてiidx_seed_XX.realmを作成する

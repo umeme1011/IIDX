@@ -40,6 +40,7 @@ class VersionViewController: UIViewController, UITableViewDelegate, UITableViewD
         // バージョン一覧取得
         versions = seedRealm.objects(Code.self)
             .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) => %@", Const.Value.kindCode.VERSION, Const.Version.START_VERSION_NO)
+            .sorted(byKeyPath: Code.Types.sort.rawValue)
 
         // バージョンNo取得
         versionNo = myUD.getVersion()

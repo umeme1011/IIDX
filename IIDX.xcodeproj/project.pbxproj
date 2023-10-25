@@ -58,6 +58,8 @@
 		C3D0EF9123221AF2001F1511 /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3D0EF9023221AF2001F1511 /* Detail.storyboard */; };
 		C3D0EF9323221B24001F1511 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D0EF9223221B24001F1511 /* DetailViewController.swift */; };
 		C3D0EF9523222A39001F1511 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D0EF9423222A39001F1511 /* DetailTableViewCell.swift */; };
+		C3D2966F2AE8B8BD002E352B /* Code.csv in Resources */ = {isa = PBXBuildFile; fileRef = C3D2966E2AE8B8BD002E352B /* Code.csv */; };
+		C3D296712AE8C439002E352B /* iidx_seed_31.0.realm in Resources */ = {isa = PBXBuildFile; fileRef = C3D296702AE8C439002E352B /* iidx_seed_31.0.realm */; };
 		C3D7F4D02315A3F400B5C895 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D7F4CF2315A3F400B5C895 /* MainViewController.swift */; };
 		C3D7F4D22315A7E200B5C895 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D7F4D12315A7E200B5C895 /* ListViewController.swift */; };
 		C3D7F4D72315AEA500B5C895 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D7F4D62315AEA500B5C895 /* ListTableViewCell.swift */; };
@@ -92,7 +94,6 @@
 		C3E0024D251119830022D8A9 /* ScrapingNewSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0024C251119830022D8A9 /* ScrapingNewSong.swift */; };
 		C3E0024F25111A300022D8A9 /* SaveMasterDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E0024E25111A300022D8A9 /* SaveMasterDB.swift */; };
 		C3EB098625A5DFCD00A5B2F5 /* Bpm.csv in Resources */ = {isa = PBXBuildFile; fileRef = C3EB098525A5DFCD00A5B2F5 /* Bpm.csv */; };
-		C3EC6BC129057F5200A7BC7D /* Code.csv in Resources */ = {isa = PBXBuildFile; fileRef = C3EC6BC029057F5200A7BC7D /* Code.csv */; };
 		C3EFE1932357C08800CEE129 /* TagAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EFE1922357C08700CEE129 /* TagAddCollectionViewCell.swift */; };
 		C3EFE1952359060100CEE129 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EFE1942359060100CEE129 /* Tag.swift */; };
 		C3EFE1972359070C00CEE129 /* Tag.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EFE1962359070C00CEE129 /* Tag.storyboard */; };
@@ -169,6 +170,8 @@
 		C3D0EF9023221AF2001F1511 /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		C3D0EF9223221B24001F1511 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		C3D0EF9423222A39001F1511 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		C3D2966E2AE8B8BD002E352B /* Code.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Code.csv; path = ../../../../CSV/31/Code.csv; sourceTree = "<group>"; };
+		C3D296702AE8C439002E352B /* iidx_seed_31.0.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = iidx_seed_31.0.realm; sourceTree = "<group>"; };
 		C3D7F4CF2315A3F400B5C895 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C3D7F4D12315A7E200B5C895 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		C3D7F4D62315AEA500B5C895 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
@@ -203,7 +206,6 @@
 		C3E0024C251119830022D8A9 /* ScrapingNewSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapingNewSong.swift; sourceTree = "<group>"; };
 		C3E0024E25111A300022D8A9 /* SaveMasterDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMasterDB.swift; sourceTree = "<group>"; };
 		C3EB098525A5DFCD00A5B2F5 /* Bpm.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bpm.csv; sourceTree = "<group>"; };
-		C3EC6BC029057F5200A7BC7D /* Code.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Code.csv; path = ../../../../CSV/30/Code.csv; sourceTree = "<group>"; };
 		C3EFE1922357C08700CEE129 /* TagAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAddCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3EFE1942359060100CEE129 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		C3EFE1962359070C00CEE129 /* Tag.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tag.storyboard; sourceTree = "<group>"; };
@@ -276,7 +278,7 @@
 		C34E9C03232CB9A800D62373 /* Csv */ = {
 			isa = PBXGroup;
 			children = (
-				C3EC6BC029057F5200A7BC7D /* Code.csv */,
+				C3D2966E2AE8B8BD002E352B /* Code.csv */,
 				C3EB098525A5DFCD00A5B2F5 /* Bpm.csv */,
 				C3E0024A2511187C0022D8A9 /* NoNotesTitle.csv */,
 				C34E9C06232CBE6F00D62373 /* CorrectTitle.csv */,
@@ -394,6 +396,7 @@
 		C3D7F4D823160E5700B5C895 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
+				C3D296702AE8C439002E352B /* iidx_seed_31.0.realm */,
 				C356BED02577DF8600A082C4 /* iidx_seed_27.10.realm */,
 				C31A3CD1254DC2B000EDF1E3 /* iidx_seed_28.1.realm */,
 				C300EC61271B2CC200AB8C1E /* iidx_seed_29.0.realm */,
@@ -553,6 +556,7 @@
 				C369F92724FFE1840088B856 /* TargetPage.storyboard in Resources */,
 				C3E0023C251107840022D8A9 /* UpdateMasterDB.storyboard in Resources */,
 				C3C21EE22314FD2000B51CB1 /* LaunchScreen.storyboard in Resources */,
+				C3D2966F2AE8B8BD002E352B /* Code.csv in Resources */,
 				C31A3CD2254DC2B000EDF1E3 /* iidx_seed_28.1.realm in Resources */,
 				C3D7F50C231665F100B5C895 /* Setting.storyboard in Resources */,
 				C3A6FE032551BC3E0081094E /* Disp.storyboard in Resources */,
@@ -560,6 +564,7 @@
 				C3D7F50E2316676E00B5C895 /* TargetAccount.storyboard in Resources */,
 				C3F057D32334856C00F3831F /* Information.storyboard in Resources */,
 				C3D0EF9123221AF2001F1511 /* Detail.storyboard in Resources */,
+				C3D296712AE8C439002E352B /* iidx_seed_31.0.realm in Resources */,
 				C37E003C259249610039B815 /* DeleteTitle.csv in Resources */,
 				C338FF0B235236A300FBD47F /* EditSelect.storyboard in Resources */,
 				C3EB098625A5DFCD00A5B2F5 /* Bpm.csv in Resources */,
@@ -572,7 +577,6 @@
 				C3D7F4F42316332800B5C895 /* List.storyboard in Resources */,
 				C34E9C07232CBE6F00D62373 /* CorrectTitle.csv in Resources */,
 				C3E0024B2511187D0022D8A9 /* NoNotesTitle.csv in Resources */,
-				C3EC6BC129057F5200A7BC7D /* Code.csv in Resources */,
 				C3320F3028B1D82C00EFB6FE /* Calendar.storyboard in Resources */,
 				C300EC55271ACCE200AB8C1E /* memo in Resources */,
 				C3D0EF70231CB458001F1511 /* Filter.storyboard in Resources */,
@@ -855,7 +859,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4.1.1.1;
+				CURRENT_PROJECT_VERSION = 4.1.2.1;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -863,7 +867,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.1;
+				MARKETING_VERSION = 4.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -879,7 +883,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4.1.1.1;
+				CURRENT_PROJECT_VERSION = 4.1.2.1;
 				DEVELOPMENT_TEAM = 9AXLFUXG8X;
 				INFOPLIST_FILE = IIDX/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
@@ -887,7 +891,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.1;
+				MARKETING_VERSION = 4.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = umeme.2dxsm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
