@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LsF-0O-kTT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LsF-0O-kTT">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -71,7 +71,7 @@
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="9fB-D0-Yjj" customClass="TargetAccountTableViewCell" customModule="IIDX" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="375" height="35"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="35"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9fB-D0-Yjj" id="Z5S-b4-wsR">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
@@ -223,10 +223,17 @@
                                     <constraint firstItem="5IG-bx-CmW" firstAttribute="centerY" secondItem="SIW-8f-Otp" secondAttribute="centerY" id="zVO-1X-1i4"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ミスカウントを取り込まない場合、取り込み速度が速くなります。" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfh-1Q-XS6">
-                                <rect key="frame" x="16" y="476" width="351" height="32"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VTS-9x-JoP">
+                                <rect key="frame" x="0.0" y="422" width="375" height="46"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="snc-Me-7Zr"/>
+                                    <constraint firstAttribute="height" constant="46" id="Wmy-9q-HuJ"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ミスカウントを取り込まない場合、取り込み速度が速くなります。（現在不具合があるため「なし」に固定しています）" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfh-1Q-XS6">
+                                <rect key="frame" x="16" y="476" width="351" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="snc-Me-7Zr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -241,19 +248,21 @@
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="VTS-9x-JoP" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" id="0Te-H3-TWR"/>
                             <constraint firstItem="hFl-5Z-jg3" firstAttribute="trailing" secondItem="DoK-FZ-uaZ" secondAttribute="trailing" id="20t-Fa-Kd8"/>
                             <constraint firstItem="Cp3-2I-ZD6" firstAttribute="top" secondItem="n7P-18-ddJ" secondAttribute="bottom" constant="8" id="5ne-KU-bW1"/>
                             <constraint firstItem="jHE-7F-dYY" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" id="68p-pF-rCO"/>
                             <constraint firstItem="hFl-5Z-jg3" firstAttribute="top" secondItem="DoK-FZ-uaZ" secondAttribute="top" id="7eu-8k-a8h"/>
                             <constraint firstItem="hFl-5Z-jg3" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" id="9PR-vx-q5S"/>
                             <constraint firstItem="qfh-1Q-XS6" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" constant="16" id="AiF-Zi-yVe"/>
+                            <constraint firstItem="VTS-9x-JoP" firstAttribute="top" secondItem="zvj-GB-89U" secondAttribute="bottom" constant="8" id="BZ9-eO-Emn"/>
                             <constraint firstItem="2cX-nI-ojX" firstAttribute="top" secondItem="Cp3-2I-ZD6" secondAttribute="bottom" constant="8" id="CZq-zl-3G2"/>
                             <constraint firstItem="DoK-FZ-uaZ" firstAttribute="trailing" secondItem="zvj-GB-89U" secondAttribute="trailing" constant="8" id="Czb-4r-ve4"/>
                             <constraint firstItem="zvj-GB-89U" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" constant="16" id="De8-ub-Xp0"/>
                             <constraint firstItem="jHE-7F-dYY" firstAttribute="top" secondItem="hFl-5Z-jg3" secondAttribute="bottom" id="NHm-Xy-T7P"/>
-                            <constraint firstItem="SIW-8f-Otp" firstAttribute="trailing" secondItem="DoK-FZ-uaZ" secondAttribute="trailing" id="Ng9-ri-jfV"/>
                             <constraint firstItem="jHE-7F-dYY" firstAttribute="trailing" secondItem="DoK-FZ-uaZ" secondAttribute="trailing" id="Ovn-GH-CgI"/>
                             <constraint firstItem="n7P-18-ddJ" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" constant="16" id="PaM-Nx-mhW"/>
+                            <constraint firstItem="SIW-8f-Otp" firstAttribute="trailing" secondItem="DoK-FZ-uaZ" secondAttribute="trailing" id="Pjn-IW-2Uz"/>
                             <constraint firstItem="2cX-nI-ojX" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" constant="16" id="PpW-vb-PFc"/>
                             <constraint firstItem="Cp3-2I-ZD6" firstAttribute="trailing" secondItem="DoK-FZ-uaZ" secondAttribute="trailing" id="T35-qS-fRz"/>
                             <constraint firstItem="DoK-FZ-uaZ" firstAttribute="trailing" secondItem="2cX-nI-ojX" secondAttribute="trailing" constant="8" id="UoE-58-o9a"/>
@@ -265,7 +274,9 @@
                             <constraint firstItem="qfh-1Q-XS6" firstAttribute="top" secondItem="SIW-8f-Otp" secondAttribute="bottom" constant="8" id="mC0-x6-cmR"/>
                             <constraint firstItem="DoK-FZ-uaZ" firstAttribute="trailing" secondItem="n7P-18-ddJ" secondAttribute="trailing" constant="8" id="qfW-UW-FcR"/>
                             <constraint firstItem="SIW-8f-Otp" firstAttribute="leading" secondItem="DoK-FZ-uaZ" secondAttribute="leading" id="qvJ-JS-zxU"/>
+                            <constraint firstItem="VTS-9x-JoP" firstAttribute="trailing" secondItem="DoK-FZ-uaZ" secondAttribute="trailing" id="uoo-td-TuV"/>
                             <constraint firstItem="DoK-FZ-uaZ" firstAttribute="trailing" secondItem="qfh-1Q-XS6" secondAttribute="trailing" constant="8" id="wtx-sG-ecU"/>
+                            <constraint firstItem="qfh-1Q-XS6" firstAttribute="top" secondItem="VTS-9x-JoP" secondAttribute="bottom" constant="8" id="x3g-mT-G3U"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="4Ia-jX-Jd7" appends="YES" id="SEd-ho-RcC"/>

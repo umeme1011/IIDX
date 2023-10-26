@@ -179,7 +179,9 @@ class MyUserDefaults {
     
     func getMissCountFlg() -> Bool{
         // 初期値ミスカウント取り込みあり
-        return ud.object(forKey: "missCountFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
+//        return ud.object(forKey: "missCountFlg\(getPlayStyle())\(String(getVersion()))") as? Bool ?? true
+        // 20231026 ミスカン取り込み不具合あり、なしに固定
+        return false
     }
     
     func setMode(mode : Int) {
