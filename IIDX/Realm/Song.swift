@@ -34,6 +34,15 @@ class Song : RealmSwift.Object {
     @objc dynamic var totalNotesDph: Int = 0
     @objc dynamic var totalNotesDpa: Int = 0
     @objc dynamic var totalNotesDpl: Int = 0
+    @objc dynamic var cnSpb: String?
+    @objc dynamic var cnSpn: String?
+    @objc dynamic var cnSph: String?
+    @objc dynamic var cnSpa: String?
+    @objc dynamic var cnSpl: String?
+    @objc dynamic var cnDpn: String?
+    @objc dynamic var cnDph: String?
+    @objc dynamic var cnDpa: String?
+    @objc dynamic var cnDpl: String?
     @objc dynamic var updFlg: Int = 0
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String = "SYSTEM"
@@ -70,6 +79,15 @@ class Song : RealmSwift.Object {
         case totalNotesDph
         case totalNotesDpa
         case totalNotesDpl
+        case cnSpb
+        case cnSpn
+        case cnSph
+        case cnSpa
+        case cnSpl
+        case cnDpn
+        case cnDph
+        case cnDpa
+        case cnDpl
         case updFlg
         case createDate
         case updateDate

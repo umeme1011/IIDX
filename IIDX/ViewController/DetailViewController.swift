@@ -16,10 +16,30 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var genreLbl: UILabel!
     @IBOutlet weak var artistLbl: UILabel!
-    @IBOutlet weak var selectCntLbl: UILabel!
     @IBOutlet weak var scoreTV: UITableView!
     
+    // 次のページ
+    @IBOutlet weak var nextView: UIView!
+    @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet weak var sp1PBtn: UIButton!
+    @IBOutlet weak var sp2PBtn: UIButton!
+    @IBOutlet weak var dpBtn: UIButton!
+    @IBOutlet weak var bpmLbl: UILabel!
+    @IBOutlet weak var totalNotesLbl: UILabel!
+    @IBOutlet weak var cnLbl: UILabel!
+    @IBOutlet weak var clearLampLbl: UILabel!
+    @IBOutlet weak var djLevelLbl: UILabel!
+    @IBOutlet weak var scoreLbl: UILabel!
+    @IBOutlet weak var pgreateLbl: UILabel!
+    @IBOutlet weak var greateLbl: UILabel!
+    @IBOutlet weak var missLbl: UILabel!
+    @IBOutlet weak var playCntLbl: UILabel!
+    @IBOutlet weak var lastPalyDateLbl: UILabel!
+    @IBOutlet weak var maxScoreLbl: UILabel!
+    
+    
     var score: MyScore!
+    let myUD: MyUserDefaults = MyUserDefaults()
     
     struct DetailScore {
         var djName: String
@@ -27,10 +47,10 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         var score: String
         var scoreRate: String
         var clearLump: Int
-        var missCount: String
+        var plusMinus: String
+        var missCount: Int
     }
     var scoreArray: [DetailScore] = [DetailScore]()
-
     
     override func viewDidLoad() {
         Log.debugStart(cls: String(describing: self), method: #function)
@@ -39,27 +59,42 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         scoreTV.delegate = self
         scoreTV.dataSource = self
         
-        let scoreRealm: MyRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
-        let seedRealm: MyRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
+        let scoreRealm: Realm = CommonMethod.createScoreRealm()
+        let seedRealm: Realm = CommonMethod.createSeedRealm()
         
+        // NextView非表示
+        nextView.isHidden = true
+        // nextボタンの文言変更
+        nextBtn.setTitle("Next ▶", for: .normal)
+        // 譜面ボタン切り替え
+        if myUD.getPlayStyle() == Const.Value.PlayStyle.DOUBLE {
+            sp1PBtn.isHidden = true
+            sp2PBtn.isHidden = true
+            dpBtn.isHidden = false
+        } else {
+            sp1PBtn.isHidden = false
+            sp2PBtn.isHidden = false
+            dpBtn.isHidden = true
+        }
+
         // バージョン
-        var ret: Code = seedRealm.readEqualAnd(Code.self
-            , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-            , forQuery: [[Const.Value.kindCode.VERSION] as AnyObject, [score.versionId] as AnyObject])
-            .first ?? Code()
+        var ret: Code = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.VERSION, score.versionId).first ?? Code()
         versionLbl.text = ret.name
         
         // レベル、難易度
-        ret = seedRealm.readEqualAnd(Code.self
-        , ofTypes: [Code.Types.kindCode.rawValue, Code.Types.code.rawValue]
-        , forQuery: [[Const.Value.kindCode.DIFFICULTY] as AnyObject, [score.difficultyId] as AnyObject])
-        .first ?? Code()
+        ret = seedRealm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@ and \(Code.Types.code.rawValue) = %@", Const.Value.kindCode.DIFFICULTY, score.difficultyId).first ?? Code()
         difficultyLbl.text = "☆\(score.level) \(ret.name ?? "")"
 
         // タイトル
-        var newLineTitle: String = CommonMethod.newLineString(str: score.title ?? "", separater: "(")
-        newLineTitle = CommonMethod.newLineString(str: newLineTitle, separater: "～")
-        titleLbl.text = newLineTitle
+        if score.title == "ASIAN VIRTUAL REALITIES (MELTING TOGETHER IN DAZZLING DARKNESS)" {   // 長過ぎるので改行なし
+            titleLbl.text = score.title
+        } else {
+            var newLineTitle: String = CommonMethod.newLineString(str: score.title ?? "", separater: "(")
+            newLineTitle = CommonMethod.newLineString(str: newLineTitle, separater: "～")
+            titleLbl.text = newLineTitle
+        }
         
         // ジャンル
         genreLbl.text = score.genre
@@ -69,50 +104,69 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         // スコア表示データ作成
         var detailScore: DetailScore!
         // 自分
-        let myStatus: MyStatus = scoreRealm.readAll(MyStatus.self).first ?? MyStatus()
+        let myStatus: MyStatus = scoreRealm.objects(MyStatus.self).first ?? MyStatus()
+        // 初期状態の場合は何も表示しない
+        if myStatus.djName == nil {
+            return
+        }
         var dn: String = myStatus.djName ?? ""
         var dl: Int = score.djLevel
         var s: String = convertHyphenStr(s: score.score )
-        var sr: String = makeScoreRateStr(scoreRate: score.scoreRate)
+        var sr: String = CommonMethod.getScoreRateStr(scoreRate: score.scoreRate)
         var cl: Int = score.clearLump
-        var mc: String = score.missCount
-        detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+        var pm: String = score.plusMinus ?? ""
+        var mc: Int = score.missCount
+        detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
         scoreArray.append(detailScore)
         
         // 自分（過去スコア）
-        if let oldScore: OldScore
-            = scoreRealm.readEqual(OldScore.self, ofTypes: OldScore.Types.id.rawValue
-                , forQuery: [score.oldScoreId] as AnyObject).first {
+        if let oldScore: OldScore = scoreRealm.objects(OldScore.self)
+            .filter("\(OldScore.Types.id.rawValue) = %@", score.oldScoreId).first {
+            
             dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.OLD_SCORE
             dl = oldScore.djLevel
-            s = convertHyphenStr(s: oldScore.score ?? "")
-            sr = makeScoreRateStr(scoreRate: oldScore.scoreRate)
+            s = convertHyphenStr(s: oldScore.score)
+            sr = CommonMethod.getScoreRateStr(scoreRate: oldScore.scoreRate)
             cl = oldScore.clearLump
-            mc = oldScore.missCount ?? ""
-            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+            pm = oldScore.plusMinus ?? ""
+            mc = oldScore.missCount
+            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
             scoreArray.append(detailScore)
             
             // newスコアのDJNAMEに(new)をつける
             scoreArray[0].djName = scoreArray[0].djName + "\n" + Const.Label.Score.NEW_SCORE
         }
-        
+
+        // 前作ゴーストフラグ表示ありの場合のみ表示
+        if myUD.getGhostDispFlg() {
+            dn = (myStatus.djName ?? "") + "\n" + Const.Label.Score.GHOST_SCORE
+            dl = score.ghostDjLevel
+            s = convertHyphenStr(s: score.ghostScore)
+            sr = CommonMethod.getScoreRateStr(scoreRate: score.ghostScoreRate)
+            cl = score.ghostClearLump
+            pm = score.ghostPlusMinus ?? ""
+            mc = score.ghostMissCount
+            detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
+            scoreArray.append(detailScore)
+        }
+
         // ライバル
-        let rivals: Results<RivalStatus> = scoreRealm.readAllByPlayStyle(RivalStatus.self)
+        let rivals: Results<RivalStatus> = scoreRealm.objects(RivalStatus.self)
+            .filter("\(RivalStatus.Types.playStyle.rawValue) = %@", myUD.getPlayStyle())
         for rival in rivals {
-            let rivalScores: Results<RivalScore> = scoreRealm.readEqualAndByPlayStyle(RivalScore.self
-                , ofTypes: [RivalScore.Types.iidxId.rawValue, RivalScore.Types.title.rawValue
-                    , RivalScore.Types.difficultyId.rawValue, RivalScore.Types.level.rawValue]
-                , forQuery: [[rival.iidxId] as AnyObject, [score.title] as AnyObject
-                    , [score.difficultyId] as AnyObject, [score.level] as AnyObject])
+            let rivalScores: Results<RivalScore> = scoreRealm.objects(RivalScore.self)
+                .filter("\(RivalScore.Types.iidxId.rawValue) = %@ and \(RivalScore.Types.title.rawValue) = %@ and \(RivalScore.Types.difficultyId.rawValue) = %@ and \(RivalScore.Types.level.rawValue) = %@ and \(RivalScore.Types.playStyle.rawValue) = %@"
+                    , rival.iidxId!, score.title!, score.difficultyId, score.level, myUD.getPlayStyle())
             if !rivalScores.isEmpty {
                 let rivalScore: RivalScore = rivalScores.first ?? RivalScore()
                 dn = rival.djName ?? ""
                 dl = rivalScore.djLevel
-                s = convertHyphenStr(s: rivalScore.score ?? "")
-                sr = makeScoreRateStr(scoreRate: rivalScore.scoreRate)
+                s = convertHyphenStr(s: rivalScore.score)
+                sr = CommonMethod.getScoreRateStr(scoreRate: rivalScore.scoreRate)
                 cl = rivalScore.clearLump
-                mc = rivalScore.missCount ?? ""
-                detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, missCount: mc)
+                pm = rivalScore.plusMinus ?? ""
+                mc = rivalScore.missCount
+                detailScore = DetailScore(djName: dn, djLevel: dl, score: s, scoreRate: sr, clearLump: cl, plusMinus: pm, missCount: mc)
                 scoreArray.append(detailScore)
             }
         }
@@ -129,19 +183,26 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
                 return aScore > bScore
             }
         }
+        
+        // ****************
+        // 次のページ
+        dispNextPage(seedRealm: seedRealm)
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return scoreArray.count
     }
     
-    
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
@@ -149,7 +210,15 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
 
         let detailScore: DetailScore = scoreArray[indexPath.row]
         cell.djNameLbl.text = detailScore.djName
-        cell.missCntLbl.text = detailScore.missCount
+        
+        // ミスカウント
+        var miss: String = ""
+        if detailScore.missCount == 9999 {
+            miss = Const.Label.Score.HYPHEN
+        } else {
+            miss = String(detailScore.missCount)
+        }
+        cell.missCntLbl.text = miss
         
         // スコア
         if detailScore.score == Const.Label.Score.HYPHEN {
@@ -231,12 +300,16 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         }
         cell.djLevelIV.image = image
         
+        // プラス・マイナス
+        cell.plusMinusLbl.text = detailScore.plusMinus
+        
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cell
     }
     
-    
-    /// セルタップ時
+    /*
+     セルタップ時
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
        // タップしたセルを取得
@@ -250,8 +323,9 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         }
     }
 
-    
-    /// タッチイベント
+    /*
+     タッチイベント
+     */
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         Log.debugStart(cls: String(describing: self), method: #function)
         super.touchesEnded(touches, with: event)
@@ -263,45 +337,304 @@ class DetailViewController: UIViewController,UITableViewDelegate, UITableViewDat
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// Closeボタン押下
+    /*
+     Closeボタン押下
+     */
     @IBAction func tapCloseBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// 上にスワイプ
+    /*
+     上にスワイプ（未使用）
+     */
     @IBAction func swipeUp(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
+
+    /**
+     右にスワイプ
+     */
+    @IBAction func swipeRight(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        // nextViewを非表示
+        nextView.isHidden = true
+        // nextボタンの文言変更
+        nextBtn.setTitle("Next ▶", for: .normal)
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
     
+    /**
+     左にスワイプ
+     */
+    @IBAction func swipeLeft(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        // nextViewを表示
+        nextView.isHidden = false
+        // nextボタンの文言変更
+        nextBtn.setTitle("◀ Prev", for: .normal)
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    /**
+     次へボタンタップ
+     */
+    @IBAction func tapNextBtn(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        if nextView.isHidden {
+            // nextViewを表示
+            nextView.isHidden = false
+            // nextボタンの文言変更
+            nextBtn.setTitle("◀ Prev", for: .normal)
+        } else {
+            // nextViewを非表示
+            nextView.isHidden = true
+            // nextボタンの文言変更
+            nextBtn.setTitle("Next ▶", for: .normal)
+        }
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
     
-    /// スコアが"0(0/0)"の場合は"-"に変換する
-    private func convertHyphenStr(s: String) -> String {
+    /**
+     未使用
+     */
+    @IBAction func tapSp1pBtn(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        openTexTage(playSide: "1")
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     未使用
+     */
+    @IBAction func tapSp2pBtn(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        openTexTage(playSide: "2")
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     未使用
+     */
+    @IBAction func tapDpBtn(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        openTexTage(playSide: "D")
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     ブラウザ起動してTexTageを開く
+     */
+    private func openTexTage(playSide: String) {
+        var urlStr = Const.Url().getTexTageUrl()
+        urlStr = urlStr + score.title! + ".html?"
+        
+        var difficulty = ""
+        var level = ""
+
+        switch score.difficultyId {
+        case 1:
+            difficulty = "P"
+        case 2:
+            difficulty = "N"
+        case 3:
+            difficulty = "H"
+        case 4:
+            difficulty = "A"
+        case 5:
+            difficulty = "X"
+        default:
+            print("処理なし")
+        }
+        
+        switch score.level {
+        case 10:
+            level = "A"
+        case 11:
+            level = "B"
+        case 12:
+            level = "C"
+        default:
+            level = String(score.level)
+        }
+        
+        urlStr = urlStr + playSide + difficulty + level + "00"
+        
+        // ブラウザ起動
+        let url = URL(string: urlStr)
+        if UIApplication.shared.canOpenURL(url!) {
+            UIApplication.shared.open(url!, options:[:], completionHandler:nil)
+        }
+    }
+    
+    /*
+     スコアが0の場合は"-"に変換する
+     */
+    private func convertHyphenStr(s: Int) -> String {
         Log.debugStart(cls: String(describing: self), method: #function)
         var ret: String = ""
-        if s == Const.Label.Score.ZERO {
+        if s == 0 {
             ret = Const.Label.Score.HYPHEN
         } else {
-            ret = s.components(separatedBy: "(")[0]
+            ret = s.description
         }
         Log.debugEnd(cls: String(describing: self), method: #function)
         return ret
     }
     
-    
-    /// スコアレート文字列作成
-    private func makeScoreRateStr(scoreRate: Double) -> String {
-        Log.debugStart(cls: String(describing: self), method: #function)
-        var ret: String = ""
-        if scoreRate != 0 {
-            ret = "(\(String(format: "%.2f", scoreRate))%)"
+    /**
+     次のページの表示内容設定
+     */
+    private func dispNextPage(seedRealm: Realm) {
+        // 曲データ詳細
+        var bpm = ""
+        var totalNotes = ""
+        var cn = ""
+        if let song = seedRealm.objects(Song.self).filter("\(Song.Types.title.rawValue) = %@", score.title!).first {
+            // BPM
+            // 難易度毎にBPMが異なる場合はCSVより取得
+            if song.bpm == "※" {
+                // CSVファイル読み込み
+                let lines = CommonMethod.loadCSV(filename: Const.Csv.BPM)
+                for line in lines {
+                    let array = line.components(separatedBy: Const.Csv.SEPARATER)
+                    if array[0] == song.title {
+                        // SP
+                        if myUD.getPlayStyle() == Const.Value.PlayStyle.SINGLE {
+                            switch score.difficultyId {
+                            case Const.Value.Difficulty.BEGINNER:
+                                bpm = array[1]
+                            case Const.Value.Difficulty.NORMAL:
+                                bpm = array[2]
+                            case Const.Value.Difficulty.HYPER:
+                                bpm = array[3]
+                            case Const.Value.Difficulty.ANOTHER:
+                                bpm = array[4]
+                            case Const.Value.Difficulty.LEGGENDARIA:
+                                bpm = array[5]
+                            default:
+                                print("処理なし")
+                            }
+                        // DP
+                        } else {
+                            switch score.difficultyId {
+                            case Const.Value.Difficulty.NORMAL:
+                                bpm = array[6]
+                            case Const.Value.Difficulty.HYPER:
+                                bpm = array[7]
+                            case Const.Value.Difficulty.ANOTHER:
+                                bpm = array[8]
+                            case Const.Value.Difficulty.LEGGENDARIA:
+                                bpm = array[9]
+                            default:
+                                print("処理なし")
+                            }
+                        }
+                    }
+                }
+            } else {
+                bpm = song.bpm ?? ""
+            }
+            
+            // 総ノーツ数、CN
+            // SP
+            if myUD.getPlayStyle() == Const.Value.PlayStyle.SINGLE {
+                switch score.difficultyId {
+                case Const.Value.Difficulty.BEGINNER:
+                    totalNotes = String(song.totalNotesSpb)
+                    cn = song.cnSpb ?? ""
+                case Const.Value.Difficulty.NORMAL:
+                    totalNotes = String(song.totalNotesSpn)
+                    cn = song.cnSpn ?? ""
+                case Const.Value.Difficulty.HYPER:
+                    totalNotes = String(song.totalNotesSph)
+                    cn = song.cnSph ?? ""
+                case Const.Value.Difficulty.ANOTHER:
+                    totalNotes = String(song.totalNotesSpa)
+                    cn = song.cnSpa ?? ""
+                case Const.Value.Difficulty.LEGGENDARIA:
+                    totalNotes = String(song.totalNotesSpl)
+                    cn = song.cnSpl ?? ""
+                default:
+                    print("処理なし")
+                }
+            // DP
+            } else {
+                switch score.difficultyId {
+                case Const.Value.Difficulty.NORMAL:
+                    totalNotes = String(song.totalNotesDpn)
+                    cn = song.cnDpn ?? ""
+                case Const.Value.Difficulty.HYPER:
+                    totalNotes = String(song.totalNotesDph)
+                    cn = song.cnDph ?? ""
+                case Const.Value.Difficulty.ANOTHER:
+                    totalNotes = String(song.totalNotesDpa)
+                    cn = song.cnDpa ?? ""
+                case Const.Value.Difficulty.LEGGENDARIA:
+                    totalNotes = String(song.totalNotesDpl)
+                    cn = song.cnDpl ?? ""
+                default:
+                    print("処理なし")
+                }
+            }
         }
-        Log.debugEnd(cls: String(describing: self), method: #function)
-        return ret
+        bpmLbl.text = bpm
+        totalNotesLbl.text = totalNotes
+        // 理論値
+        maxScoreLbl.text = String(Int(totalNotes)! * 2)
+        
+        if cn != "" {
+            cnLbl.text = cn
+        } else {
+            cnLbl.text = "なし"
+        }
+        
+        //****************
+        // スコアデータ詳細
+        //****************
+        // クリアランプ
+        clearLampLbl.text = CommonMethod.getClearLampStr(cd: score.clearLump)
+        // DJレベル
+        var djLevel = CommonMethod.getDjLevelStr(cd: score.djLevel)
+        if djLevel != "" {
+            djLevel = djLevel + " (" + (score.plusMinus ?? "") + ")"
+        } else {
+            djLevel = ""
+        }
+        djLevelLbl.text = djLevel
+        // スコア（レート）
+        if score.score != 0 {
+            scoreLbl.text = String(score.score) + " " + CommonMethod.getScoreRateStr(scoreRate: score.scoreRate)
+        } else {
+            scoreLbl.text = ""
+        }
+        // PGREATE
+        if score.pgreat != 0 {
+            pgreateLbl.text = String(score.pgreat)
+        } else {
+            pgreateLbl.text = ""
+        }
+        // GREATE
+        if score.great != 0 {
+            greateLbl.text = String(score.great)
+        } else {
+            greateLbl.text = ""
+        }
+        // ミスカウント
+        if score.missCount != 9999 {
+            missLbl.text = String(score.missCount)
+        } else {
+            missLbl.text = ""
+        }
+        // 選曲回数
+        playCntLbl.text = String(score.selectCount) + " 回"
+        // 最終プレー日時
+        if score.lastPlayDate != "" {
+            lastPalyDateLbl.text = score.lastPlayDate
+        } else {
+            lastPalyDateLbl.text = ""
+        }
     }
 }

@@ -40,11 +40,11 @@ class StatisticsCLViewController: UIViewController,UITableViewDelegate,UITableVi
         djLevelBtn.layer.maskedCorners = [.layerMaxXMinYCorner]
         
         // 項目名を取得
-        let realm: MyRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
-        items = realm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-            , forQuery: [Const.Value.kindCode.CLEAR_LUMP] as AnyObject)
+        let realm: Realm = CommonMethod.createSeedRealm()
+        items = realm.objects(Code.self)
+            .filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.CLEAR_LUMP)
             .sorted(byKeyPath: Code.Types.sort.rawValue)
-        
+
         // 現在表示されているデータを分析
         let vc: MainViewController = self.presentingViewController as! MainViewController
         let operation: Operation = Operation.init(mainVC: vc)
@@ -70,16 +70,18 @@ class StatisticsCLViewController: UIViewController,UITableViewDelegate,UITableVi
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return items.count
     }
     
-    
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -120,8 +122,9 @@ class StatisticsCLViewController: UIViewController,UITableViewDelegate,UITableVi
         return cell
     }
 
-    
-    /// セルをタップ
+    /*
+     セルをタップ
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -135,32 +138,36 @@ class StatisticsCLViewController: UIViewController,UITableViewDelegate,UITableVi
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-
-    /// Closeボタン押下
+    /*
+     Closeボタン押下
+     */
     @IBAction func tapCloseBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// 上にスワイプ
+    /*
+     上にスワイプ
+     */
     @IBAction func swipeUp(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// 左にスワイプ
+    /*
+     左にスワイプ
+     */
     @IBAction func swipeLeft(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         self.performSegue(withIdentifier: Const.Segue.TO_STATISTICS_DL, sender: nil)
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// タッチイベント
+    /*
+     タッチイベント
+     */
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         Log.debugStart(cls: String(describing: self), method: #function)
         

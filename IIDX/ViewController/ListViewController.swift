@@ -37,6 +37,9 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         // ラインを左端まで引く
         listTV.separatorInset = .zero
         
+        // セルの高さ
+        changeRowHeight()
+        
         // スコアデータ取得
         let operation: Operation = Operation.init(mainVC: mainVC)
         scores = operation.doOperation()
@@ -61,138 +64,54 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             as! ListTableViewCell
         
         // Clear Lump
-        let ret = setClearLump(arg: scores[indexPath.row].clearLump)
+        let ret = CommonMethod.setClearLump(arg: scores[indexPath.row].clearLump)
         cell.clearLumpIV.image = ret.image
         cell.clearLumpIV.backgroundColor = ret.color
-        
         // DjLevel
-        let image = setDjLevel(arg: scores[indexPath.row].djLevel)
+        let image = CommonMethod.setDjLevel(arg: scores[indexPath.row].djLevel)
         cell.djLevelIV.image = image
-        
         // レベル
         cell.levelLbl.text = String(scores[indexPath.row].level)
-        let color = setLevel(arg: scores[indexPath.row].difficultyId)
+        let color = CommonMethod.setLevel(arg: scores[indexPath.row].difficultyId)
         cell.levelLbl.textColor = color
-        
         // タイトル
         cell.titleLbl.text = scores[indexPath.row].title
-        
         // スコア
-        let score: String = setScore(arg: String(describing: scores[indexPath.row].score))
+        let score: String = CommonMethod.setScore(arg: String(describing: scores[indexPath.row].score))
         cell.scoreLbl.text = "score: \(score)"
-        
         // ミスカウント
-        let missCount: String = String(describing: scores[indexPath.row].missCount)
+        var missCount: String = String(describing: scores[indexPath.row].missCount)
+        if scores[indexPath.row].missCount == 9999 {
+            missCount = Const.Label.Score.HYPHEN
+        }
         cell.missLbl.text = "miss: \(missCount)"
-        
         // スコアレート
-        let scoreRate: String = setScoreRate(arg: scores[indexPath.row].scoreRate)
-        cell.scoreRateLbl.text = "scoreRate: \(scoreRate)"
+        let scoreRate: String = CommonMethod.setScoreRate(arg: scores[indexPath.row].scoreRate)
+        cell.scoreRateLbl.text = "rate: \(scoreRate)"
+        // プラス・マイナス
+        cell.plusMinusLbl.text = scores[indexPath.row].plusMinus
+        
+        // 前作ゴースト
+        // スコア
+        let ghostScore = CommonMethod.setScore(arg: String(describing: scores[indexPath.row].ghostScore))
+        cell.ghostScoreLbl.text = "score: \(ghostScore)"
+        // スコアレート
+        let ghostScoreRate = CommonMethod.setScoreRate(arg: scores[indexPath.row].ghostScoreRate)
+        cell.ghostScoreRateLbl.text = "rate: \(ghostScoreRate)"
+        // ミスカウント
+        var ghostMissCount: String = String(describing: scores[indexPath.row].ghostMissCount)
+        if scores[indexPath.row].ghostMissCount == 9999 {
+            ghostMissCount = Const.Label.Score.HYPHEN
+        }
+        cell.ghostMissLbl.text = "miss: \(ghostMissCount)"
+        // プラス・マイナス
+        cell.ghostPlusMinusLbl.text = scores[indexPath.row].ghostPlusMinus
+
         
         Log.debugEnd(cls: String(describing: self), method: #function)
         return cell
     }
         
-    private func setClearLump(arg: Int) -> (image: UIImage?, color: UIColor?) {
-        var image: UIImage!
-        var color: UIColor!
-        
-        switch arg {
-        case Const.Value.ClearLump.FCOMBO:
-            image = UIImage(named: Const.Image.FCOMBO) ?? UIImage()
-        case Const.Value.ClearLump.EXHCLEAR:
-            color = Const.Color.ClearLump.EXHCLEAR
-        case Const.Value.ClearLump.HCLEAR:
-            color = Const.Color.ClearLump.HCLEAR
-        case Const.Value.ClearLump.CLEAR:
-            color = Const.Color.ClearLump.CLEAR
-        case Const.Value.ClearLump.ECLEAR:
-            color = Const.Color.ClearLump.ECLEAR
-        case Const.Value.ClearLump.ACLEAR:
-            color = Const.Color.ClearLump.ACLEAR
-        case Const.Value.ClearLump.FAILED:
-            color = Const.Color.ClearLump.FAILED
-        case Const.Value.ClearLump.NOPLAY:
-            color = Const.Color.ClearLump.NOPLAY
-        default:
-            color = Const.Color.ClearLump.NOPLAY
-        }
-
-        return (image, color)
-    }
-    
-    private func setDjLevel(arg: Int) -> UIImage? {
-        var image: UIImage!
-        
-        switch arg {
-        case Const.Value.DjLevel.F:
-            image = UIImage(named: Const.Image.DjLevel.F)
-        case Const.Value.DjLevel.E:
-            image = UIImage(named: Const.Image.DjLevel.E)
-        case Const.Value.DjLevel.D:
-            image = UIImage(named: Const.Image.DjLevel.D)
-        case Const.Value.DjLevel.C:
-            image = UIImage(named: Const.Image.DjLevel.C)
-        case Const.Value.DjLevel.B:
-            image = UIImage(named: Const.Image.DjLevel.B)
-        case Const.Value.DjLevel.A:
-            image = UIImage(named: Const.Image.DjLevel.A)
-        case Const.Value.DjLevel.AA:
-            image = UIImage(named: Const.Image.DjLevel.AA)
-        case Const.Value.DjLevel.AAA:
-            image = UIImage(named: Const.Image.DjLevel.AAA)
-        default:
-            image = UIImage()
-        }
-
-        return image
-    }
-    
-    private func setLevel(arg: Int) -> UIColor? {
-        var color: UIColor!
-        
-        switch arg {
-        case Const.Value.Difficulty.BEGINNER:
-            color = UIColor.systemGreen
-        case Const.Value.Difficulty.NORMAL:
-            color = UIColor.systemBlue
-        case Const.Value.Difficulty.HYPER:
-            color = UIColor.systemOrange
-        case Const.Value.Difficulty.ANOTHER:
-            color = UIColor.systemRed
-        case Const.Value.Difficulty.LEGGENDARIA:
-            color = UIColor.systemPurple
-        default:
-            color = UIColor.darkGray
-        }
-
-        return color
-    }
-    
-    private func setScore(arg: String) -> String {
-        var ret: String = arg
-        
-        if ret == Const.Label.Score.ZERO {
-            ret = Const.Label.Score.HYPHEN
-        } else {
-            ret = ret.components(separatedBy: "(")[0]
-        }
-        
-        return ret
-    }
-    
-    private func setScoreRate(arg: Double) -> String {
-        var ret: String = ""
-        
-        if arg == 0 {
-            ret = Const.Label.Score.HYPHEN
-        } else {
-            ret = String(format: "%.2f", arg) + "%"
-        }
-
-        return ret
-    }
-    
     
     /// セルタップ時
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
@@ -294,5 +213,14 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    func changeRowHeight() {
+        // セルの高さ
+        if myUD.getGhostDispFlg() {
+            listTV.rowHeight = 49
+        } else {
+            listTV.rowHeight = 35
+        }
     }
 }

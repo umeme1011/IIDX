@@ -13,7 +13,8 @@ import WebKit
 class InformationViewController: UIViewController {
     
     let myUD: MyUserDefaults = MyUserDefaults()
-    var scoreRealm: MyRealm!
+    var scoreRealm: Realm!
+    var seedRealm: Realm!
 
     @IBOutlet weak var verLbl: UILabel!
     @IBOutlet weak var seedDbLbl: UILabel!
@@ -29,9 +30,10 @@ class InformationViewController: UIViewController {
         verLbl.text = "Ver. \(version)"
         
         // seedDBバージョン設定
-        seedDbLbl.text = "Ver. \(Const.Realm.SEED_DB_VER)"
+        seedDbLbl.text = "Ver. \(Const.Realm().getSeedDbVer())"
         
-        scoreRealm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        scoreRealm = CommonMethod.createScoreRealm()
+        seedRealm = CommonMethod.createSeedRealm()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -44,18 +46,33 @@ class InformationViewController: UIViewController {
         // 確認アラート表示
         let alert = UIAlertController(title: "", message: Const.Message.RESET_COMFIRM
             , preferredStyle: UIAlertController.Style.alert)
+
         let okBtn = UIAlertAction(title: Const.Label.OK, style: UIAlertAction.Style.default, handler: {
             (action: UIAlertAction!) -> Void in
             
             // DB全TBL削除
-            self.scoreRealm.deleteAllTbl()
+            try! self.scoreRealm.write {
+                self.scoreRealm.deleteAll()
+            }
+            // UserDefaults対象バージョンのみ全初期化
+            self.myUD.initVersion()
             
-            // UserDefaults全初期化
-            self.myUD.initAll()
+            // クプロ画像を削除
+            let path = CommonMethod.fileInDocumentsDirectory(filename: Const.Image.Qpro().getQproFileName())
+            do {
+                try FileManager.default.removeItem(atPath: path)
+            } catch {
+                Log.error(cls: String(describing: self), method: #function, msg: "クプロファイル削除エラー")
+            }
             
             // Cookieを削除
             LoginViewController.removeCookie()
             
+            // 初期処理
+            self.myUD.setInitFlg(flg: true)
+            let ini: Init = Init.init()
+            _ = ini.doInit()
+
             // データ取得処理
             let vc: MainViewController
                 = self.presentingViewController?.presentingViewController as! MainViewController
@@ -80,7 +97,6 @@ class InformationViewController: UIViewController {
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
     /// Doneボタン押下
     @IBAction func tapDoneBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
@@ -88,14 +104,12 @@ class InformationViewController: UIViewController {
         self.dismiss(animated: false, completion: nil)
     }
     
-    
     /// Backボタン押下
     @IBAction func tapBackBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
-
     
     /// 右にスワイプ
     @IBAction func swipeRight(_ sender: Any) {

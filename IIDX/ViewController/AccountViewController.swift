@@ -24,8 +24,8 @@ class AccountViewController: UIViewController {
         // パスワードを伏せ字にする
         passwordTF.isSecureTextEntry = true
         
-        let id = myUD.getId()
-        let pass = myUD.getPassword()
+        let id = myUD.getCommonId()
+        let pass = myUD.getCommonPassword()
         
         if !id.isEmpty {
             idTF.text = id
@@ -40,12 +40,11 @@ class AccountViewController: UIViewController {
     @IBAction func tapDoneBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         // ID,PASSWORDを保持
-        myUD.setId(id: idTF.text ?? "")
-        myUD.setPassword(password: passwordTF.text ?? "")
+        myUD.setCommonId(id: idTF.text ?? "")
+        myUD.setCommonPassword(password: passwordTF.text ?? "")
 
         Log.debugEnd(cls: String(describing: self), method: #function)
-        self.presentingViewController?.presentingViewController?
-            .dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
     

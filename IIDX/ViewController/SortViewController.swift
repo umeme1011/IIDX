@@ -25,23 +25,26 @@ class SortViewController: UIViewController, UITableViewDelegate, UITableViewData
         sortTV.delegate = self
         sortTV.dataSource = self
 
-        let realm: MyRealm = MyRealm.init(path: CommonMethod.getSeedRealmPath())
+        let realm: Realm = CommonMethod.createSeedRealm()
         
         // ソート項目取得
-        sorts = realm.readEqual(Code.self, ofTypes: Code.Types.kindCode.rawValue
-                , forQuery: [Const.Value.kindCode.SORT] as AnyObject)
-        
+        sorts = realm.objects(Code.self).filter("\(Code.Types.kindCode.rawValue) = %@", Const.Value.kindCode.SORT)
+
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return sorts.count
     }
     
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
@@ -60,8 +63,9 @@ class SortViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    
-    /// セルをタップ
+    /*
+     セルをタップ
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -87,8 +91,9 @@ class SortViewController: UIViewController, UITableViewDelegate, UITableViewData
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-
-    /// タッチイベント
+    /*
+     タッチイベント
+     */
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         Log.debugStart(cls: String(describing: self), method: #function)
         

@@ -11,31 +11,76 @@ import UIKit
 class Const {
     
     // テスト用
-    // DEVELOP true:5thStyleまで同期 false:全バージョン同期
+    // DEVELOP true:5thStyleまで同期 false:全バージョン同期（未使用）
     class Mode {
         static let DEVElOP = false
-        static let DEBUG_LOG = false
+        static let DEBUG_LOG = true
     }
     
     // Version
     class Version {
         static let START_VERSION_NO = 27
-        static let PRESENT_VERSION_NO = 27
+        static let CURRENT_VERSION_NO = 31
+    }
+    
+    // Wiki
+    class Wiki {
+        static let NEW_SONG_LAST_MODIFIED = ""
+        static let OLD_SONG_LAST_MODIFIED = ""
+        static let OLD_NOTES_LAST_MODIFIED = ""
     }
     
     // Realm
     class Realm {
-        static let SCHEMA_VER = 1
-        static let SEED_DB_VER = "27.2"
-        static let SEED_FILE_NAME = "iidx_seed_\(SEED_DB_VER)"
+        static let SCHEMA_VER = 12
+        static let CURRENT_SEED_DB_VER = "31.0"
+        static let CURRENT_SEED_FILE_NAME = "iidx_seed_\(CURRENT_SEED_DB_VER)"
         static let SCORE_FILE_NAME = "iidx_score"
         static let SYSTEM = "SYSTEM"
+        
+        let versionNo: Int = MyUserDefaults().getVersion()
+        func getSeedDbVer() -> String {
+            var ret = ""
+            if versionNo == 27 {
+                ret = "27.10"
+            }
+            if versionNo == 28 {
+                ret = "28.1"
+            }
+            if versionNo == 29 {
+                ret = "29.0"
+            }
+            if versionNo == 30 {
+                ret = "30.0"
+            }
+            if versionNo == Const.Version.CURRENT_VERSION_NO {
+                ret = Const.Realm.CURRENT_SEED_DB_VER
+            }
+            return ret
+        }
+        func getSeedFileName() -> String {
+            var ret = ""
+            if versionNo < Const.Version.CURRENT_VERSION_NO {
+                ret = "iidx_seed_\(getSeedDbVer())"
+            }
+            if versionNo == Const.Version.CURRENT_VERSION_NO {
+                ret = Const.Realm.CURRENT_SEED_FILE_NAME
+            }
+            return ret
+        }
+        func getCurrentSeedFileName() -> String {
+            return Const.Realm.CURRENT_SEED_FILE_NAME
+        }
     }
     
     // CSV
     class Csv {
-        static let FILE_NAME = "CorrectTitle"
+        static let CORRECT_TITLE = "CorrectTitle"
         static let SEPARATER = "@@@"
+        static let NO_NOTES_TITLE = "NoNotesTitle"
+        static let CODE = "Code"
+        static let DELETE_TITLE = "DeleteTitle"
+        static let BPM = "Bpm"
     }
     
     
@@ -53,6 +98,7 @@ class Const {
         static let TO_DETAIL = "toDetail"
         static let TO_EDIT_DETAIL = "toEditDetail"
         static let TO_EDIT_SELECT = "toEditSelect"
+        static let TO_CALENDAR_DETAIL = "toCalendarDetail"
     }
     
     // URL
@@ -60,8 +106,11 @@ class Const {
         let versionNo: Int = MyUserDefaults().getVersion()
         static let KONAMI = "https://p.eagate.573.jp"
         static let LOGIN = "\(KONAMI)/gate/p/login.html"
-        static let LOGIN_COMPLETE = "\(KONAMI)/gate/p/login_complete.html"
+        // 20210919 公式サイト仕様変更対応
+//        static let LOGIN_COMPLETE = "\(KONAMI)/gate/p/login_complete.html"
+        static let LOGIN_COMPLETE = "\(KONAMI)/gate/p/lcmpl.html"
         static let LOGIN_COMPLETE_HTTP = "http://p.eagate.573.jp/gate/p/login_complete.html"
+        static let LOGIN_MYPAGE = "\(KONAMI)/gate/p/mypage/index.html"
         
         func getStatusUrl() -> String {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/status.html"
@@ -86,6 +135,82 @@ class Const {
         func getDifficultyUrl() -> String {
             let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/difficulty.html"
             return url
+        }
+        
+        func getDifficultyRivalUrl() -> String {
+            let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/music/difficulty_rival.html"
+            return url
+        }
+        func getCsvUrl() -> String {
+            let url: String = "\(Const.Url.KONAMI)/game/2dx/\(versionNo)/djdata/score_download.html"
+            return url
+        }
+        
+        // Wiki Url バージョン毎に分岐
+        // 旧曲リスト
+        func getWikiOldSongUrl() -> String {
+            var ret: String = ""
+            if versionNo == 27 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 28 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 29 {
+                ret = "https://bemaniwiki.com/index.php?beatmania%20IIDX%2029%20CastHour/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 30 {
+                ret = "https://bemaniwiki.com/index.php?beatmania+IIDX+30+RESIDENT/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 31 {
+                ret = "https://bemaniwiki.com/?beatmania+IIDX+31+EPOLIS/%B5%EC%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            return ret
+        }
+        // 旧曲ノーツリスト
+        func getWikiOldNotesListUrl() -> String {
+            var ret: String = ""
+            if versionNo == 27 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C8%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 28 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C4%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 29 {
+                ret = "https://bemaniwiki.com/index.php?beatmania%20IIDX%2029%20CastHour/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C4%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 30 {
+                ret = "https://bemaniwiki.com/index.php?beatmania+IIDX+30+RESIDENT/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C4%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 31 {
+                ret = "https://bemaniwiki.com/?beatmania+IIDX+31+EPOLIS/%B5%EC%B6%CA%C1%ED%A5%CE%A1%BC%A5%C4%BF%F4%A5%EA%A5%B9%A5%C8"
+            }
+            return ret
+        }
+        // 新曲リスト
+        func getWikiNewSongListUrl() -> String {
+            var ret: String = ""
+            if versionNo == 27 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2027%20HEROIC%20VERSE/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 28 {
+                ret = "http://bemaniwiki.com/index.php?beatmania%20IIDX%2028%20BISTROVER/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 29 {
+                ret = "https://bemaniwiki.com/index.php?beatmania%20IIDX%2029%20CastHour/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 30 {
+                ret = "https://bemaniwiki.com/index.php?beatmania+IIDX+30+RESIDENT/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            if versionNo == 31 {
+                ret = "https://bemaniwiki.com/?beatmania+IIDX+31+EPOLIS/%BF%B7%B6%CA%A5%EA%A5%B9%A5%C8"
+            }
+            return ret
+        }
+        func getTexTageUrl() -> String {
+            var ret: String = ""
+            ret = "https://textage.cc/score/\(versionNo)/"
+            return ret
         }
     }
     
@@ -142,18 +267,20 @@ class Const {
             static let AAA = 9
         }
         class Sort {
-            static let CLEAR_LUMP_ASK = 1
-            static let CLEAR_LUMP_DESK = 2
-            static let DJ_LEVEL_ASK = 3
-            static let DJ_LEVEL_DESK = 4
-            static let LEVEL_ASK = 5
-            static let LEVEL_DESK = 6
-            static let INDEX_ASK = 7
-            static let INDEX_DESK = 8
-            static let SCORE_RATE_ASK = 9
-            static let SCORE_RATE_DESK = 10
-            static let VERSION_ASK = 11
-            static let VERSION_DESK = 12
+            static let CLEAR_LUMP_ASK = 101
+            static let CLEAR_LUMP_DESK = 201
+            static let DJ_LEVEL_ASK = 102
+            static let DJ_LEVEL_DESK = 202
+            static let MISS_COUNT_ASK = 103
+            static let MISS_COUNT_DESC = 203
+            static let SCORE_RATE_ASK = 104
+            static let SCORE_RATE_DESK = 204
+            static let LEVEL_ASK = 105
+            static let LEVEL_DESK = 205
+            static let INDEX_ASK = 106
+            static let INDEX_DESK = 206
+            static let VERSION_ASK = 107
+            static let VERSION_DESK = 207
         }
         class Filter {
             static let NEW_RECORD = 0
@@ -174,11 +301,17 @@ class Const {
             static let IMPORT_MODE = 1
             static let EDIT_MODE = 2
         }
+        class TargetPage {
+            static let LEVEL = 1
+            static let VERSION = 2
+            static let CSV = 3
+        }
     }
 
     // Image
     class Image {
-        static let CHECK = "check"
+//        static let CHECK = "check"
+        static let CHECK = "checkmark"
         static let FCOMBO = "fcombo"
         static let FCOMBO_PIE = "fcombo_pie"
         static let FCOMBO_DETAIL = "fcombo_detail"
@@ -211,7 +344,12 @@ class Const {
             static let SETTING_NG = "setting_ng"
         }
         class Qpro {
+            let versionNo: Int = MyUserDefaults().getVersion()
             static let FILE_NAME = "myQpro.png"
+            func getQproFileName() -> String {
+                let name: String = "myQpro\(versionNo).png"
+                return name
+            }
         }
     }
     
@@ -261,6 +399,26 @@ class Const {
             case EXHARD
             case FCOMBO
         }
+        class ClearLumpDetail {
+            static let NOPLAY = "NO PLAY"
+            static let FAILED = "FAILED"
+            static let AEASY = "ASSIST EASY"
+            static let EASY = "EASY"
+            static let CLEAR = "CLEAR"
+            static let HARD = "HARD"
+            static let EXHARD = "EX HARD"
+            static let FCOMBO = "FULL COMBO"
+        }
+        class djLevel {
+            static let F = "F"
+            static let E = "E"
+            static let D = "D"
+            static let C = "C"
+            static let B = "B"
+            static let A = "A"
+            static let AA = "AA"
+            static let AAA = "AAA"
+        }
         class Title {
             static let SP_ALL = "SP ALL"
             static let DP_ALL = "DP ALL"
@@ -269,6 +427,7 @@ class Const {
             static let ZERO = "0(0/0)"
             static let OLD_SCORE = "(old)"
             static let NEW_SCORE = "(new)"
+            static let GHOST_SCORE = "(ghost)"
             static let HYPHEN = "-"
         }
     }
@@ -276,17 +435,18 @@ class Const {
     // メッセージ
     class Message {
         static let IMPORT_COMPLETE = "スコアデータ取込完了！"
-        static let IMPORT_FAILED = "スコアデータの取込に失敗しました。"
+        static let IMPORT_FAILED = "スコアデータの取込に失敗しました。\n公式サイトにデータが存在しない、またはメンテナンス中の可能性があります。"
         static let IMPORT_CANCEL = "スコアデータの取込をキャンセルしました。"
         static let NO_TARGET_ACCOUNT = "取込対象のアカウントを選択してください。"
-        static let VERSION_CHANGE_COMFIRM = "バージョンを切り替えます。よろしいですか？"
+        static let VERSION_CHANGE_COMFIRM = "バージョンを切り替えます。\nよろしいですか？"
         static let IMPORT_BALLOON = "インポートします。"
         static let IMPORT_CANCEL_BALLOON = "キャンセルします。"
-        static let RESET_COMFIRM = "アプリを初期状態に戻します。よろしいですか？"
+        static let RESET_COMFIRM = "選択バージョンのデータをリセットします。\nよろしいですか？"
         static let LOGOUT_COMPLETE = "ログアウトしました。"
         static let RESET_COMPLETE = "リセットしました。"
         static let SEED_DB_IMPORT_COMPLETE = "初期データ取り込み完了！"
         static let SEED_DB_UPDATE_COMPLETE = "楽曲データを更新しました！"
+        static let NO_TARGET_LEVEL_VERSION = "設定の「取込対象ページ」より取込対象の難易度またはシリーズを選択してください。"
     }
     
     // ログ
@@ -303,5 +463,11 @@ class Const {
         static let SCRAPING_002 = "難易度解析エラー"
         static let SCRAPING_003 = "クリアランプ解析エラー"
         static let SCRAPING_004 = "DJレベル解析エラー"
+    }
+    
+    // 広告
+    class AdMob {
+        static let BANNER_ID_DEBUG = "ca-app-pub-3940256099942544/6300978111"
+        static let BANNER_ID_RELEASE = "ca-app-pub-8865634789105204/7898062895"
     }
 }

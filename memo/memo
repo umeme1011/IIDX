@@ -1,0 +1,41 @@
+新作対応手順
+
+１）
+https://docs.google.com/spreadsheets/d/1QwpJI5dEqbuOQWLsULK585vJWC-L_iR8DJa9-ys_ia0/edit
+に新作バージョンのコードを追加
+ダウンロードしたCSVファイルをCsvフォルダにコピー
+※/Users/umeme/Documents/iphone_app/CSV　にファイルをコピーしてプロジェクトに追加
+
+２）
+Const.swift
+各バージョン設定をひとつ上げる
+wikiのURLを設定する。
+
+３）
+Setting.storyboad
+LoadCSVメニューのHiddenチェックを外す
+
+init.swift
+以下をコメントアウト
+L58-64
+// Document内に現行VersionSeedDBがない場合はコピー（新作対応初回起動時）            
+            
+L81-85
+// 最新VerSeedDBをコピー
+
+４）
+アプリ起動。LoadCSVをTapしてiidx_seed_XX.realmを作成する
+
+５）
+設定からバージョンを新作に切り替え→マスタDB更新
+wikiからデータとりこまれる
+※バージョン一覧表示しているテーブルの高さを増やす必要あるかも
+
+６）
+データ取り込まれたiidx_seed_XX.realmをRealmフォルダに配置
+→初期データとなる
+
+init.swiftのコメントアウトをもとに戻すの忘れずに。
+
+７）
+SettingViewControllerのバージョンラベルを追加

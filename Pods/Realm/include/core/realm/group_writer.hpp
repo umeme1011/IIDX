@@ -25,8 +25,8 @@
 
 #include <realm/util/file.hpp>
 #include <realm/alloc.hpp>
+#include <realm/array.hpp>
 #include <realm/impl/array_writer.hpp>
-#include <realm/array_integer.hpp>
 #include <realm/db_options.hpp>
 
 
@@ -39,8 +39,6 @@ class SlabAlloc;
 
 /// This class is not supposed to be reused for multiple write sessions. In
 /// particular, do not reuse it in case any of the functions throw.
-///
-/// FIXME: Move this class to namespace realm::_impl and to subdir src/realm/impl.
 class GroupWriter : public _impl::ArrayWriterBase {
 public:
     // For groups in transactional mode (Group::m_is_shared), this constructor
@@ -87,13 +85,16 @@ public:
         return m_locked_space_size;
     }
 
+    // Flush all cached memory mappings
+    void flush_all_mappings();
+
 private:
     class MapWindow;
     Group& m_group;
     SlabAlloc& m_alloc;
-    ArrayInteger m_free_positions; // 4th slot in Group::m_top
-    ArrayInteger m_free_lengths;   // 5th slot in Group::m_top
-    ArrayInteger m_free_versions;  // 6th slot in Group::m_top
+    Array m_free_positions; // 4th slot in Group::m_top
+    Array m_free_lengths;   // 5th slot in Group::m_top
+    Array m_free_versions;  // 6th slot in Group::m_top
     uint64_t m_current_version = 0;
     uint64_t m_readlock_version;
     size_t m_window_alignment;
@@ -140,9 +141,6 @@ private:
     // potentially adding it to the cache, potentially closing
     // the least recently used and sync'ing it to disk
     MapWindow* get_window(ref_type start_ref, size_t size);
-
-    // Sync all cached memory mappings
-    void sync_all_mappings();
 
     /// Allocate a chunk of free space of the specified size. The
     /// specified size must be 8-byte aligned. Extend the file if

@@ -32,10 +32,6 @@ class LoginViewController: UIViewController, WKNavigationDelegate, WKUIDelegate 
             let req: NSURLRequest = NSURLRequest(url: url)
             loginWV.load(req as URLRequest)
         }
-        
-        
-//        loadLocalHtml()
-        
 
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -45,34 +41,13 @@ class LoginViewController: UIViewController, WKNavigationDelegate, WKUIDelegate 
         Log.debugStart(cls: String(describing: self), method: #function)
 
         // ログイン画面にIDとパスワードをセット
-        let myUD: MyUserDefaults = MyUserDefaults()
-        let id = myUD.getId()
-        let password = myUD.getPassword()
-        webView.evaluateJavaScript("document.getElementsByName('nm_login_id')[0].value=\"\(String(describing: id))\";"
-            , completionHandler: nil)
-        webView.evaluateJavaScript("document.getElementsByName('nm_paswords')[0].value=\"\(String(describing: password))\";"
-            , completionHandler: nil)
-        
-//        // 会員登録リンクを非表示にする
-//        webView.evaluateJavaScript("document.getElementsByClassName('cl_lgfm_link cl_lgfm_linklist')[0].style.display ='none';"
+//        let myUD: MyUserDefaults = MyUserDefaults()
+//        let id = myUD.getCommonId()
+//        let password = myUD.getCommonPassword()
+//        webView.evaluateJavaScript("document.getElementById('id_userId').value=\"\(String(describing: id))\";"
 //            , completionHandler: nil)
-//
-//        // ご注意　を非表示にする
-//        webView.evaluateJavaScript("document.getElementById('id_loginform_attentionbox_putin').style.display ='none';"
+//        webView.evaluateJavaScript("document.getElementById('id_password').value=\"\(String(describing: password))\";"
 //            , completionHandler: nil)
-//
-//        // ヘッダー非表示
-//        webView.evaluateJavaScript("document.getElementsByTagName('header')[0].style.display ='none';"
-//            , completionHandler: nil)
-//
-//        // フッター非表示
-//        webView.evaluateJavaScript("document.getElementsByTagName('footer')[0].style.display ='none';"
-//            , completionHandler: nil)
-//
-//        // 利用規約非表示
-//        webView.evaluateJavaScript("document.getElementsByClassName('cl_lgfm_eavd')[19].style.display ='none';"
-//            , completionHandler: nil)
-        
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }

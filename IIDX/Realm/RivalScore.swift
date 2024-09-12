@@ -17,11 +17,14 @@ class RivalScore: RealmSwift.Object {
     @objc dynamic var level: Int = 0
     @objc dynamic var clearLump: Int = 0
     @objc dynamic var djLevel: Int = 0
-    @objc dynamic var score: String?
+    @objc dynamic var score: Int = 0
+    @objc dynamic var pgreat: Int = 0
+    @objc dynamic var great: Int = 0
     @objc dynamic var scoreRate: Double = 0
-    @objc dynamic var missCount: String?
+    @objc dynamic var missCount: Int = 9999
     @objc dynamic var versionId: Int = 0
     @objc dynamic var indexId: Int = 0
+    @objc dynamic var plusMinus: String?
     @objc dynamic var createDate = Date()
     @objc dynamic var createUser: String?
     @objc dynamic var updateDate = Date()
@@ -41,10 +44,13 @@ class RivalScore: RealmSwift.Object {
         case clearLump
         case djLevel
         case score
+        case pgreat
+        case great
         case scoreRate
         case missCount
         case versionId
         case indexId
+        case plusMinus
     }
 }
 

@@ -12,6 +12,12 @@ class SettingViewController: UIViewController {
 
     @IBOutlet weak var settingView: UIView!
     @IBOutlet weak var qproIV: UIImageView!
+    @IBOutlet weak var targetPageBtn: UIButton!
+    @IBOutlet weak var targetAccountBtn: UIButton!
+    @IBOutlet weak var versionLbl: UILabel!
+    @IBOutlet weak var dispSettingBtn: UIButton!
+    
+    let myUD: MyUserDefaults = MyUserDefaults.init()
     
     
     override func viewDidLoad() {
@@ -19,8 +25,19 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
         
         // クプロ表示
-        let image: UIImage = CommonMethod.loadImage(fileName: Const.Image.Qpro.FILE_NAME) ?? UIImage()
-        qproIV.image = image
+        dispQpro()
+        
+        // 文言切り替え
+        if myUD.getPlayStyle() == Const.Value.PlayStyle.SINGLE {
+            targetPageBtn.setTitle("取込対象ページ（SP）", for: .normal)
+            targetAccountBtn.setTitle("取込対象アカウント（SP）", for: .normal)
+            dispSettingBtn.setTitle("表示設定（SP）", for: .normal)
+        } else {
+            targetPageBtn.setTitle("取込対象ページ（DP）", for: .normal)
+            targetAccountBtn.setTitle("取込対象アカウント（DP）", for: .normal)
+            dispSettingBtn.setTitle("表示設定（DP）", for: .normal)
+        }
+        changeVersionLbl()
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
@@ -63,5 +80,49 @@ class SettingViewController: UIViewController {
                 self.dismiss(animated: true, completion: nil)
         })
         Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     CodeCSV登録
+     */
+    @IBAction func tapLoadCsv(_ sender: Any) {
+        Log.debugStart(cls: String(describing: self), method: #function)
+        let lcc = LoadCodeCsv.init()
+        lcc.doLoadCodeCsv()
+        Log.debugEnd(cls: String(describing: self), method: #function)
+    }
+    
+    /**
+     バージョンラベル変更
+     */
+    public func changeVersionLbl() {
+        let ver = "beatmania IIDX "
+        switch myUD.getVersion() {
+        case 27:
+            versionLbl.text = ver + "27 \nHEROIC VERSE"
+            versionLbl.textColor = UIColor.magenta
+        case 28:
+            versionLbl.text = ver + "28 \nBISTROVER"
+            versionLbl.textColor = UIColor.blue
+        case 29:
+            versionLbl.text = ver + "29 \nCastHour"
+            versionLbl.textColor = UIColor.orange
+        case 30:
+            versionLbl.text = ver + "30 \nRESIDENT"
+            versionLbl.textColor = UIColor(red: 102/255, green: 204/255, blue: 187/255, alpha: 1)
+        case 31:
+            versionLbl.text = ver + "31 \nEPOLIS"
+            versionLbl.textColor = UIColor.systemYellow
+        default:
+            versionLbl.text = ""
+        }
+    }
+    
+    /**
+     クプロ表示
+     */
+    public func dispQpro() {
+        let image: UIImage = CommonMethod.loadImage(fileName: Const.Image.Qpro().getQproFileName()) ?? UIImage()
+        qproIV.image = image
     }
 }

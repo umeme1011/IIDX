@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RealmSwift
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +18,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        print(MyUserDefaults().getVersion())
+        
+        // Google Mobile Ads SDKの初期化
+        GADMobileAds.sharedInstance().start(completionHandler: nil) 
+
+        // ios15でセクションの上部にスペースが入る対応
+        if #available(iOS 15, *) {
+            UITableView.appearance().sectionHeaderTopPadding = 0
+        }
+        
+        // Realmマイグレーション
+        var config = Realm.Configuration()
+        config.migrationBlock = { migration, oldSchemaVersion in
+            
+            // MyScore,OldScore,RivalScoreのmissCountをStringからIntに変更
+            if oldSchemaVersion < 2 {
+                migration.enumerateObjects(ofType: MyScore.className()) { (oldObject, newObject) in
+                    var missCount = oldObject!["missCount"] as! String
+                    if missCount == Const.Label.Score.HYPHEN {
+                        missCount = "9999"
+                    }
+                    newObject!["missCount"] = Int(missCount)
+                }
+                migration.enumerateObjects(ofType: OldScore.className()) { (oldObject, newObject) in
+                    var missCount = oldObject!["missCount"] as! String
+                    if missCount == Const.Label.Score.HYPHEN {
+                        missCount = "9999"
+                    }
+                    newObject!["missCount"] = Int(missCount)
+                }
+                migration.enumerateObjects(ofType: RivalScore.className()) { (oldObject, newObject) in
+                    var missCount = oldObject!["missCount"] as! String
+                    if missCount == Const.Label.Score.HYPHEN {
+                        missCount = "9999"
+                    }
+                    newObject!["missCount"] = Int(missCount)
+                }
+            }
+        }
+        config.schemaVersion = UInt64(Const.Realm.SCHEMA_VER)
+        Realm.Configuration.defaultConfiguration = config
+        
+        // Launch画面で１秒まつ
         sleep(1)
         return true
     }

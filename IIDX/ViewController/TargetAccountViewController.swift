@@ -14,6 +14,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var taTV: UITableView!
     @IBOutlet weak var noMissCountIV: UIImageView!
     @IBOutlet weak var yesMissCountIV: UIImageView!
+    @IBOutlet weak var coverView: UIView!
     
     let myUD: MyUserDefaults = MyUserDefaults()
     var rivalStatuses: Results<RivalStatus>!
@@ -29,11 +30,12 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         taTV.delegate = self
         taTV.dataSource = self
         
-        let realm = MyRealm.init(path: CommonMethod.getScoreRealmPath())
+        let realm = CommonMethod.createScoreRealm()
         // マイステータスTBL取得
-        myStatus = realm.readAll(MyStatus.self)
+        myStatus = realm.objects(MyStatus.self)
         // ライバルステータスTBL取得
-        rivalStatuses = realm.readAllByPlayStyle(RivalStatus.self)
+        rivalStatuses = realm.objects(RivalStatus.self)
+            .filter("\(RivalStatus.Types.playStyle.rawValue) = %@", myUD.getPlayStyle())
         
         // 対象アカウント取得
         target = myUD.getTarget()
@@ -41,26 +43,35 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         // ミスカウントフラグ取得
         missFlg = myUD.getMissCountFlg()
         if missFlg {
-            yesMissCountIV.image = UIImage(named: Const.Image.CHECK)
+            yesMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
             noMissCountIV.image = nil
         } else {
             yesMissCountIV.image = nil
-            noMissCountIV.image = UIImage(named: Const.Image.CHECK)
+            noMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
+        }
+        
+        // カバーView
+        if myUD.getTargetPage() == Const.Value.TargetPage.CSV {
+            coverView.isHidden = false
+        } else {
+            coverView.isHidden = true
         }
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// セルの数を返す
+    /*
+     セルの数を返す
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         return myStatus.count + rivalStatuses.count
     }
     
-    
-    /// セルを返す
+    /*
+     セルを返す
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         Log.debugStart(cls: String(describing: self), method: #function)
         let cell = tableView.dequeueReusableCell(withIdentifier:  "cell", for:indexPath as IndexPath)
@@ -87,7 +98,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         }
         
         if target == iidxId {
-            cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+            cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
         } else {
             cell.checkIV.image = nil
         }
@@ -96,8 +107,9 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         return cell
     }
     
-    
-    /// セルをタップ
+    /*
+     セルをタップ
+     */
     func tableView(_ table: UITableView,didSelectRowAt indexPath: IndexPath) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -106,7 +118,7 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
             let iidxId: String = cell.iidxIdLbl.text ?? ""
             // 画像の切り替えと取込対象アカウントのセット
             target = iidxId
-            cell.checkIV.image = UIImage(named: Const.Image.CHECK)
+            cell.checkIV.image = UIImage(systemName: Const.Image.CHECK)
             taTV.reloadData()
 
             // 選択状態を解除
@@ -115,32 +127,35 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
 
-    
-    /// ミスカウントなしボタン押下
+    /*
+     ミスカウントなしボタン押下
+     */
     @IBAction func tapNoMissCountBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
 
-        noMissCountIV.image = UIImage(named: Const.Image.CHECK)
+        noMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
         yesMissCountIV.image = nil
         missFlg = false
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// ミスカウントありボタン押下
+    /*
+     ミスカウントありボタン押下
+     */
     @IBAction func tapYesMissCountBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
-        yesMissCountIV.image = UIImage(named: Const.Image.CHECK)
+        yesMissCountIV.image = UIImage(systemName: Const.Image.CHECK)
         noMissCountIV.image = nil
         missFlg = true
         
         Log.debugEnd(cls: String(describing: self), method: #function)
     }
     
-    
-    /// Doneボタン押下
+    /*
+     Doneボタン押下
+     */
     @IBAction func tapDoneBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         
@@ -148,20 +163,21 @@ class TargetAccountViewController: UIViewController, UITableViewDelegate, UITabl
         myUD.setMissCountFlg(flg: missFlg)
         
         Log.debugEnd(cls: String(describing: self), method: #function)
-        self.presentingViewController?.presentingViewController?
-            .dismiss(animated: false, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
-    
-    /// Backボタン押下
+    /*
+     Backボタン押下
+     */
     @IBAction func tapBackBtn(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
         self.dismiss(animated: false, completion: nil)
     }
     
-
-    /// 右にスワイプ
+    /*
+     右にスワイプ
+     */
     @IBAction func swipeRight(_ sender: Any) {
         Log.debugStart(cls: String(describing: self), method: #function)
         Log.debugEnd(cls: String(describing: self), method: #function)
